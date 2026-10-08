@@ -7,6 +7,21 @@
 <meta name="description" content="연수에서 쓰는 자료와 도구 모음">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/style.css">
+<style>
+  /* 순서 바꾸기 */
+  .editbar { border:1px solid var(--ink); border-radius:14px; background:var(--card); padding:18px 20px; margin-bottom:20px; }
+  .editbar p { margin:0 0 10px; font-size:15.5px; }
+  .editbar code { display:block; padding:10px 12px; margin:10px 0; font-size:14.5px; user-select:all; }
+  .editbar .actions { margin-top:12px; }
+  .editbar .btn { padding:8px 14px; font-size:15px; }
+  .wall.editing .card { cursor:grab; user-select:none; }
+  .wall.editing .card.dragging { opacity:.35; }
+  .wall.editing .card.over { border-color:var(--accent); box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent); }
+  .move { display:flex; gap:6px; margin-top:16px; }
+  .move button { border:1px solid var(--line); background:none; color:var(--ink); border-radius:8px; width:44px; height:38px; font:inherit; font-size:16px; cursor:pointer; }
+  .move button:disabled { opacity:.3; cursor:default; }
+  .linkbtn { border:0; background:none; color:inherit; font:inherit; text-decoration:underline; text-underline-offset:3px; cursor:pointer; padding:0; }
+</style>
 </head>
 <body>
 <div class="top"><div class="in wide">
@@ -16,48 +31,107 @@
 <main class="in wide">
   <div class="head">
     <h1>연수 자료</h1>
-    <p>연수에서 쓰는 자료와 도구입니다. 카드를 누르면 설명과 받는 곳이 나옵니다.</p>
+    <p class="lead">연수에서 쓰는 자료와 도구입니다. 카드를 누르면 설명과 받는 곳이 나옵니다.</p>
+  </div>
+  <div class="editbar" id="editbar" hidden>
+    <p><b>순서 바꾸기</b> — 카드를 끌어 놓거나 화살표를 눌러 순서를 바꾸세요. 바꾼 순서는 <b>이 기기에서만</b> 보입니다.</p>
+    <p>모든 사람에게 같은 순서로 보이게 하려면, 아래 줄을 복사해 Claude에게 보내면 사이트에 반영해 줍니다.</p>
+    <code id="orderText"></code>
+    <div class="actions"><button class="btn" id="copyOrder">복사</button><button class="btn" id="resetOrder">원래 순서로</button><button class="btn primary" id="doneEdit">끝내기</button></div>
   </div>
   <div class="filters" id="filters" role="group" aria-label="분류"></div>
   <div class="wall" id="wall"></div>
 </main>
 
+<footer><div class="in wide"><span>연수 자료</span><button class="linkbtn" id="startEdit">카드 순서 바꾸기</button></div></footer>
+
 <script>
 /* ───────── 카드 목록: 자료를 올릴 때는 여기에 한 덩어리만 추가하면 됩니다 ─────────
-   title  제목          cat   분류(같은 글자면 같은 묶음)
-   desc   한 줄 설명    points  상세 사항 2~3줄
-   href   눌렀을 때 갈 곳 (비워 두면 '준비 중' 카드)                                  */
+   id     영문 이름(순서 저장에 씀)   title  제목       cat  분류(같은 글자면 같은 묶음)
+   desc   한 줄 설명                 points 상세 사항 2~3줄
+   href   눌렀을 때 갈 곳 (비워 두면 '준비 중' 카드)
+   모든 사람에게 보이는 기본 순서는 이 목록의 순서입니다.                              */
 const CARDS = [
-  { title: "coolwatch", cat: "도구", href: "coolwatch/",
+  { id: "prep", title: "연수 전 준비", cat: "안내", href: "prep/",
+    desc: "연수 시작 전에 갖춰 둘 것을 확인하는 체크리스트",
+    points: ["Claude 구독 계정 확인", "실습별 준비물과 설치 확인 명령", "진행자 점검 목록"] },
+  { id: "coolwatch", title: "coolwatch", cat: "도구", href: "coolwatch/",
     desc: "쿨메신저로 받은 업무 메시지에서 할 일·기한·일정을 뽑아 카드로 정리하는 도구",
     points: ["설치.bat 한 번으로 설치", "Claude 요약, 노션 연결은 선택", "쿨메신저는 읽기만 함"] },
-  { title: "수행평가", cat: "수업·평가", href: "", desc: "준비 중", points: [] },
-  { title: "개발환경", cat: "환경 설정", href: "", desc: "준비 중", points: [] },
+  { id: "writing", title: "영어 쓰기 수행평가 페이지", cat: "수업·평가", href: "writing/",
+    desc: "학생이 태블릿에서 두 번에 나눠 글을 쓰고, 제출물이 구글 드라이브에 쌓이는 웹 페이지",
+    points: ["설치 없이 체험 가능", "값을 비운 본보기와 설치 안내", "붙여넣기 차단, 이탈 기록, 단어 사전"] },
+  { id: "devenv", title: "AI 작업실 설계도", cat: "환경 설정", href: "devenv/",
+    desc: "Claude 앱, 클라우드, 내 PC 가운데 어디서 무엇을 할지 정리한 설계도",
+    points: ["어디서 할지 정하는 세 질문", "업무별 작업 위치와 도구 목록", "학생 데이터 경계"] },
 ];
 /* ─────────────────────────────────────────────────────────────────────────────── */
 
+const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-let current = "전체";
+const ORDER_KEY = "hub-order-v1";
+let current = "전체", editing = false, dragId = null;
+
+// 이 기기에 저장해 둔 순서가 있으면 그 순서로 (없는 카드는 뒤에 붙임)
+function ordered() {
+  let mine = [];
+  try { mine = JSON.parse(localStorage.getItem(ORDER_KEY) || "[]"); } catch (e) {}
+  const byId = Object.fromEntries(CARDS.map(c => [c.id, c]));
+  const out = mine.filter(id => byId[id]).map(id => byId[id]);
+  return out.concat(CARDS.filter(c => !out.includes(c)));
+}
+function saveOrder(ids) { try { localStorage.setItem(ORDER_KEY, JSON.stringify(ids)); } catch (e) {} }
 
 function draw() {
+  const all = ordered();
   const cats = ["전체", ...new Set(CARDS.map(c => c.cat))];
-  document.getElementById("filters").innerHTML = cats.map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="${c === current}">${esc(c)}</button>`).join("");
-  const list = CARDS.filter(c => current === "전체" || c.cat === current);
-  document.getElementById("wall").innerHTML = list.length ? list.map(c => {
-    const ready = !!c.href, tag = ready ? "a" : "div";
-    return `<${tag} class="card${ready ? "" : " soon"}" ${ready ? `href="${esc(c.href)}"` : ""}>
+  $("filters").hidden = editing;
+  $("filters").innerHTML = cats.map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="${c === current}">${esc(c)}</button>`).join("");
+  const list = all.filter(c => editing || current === "전체" || c.cat === current);
+  $("wall").classList.toggle("editing", editing);
+  $("wall").innerHTML = list.length ? list.map((c, i) => {
+    const ready = !!c.href, tag = ready && !editing ? "a" : "div";
+    return `<${tag} class="card${ready ? "" : " soon"}" data-id="${esc(c.id)}" ${tag === "a" ? `href="${esc(c.href)}"` : ""} ${editing ? 'draggable="true"' : ""}>
       <div class="cat">${esc(c.cat)}${ready ? "" : " <b>준비 중</b>"}</div>
       <h3>${esc(c.title)}</h3>
-      ${ready ? `<p>${esc(c.desc)}</p>` : ""}
-      ${(c.points || []).length ? `<ul>${c.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
-      ${ready ? '<div class="go">열기 →</div>' : ""}
+      ${ready ? `<p class="desc">${esc(c.desc)}</p>` : ""}
+      ${(c.points || []).length && !editing ? `<ul>${c.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+      ${editing ? `<div class="move"><button data-move="-1" aria-label="앞으로" ${i === 0 ? "disabled" : ""}>←</button><button data-move="1" aria-label="뒤로" ${i === list.length - 1 ? "disabled" : ""}>→</button></div>`
+                : ready ? '<div class="go">열기 →</div>' : ""}
     </${tag}>`;
   }).join("") : '<p class="empty">이 분류에는 아직 카드가 없습니다.</p>';
+  $("editbar").hidden = !editing;
+  $("orderText").textContent = "카드 순서: " + all.map(c => c.id).join(", ");
+  $("startEdit").hidden = editing;
 }
-document.getElementById("filters").addEventListener("click", e => {
-  const b = e.target.closest("[data-cat]");
-  if (b) { current = b.dataset.cat; draw(); }
+
+function move(id, to) {   // to: 옮겨 갈 자리(0부터)
+  const ids = ordered().map(c => c.id), from = ids.indexOf(id);
+  if (from < 0 || to < 0 || to >= ids.length || from === to) return;
+  ids.splice(to, 0, ids.splice(from, 1)[0]);
+  saveOrder(ids); draw();
+}
+
+$("filters").addEventListener("click", e => { const b = e.target.closest("[data-cat]"); if (b) { current = b.dataset.cat; draw(); } });
+$("startEdit").onclick = () => { editing = true; current = "전체"; draw(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+$("doneEdit").onclick = () => { editing = false; draw(); };
+$("resetOrder").onclick = () => { try { localStorage.removeItem(ORDER_KEY); } catch (e) {} draw(); };
+$("copyOrder").onclick = async () => {
+  const t = $("orderText").textContent;
+  try { await navigator.clipboard.writeText(t); $("copyOrder").textContent = "복사됨"; } catch (e) { $("copyOrder").textContent = "위 줄을 직접 복사하세요"; }
+  setTimeout(() => $("copyOrder").textContent = "복사", 1800);
+};
+const wall = $("wall");
+wall.addEventListener("click", e => {
+  const b = e.target.closest("[data-move]");
+  if (!b) return;
+  const id = b.closest(".card").dataset.id, ids = ordered().map(c => c.id);
+  move(id, ids.indexOf(id) + Number(b.dataset.move));
 });
+wall.addEventListener("dragstart", e => { const c = e.target.closest(".card"); if (!c || !editing) return; dragId = c.dataset.id; c.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", dragId); });
+wall.addEventListener("dragend", () => { dragId = null; wall.querySelectorAll(".dragging, .over").forEach(el => el.classList.remove("dragging", "over")); });
+wall.addEventListener("dragover", e => { const c = e.target.closest(".card"); if (!editing || !dragId || !c) return; e.preventDefault(); wall.querySelectorAll(".over").forEach(el => el.classList.remove("over")); if (c.dataset.id !== dragId) c.classList.add("over"); });
+wall.addEventListener("drop", e => { const c = e.target.closest(".card"); if (!editing || !dragId || !c) return; e.preventDefault(); move(dragId, ordered().map(x => x.id).indexOf(c.dataset.id)); });
 draw();
 </script>
 </body>

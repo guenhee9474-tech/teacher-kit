@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>영어 쓰기 수행평가 페이지</title>
+<meta name="description" content="학생이 태블릿에서 영어 글쓰기 수행평가를 두 번에 나눠 치르는 웹 페이지의 본보기와 설치 안내">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<style>.figure{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:32px;background:var(--card)} .figure figcaption{font-size:14px;color:var(--faint);padding:10px 16px;border-top:1px solid var(--line)} figure{margin:0}</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+  <nav>
+    <a href="#try">체험</a><a href="#install">설치</a><a href="#edit">과제 바꾸기</a><a href="#run">수업 운영</a><a href="#limits">알아 둘 것</a>
+    <a class="keep" href="../downloads/english-writing-kit.zip" download>받기</a>
+  </nav>
+</div></div>
+
+<main class="in doc">
+  <div class="head" style="padding-bottom:0">
+    <h1>영어 쓰기 수행평가 페이지</h1>
+    <p class="lead">학생이 태블릿에서 영어 글쓰기 수행평가를 두 번에 나눠 치르는 웹 페이지입니다. 제출물은 선생님 구글 드라이브에 PDF와 시트로 쌓입니다. 실제 수업에 쓰던 것을 값을 비워 본보기로 만들었습니다.</p>
+    <div class="actions">
+      <a class="btn primary" href="demo/?r=2&d=5&f=5" target="_blank" rel="noopener">체험해 보기</a>
+      <a class="btn" href="../downloads/english-writing-kit.zip" download>압축 파일 받기</a>
+    </div>
+    <p class="meta">구글 계정 · GitHub 계정 · Claude Code 필요 (설치할 때) · 97KB</p>
+  </div>
+  <figure class="figure">
+    <img src="../img/writing-draft.png" alt="초안 쓰기 화면: 왼쪽에 문장 입력 칸, 오른쪽에 Word Bank 사용 현황과 문장 틀" width="1180" height="820">
+    <figcaption>초안 쓰기 화면 (체험 페이지)</figcaption>
+  </figure>
+
+  <section>
+    <h2>어떻게 진행되나요</h2>
+    <table>
+      <tr><th>1회차</th><td>예시 문단 분석 → 브레인스토밍(이때는 검색 허용) → <b>초안 쓰기</b>(잠금) → 초안 제출</td></tr>
+      <tr><th>2회차</th><td>같은 학번·이름으로 로그인하면 초안이 그대로 열리고(수정 불가), <b>최종본</b>만 씁니다(잠금) → 제출</td></tr>
+      <tr><th>잠금 단계에서</th><td>붙여넣기와 자동 완성이 막히고, 다른 앱·탭으로 나가면 횟수와 시각이 제출물에 기록됩니다. 단어 사전(단어 하나씩)만 허용됩니다.</td></tr>
+      <tr><th>선생님 쪽</th><td>제출물은 반별 폴더에 PDF로, 진행 상황은 시트(총괄·반별 탭)와 교사 현황 화면에 보입니다.</td></tr>
+    </table>
+  </section>
+
+  <section id="try">
+    <h2>체험해 보기</h2>
+    <p>설치 없이 학생 흐름을 끝까지 해 볼 수 있습니다. 체험 페이지는 서버에 연결되어 있지 않아, 쓴 내용이 이 기기에만 남습니다.</p>
+    <ol>
+      <li><a href="demo/?r=2&d=5&f=5" target="_blank" rel="noopener">체험 페이지</a>를 엽니다. 제한 시간을 조사 2분, 초안 5분, 최종 5분으로 줄여 두었습니다.</li>
+      <li>아무 학번(예: <code>10101</code>)과 이름으로 시작합니다.</li>
+      <li>조사 단계에서 <b>초안 쓰기 시작</b>을 누르고, 문장을 몇 개 쓴 뒤 <b>제출</b>합니다. 다른 탭으로 나갔다 오면 이탈이 기록되는 것도 볼 수 있습니다.</li>
+      <li>페이지를 새로 고치고 같은 학번·이름으로 다시 들어가면 2회차(최종본)가 열립니다.</li>
+    </ol>
+    <p class="sub">처음부터 다시 하려면 로그인 화면 아래 <b>교사</b> → PIN <code>0000</code> → 데이터 삭제. 체험 페이지에서는 사전, 교사 현황 화면, PDF 저장이 동작하지 않습니다.</p>
+  </section>
+
+  <section id="install">
+    <h2>내 수업에 쓰려면 (설치)</h2>
+    <p>제출물을 받으려면 선생님의 구글 계정에 서버(Apps Script)를, GitHub에 학생 페이지를 올려야 합니다. 1시간쯤 걸리고, 대부분 Claude Code가 진행합니다.</p>
+    <h3>준비</h3>
+    <ul>
+      <li>구글 계정, GitHub 계정</li>
+      <li>PC에 VS Code, Git, Node.js LTS, Python 3, Claude Code</li>
+    </ul>
+    <h3>순서</h3>
+    <ol>
+      <li>압축 파일을 받아 풉니다.</li>
+      <li>그 폴더를 VS Code로 열고, 터미널에서 <code>claude</code>를 실행합니다.</li>
+      <li>이렇게 말합니다: <b>CLAUDE.md의 "처음 설치"를 진행해 줘.</b></li>
+    </ol>
+    <p>Claude Code가 아래를 차례로 진행하고, 브라우저에서 눌러야 하는 것만 물어봅니다.</p>
+    <table>
+      <tr><th>값 정하기</th><td>token과 교사 PIN (받은 파일에는 <code>CHANGE_ME</code>, <code>0000</code>으로 들어 있습니다)</td></tr>
+      <tr><th>서버 올리기</th><td>clasp 설치, 구글 로그인, Apps Script 프로젝트 연결, 코드 올리기</td></tr>
+      <tr><th>권한 승인</th><td>편집기에서 <code>testSubmit</code>을 한 번 실행합니다. 내 드라이브에 제출물 폴더와 시트가 만들어집니다.</td></tr>
+      <tr><th>웹 앱 배포</th><td>나온 주소를 학생 페이지와 교사 화면에 넣습니다.</td></tr>
+      <tr><th>페이지 올리기</th><td>GitHub 저장소를 만들고 Pages를 켭니다(<code>/docs</code> 폴더).</td></tr>
+      <tr><th>마무리</th><td>교사 현황 화면 열쇠 만들기, 테스트, 첫 배포</td></tr>
+    </table>
+    <div class="note">
+      <h3>설치 중에 만나는 것</h3>
+      <ul>
+        <li>권한 승인 때 <b>"확인되지 않은 앱"</b> 경고가 뜨고, 드라이브·메일·외부 연결 권한을 한꺼번에 묻습니다. 본인 계정에 본인이 올린 스크립트라서 뜨는 것입니다.</li>
+        <li><b>학교 구글 계정</b>은 "모든 사용자"에게 웹 앱을 여는 것이 관리자 설정으로 막혀 있을 수 있습니다. 막히면 개인 계정을 쓰세요.</li>
+        <li>이 설치 순서는 새 계정에서 처음부터 끝까지 돌려 보지는 못했습니다. 막히는 단계가 있으면 알려 주세요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="edit">
+    <h2>과제 내용 바꾸기</h2>
+    <p><code>docs/index.html</code> 맨 위의 <code>CONFIG</code> 한 곳만 고치면 됩니다. Claude Code에게 "예시 문단을 이걸로 바꿔 줘"처럼 말로 시켜도 됩니다.</p>
+    <table>
+      <tr><th><code>title</code>, <code>subtitle</code></th><td>과제 제목</td></tr>
+      <tr><th><code>assignmentId</code></th><td>과제 이름표. <b>과제를 새로 낼 때마다 다른 값으로</b> 바꿉니다. 안 바꾸면 같은 주소에서 지난 과제의 상태가 그대로 열립니다.</td></tr>
+      <tr><th><code>phases</code></th><td>단계별 제한 시간(분)</td></tr>
+      <tr><th><code>requiredSentences</code> 등</th><td>필요한 문장 수, Word Bank 표현 수</td></tr>
+      <tr><th><code>example</code>, <code>step1Parts</code></th><td>예시 문단과 구분 항목</td></tr>
+      <tr><th><code>step2Items</code>, <code>ideaBank</code></th><td>브레인스토밍 항목과 참고 목록</td></tr>
+      <tr><th><code>step3Parts</code></th><td>초안 구성과 문장 틀</td></tr>
+      <tr><th><code>wordBank</code></th><td>표현과 자동 감지 규칙</td></tr>
+    </table>
+    <p class="sub">들어 있는 예시 과제(제목, 예시 문단, Word Bank)는 본보기입니다. 본인 수업 내용으로 바꿔 쓰세요.</p>
+  </section>
+
+  <section id="run">
+    <h2>수업 운영</h2>
+    <ul>
+      <li>학생은 주소(또는 QR)로 들어와 <b>학번과 이름</b>으로 로그인합니다. 글은 1분마다 서버에 자동 저장되어, 기기가 바뀌어도 이어집니다.</li>
+      <li>수업 중에는 <b>교사 현황 화면</b>에서 반별로 누가 어느 단계인지, 이탈이 있었는지 봅니다.</li>
+      <li>시간 추가, 잠금 해제, 제출 취소는 학생 화면 아래 <b>교사</b> 버튼(PIN)으로 합니다.</li>
+      <li>코드를 고쳤으면 <b>수업 전날</b> 배포하고, 태블릿으로 로그인 화면 아래 버전 글자를 확인합니다. 당일 아침에는 배포하지 않습니다.</li>
+      <li>문제가 보이면 제출명단 시트의 <b>오류</b> 탭을 먼저 봅니다.</li>
+    </ul>
+  </section>
+
+  <section id="limits">
+    <h2>알아 둘 것</h2>
+    <ul>
+      <li><b>교사 PIN과 token은 페이지 소스에서 누구나 볼 수 있습니다.</b> 실수 방지용일 뿐, 보안 장치가 아닙니다.</li>
+      <li>제한 시간은 주소 뒤에 값을 붙이면 바뀝니다. 학생이 주소창을 쓰지 못하게 하려면 홈 화면 앱으로만 열게 하고(<code>requireHomeScreen</code>) 기기에서 앱 고정을 쓰세요.</li>
+      <li>학번은 <b>학년 1자리 + 반 2자리 + 번호 2자리</b>(예: 10315)를 전제합니다. 반별 폴더와 탭이 이 규칙으로 나뉩니다.</li>
+      <li><b>영어 글쓰기 전용</b>입니다. 문장 수 세기, 한글 입력 감지, 사전이 모두 영어를 전제합니다.</li>
+      <li>1인 1기기를 전제합니다. 공용 기기에서 학번을 잘못 넣으면 그 기기에 남아 있던 다른 학생의 글이 열릴 수 있습니다.</li>
+      <li>학생 이름·학번·글이 선생님 구글 드라이브에 저장됩니다. 학교 개인정보 지침을 먼저 확인하세요.</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="in"><span>영어 쓰기 수행평가 페이지 (본보기)</span><a href="../">연수 자료로</a></div></footer>
+</body>
+</html>

@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="영어 쓰기">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>영어 쓰기 수행평가</title>
+<!--
+  ══════════════════════════════════════════════════════════════════
+   교사용 안내
+  ══════════════════════════════════════════════════════════════════
+   이 파일 하나로 작동합니다. 설정은 아래 <script> 맨 위의 CONFIG 에서 바꿉니다.
+   (제한 시간, 필요 문장 수, Word Bank, 교사 PIN, 구글 설문지 연동 등)
+
+   1) 파일을 인터넷에 올립니다. (Netlify Drop, GitHub Pages, 학교 서버 등)
+      - 파일을 그냥 에어드롭으로 보내서 열면 자동 저장이 안 될 수 있습니다. 주소(URL)로 여세요.
+   2) 학생 아이패드에서 그 주소를 엽니다. (Apple 교실 "웹 사이트 열기" 또는 QR)
+   3) 잠금은 세 겹입니다. (CONFIG.lock)
+      ① 주소 잠금: requireHomeScreen: true 로 두면 "홈 화면에 추가"한 앱으로 열었을 때만 시작됩니다.
+         홈 화면 앱에는 주소창도 탭도 없습니다. 리허설 때 학생들이 홈 화면 추가까지 끝내 두세요.
+         (홈 화면 앱은 Safari와 저장 공간이 달라서, 당일에는 반드시 아이콘으로만 열게 하세요.)
+      ② 앱 전환 차단: iPad의 사용 지침(설정 > 손쉬운 사용 > 사용 지침, 상단 버튼 3번 클릭)이나
+         Apple 교실 "앱 고정"으로 그 앱에 고정합니다. 이것만은 웹페이지가 대신할 수 없습니다.
+      ③ 페이지 자체 감시: 초안·최종 단계에서 탭/앱 전환·화면 분할·한글 선택을 감지해 시각과 함께 제출물에 남깁니다.
+         붙여넣기는 막혀 있고, 영어 칸에서 한글을 선택하면 선택이 풀립니다(번역 메뉴 차단용).
+         (전체 화면 강제는 iPad Safari에서 글자 칸을 누르면 저절로 풀리는 문제가 있어 iPad에서는 쓰지 않습니다.)
+   4) 제출물 받기: CONFIG.submit.scriptUrl 에 Apps Script 웹 앱 주소(Code.gs 참고)를 넣으면
+      1회차 초안은 선생님 시트에 저장되고, 2회차 최종본은 PDF로 드라이브 폴더에 올라갑니다.
+      연동을 안 하면 제출 화면에서 "복사" / "파일로 저장" 버튼으로 받습니다.
+   5) 교사 PIN(기본 0000)은 꼭 바꾸세요. 화면 아래 "교사" 버튼 > PIN 입력 > 시간 추가 / 잠금 해제 / 단계 넘기기 / 데이터 삭제
+   6) 활동은 두 번에 나눠 합니다. 학번+이름이 학생의 ID입니다.
+      1회차: 조사·브레인스토밍(Step 1-2, 외부 접속 허용) → "초안 쓰기 시작" 버튼 → 초안(Step 3, 잠금) → 초안 제출
+      2회차: 같은 주소에서 같은 학번·이름으로 로그인하면 서버에 저장된 초안이 그대로 열리고(수정 불가), 최종본(Step 4, 잠금)만 씁니다.
+      어느 단계를 열지는 서버(Apps Script)에 저장된 학생 상태로 자동 결정됩니다. 회차 설정은 따로 없습니다.
+      작성 중인 내용도 1분마다 서버에 자동 저장되므로 다른 아이패드에서 로그인해도 이어집니다.
+      초안을 일찍 낸 학생이 같은 시간에 최종까지 써 버리는 걸 막으려면 Apps Script에서 closeFinal() 을 실행해 두고,
+      2회차 수업 때 openFinal() 을 실행하세요. (기본은 열림)
+  ══════════════════════════════════════════════════════════════════
+-->
+<style>
+  :root{
+    --bg:#F2F4F7; --surface:#FFFFFF; --ink:#1B2436; --muted:#5D6675;
+    --line:#D8DEE7; --line-strong:#AEB8C6;
+    --accent:#0E7C66; --accent-ink:#0A5B4A; --accent-soft:#DDF2EC;
+    --mark:#FFE58A; --warn:#B45309; --warn-soft:#FDEBD0;
+    --danger:#B42318; --danger-soft:#FCE4E1;
+    --serif:"Iowan Old Style","Charter","Georgia","Times New Roman",serif;
+    --sans:-apple-system,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  input,textarea{-webkit-user-select:text;user-select:text;min-width:0;max-width:100%}
+  img,svg{max-width:100%}
+  h1,h2,h3,p,ul{margin:0}
+  ul{padding:0;list-style:none}
+  button{font:inherit;cursor:pointer}
+  input,textarea{font:inherit;color:inherit}
+  [hidden]{display:none !important}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  textarea:focus,input:focus{outline:none}
+
+  /* 버튼 */
+  .btn{border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:8px;padding:9px 16px;font-size:15px;line-height:1.2}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .btn.ghost{background:transparent}
+  .btn.small{padding:7px 12px;font-size:14px}
+  .btn:disabled{opacity:.45;cursor:default}
+  .link{border:0;background:none;color:var(--muted);font-size:13px;text-decoration:underline;padding:6px}
+
+  /* 시작 화면 */
+  .gate{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+  .gate-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:36px 36px 32px;max-width:560px;width:100%}
+  .kicker{font-size:14px;color:var(--muted)}
+  .gate-title{font-family:var(--serif);font-weight:400;font-size:clamp(24px,6.5vw,34px);line-height:1.15;margin:6px 0 22px;overflow-wrap:anywhere}
+  .rules{display:grid;gap:8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;font-size:15px}
+  .rules li{display:grid;grid-template-columns:20px 1fr;gap:8px}
+  .rules li::before{content:"–";color:var(--muted)}
+  .gate-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0 8px}
+  .gate-form label{display:grid;gap:6px;font-size:14px;color:var(--muted)}
+  .gate-form input{width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:10px 12px;font-size:17px;background:#fff}
+  @media (max-width:480px){.gate-card{padding:26px 20px 22px}.rules{font-size:14px}}
+  .gate-form input:focus{border-color:var(--accent)}
+  .gate-note{min-height:22px;font-size:14px;color:var(--accent-ink);margin-bottom:14px}
+  .gate-note.error{color:var(--danger)}
+  .gate .btn.primary{width:100%;padding:13px;font-size:17px}
+
+  /* 상단 바 */
+  .top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:10px 20px;flex-wrap:wrap}
+  .top-title{flex:1 1 240px;min-width:0}
+  .top-title h1{font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top-title .kicker{font-size:12px}
+  .who{font-size:14px;color:var(--muted);white-space:nowrap}
+  .stats{display:flex;gap:6px;flex-wrap:wrap}
+  .stat{font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
+  .stat b{color:var(--ink);font-weight:600;margin-right:3px;font-variant-numeric:tabular-nums}
+  .stat.ok{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+  .stat.ok b{color:var(--accent-ink)}
+  .stat.alert{border-color:var(--danger);color:var(--danger);background:var(--danger-soft)}
+  .stat.alert b{color:var(--danger)}
+  .timer{font-variant-numeric:tabular-nums;font-size:22px;font-weight:600;letter-spacing:.5px;min-width:74px;text-align:right}
+  .timer.warn{color:var(--warn)}
+  .timer.danger{color:var(--danger)}
+  .top-actions{display:flex;gap:8px}
+  @media (max-width:640px){
+    .top{padding:8px 12px;gap:8px}
+    .top-title{flex-basis:100%}
+    .top-title h1{font-size:17px;white-space:normal}
+    .who,.stat.env{display:none}
+    .stats{flex:1;gap:4px}
+    .stat{padding:3px 8px;font-size:12px}
+    .timer{font-size:19px;min-width:0}
+    .btn.small{padding:7px 10px}
+  }
+
+  .banner{background:var(--warn-soft);color:var(--warn);border-bottom:1px solid #EBD3A8;padding:10px 20px;font-size:15px;text-align:center}
+  .banner.danger{background:var(--danger-soft);color:var(--danger);border-color:#F0B9B3}
+
+  /* 본문 배치 */
+  .layout{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;padding:20px;max-width:1240px;margin:0 auto}
+  @media (max-width:640px){.layout{padding:12px 10px;gap:14px}}
+  @media (min-width:980px){
+    .layout{grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+    .panel{position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto}
+  }
+
+  /* 학습지(한 장의 시트) */
+  .sheet{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px 28px}
+  .step{display:grid;grid-template-columns:82px minmax(0,1fr);gap:18px;padding:26px 0;border-top:1px solid var(--line)}
+  .step:first-child{border-top:0}
+  .step-no{font-family:var(--serif);font-size:15px;color:var(--muted);padding-top:3px}
+  .step h2{font-size:17px;font-weight:600;line-height:1.3}
+  .step .desc{color:var(--muted);font-size:14px;margin-top:4px}
+  .step-body{margin-top:14px}
+  @media (max-width:640px){
+    .sheet{padding:4px 18px}
+    .step{grid-template-columns:1fr;gap:6px}
+  }
+
+  /* Step 1 예시문 */
+  .example{font-family:var(--serif);font-size:17px;line-height:1.7;background:var(--bg);border-radius:10px;padding:16px 18px}
+  .example .n{color:var(--muted);font-size:13px;margin-right:2px}
+  .split{display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px}
+  @media (min-width:640px){.split{grid-template-columns:1fr 1fr}}
+  .split label{display:grid;grid-template-columns:minmax(0,1fr) 92px;align-items:center;gap:10px;font-size:14px}
+  .split input{border:1px solid var(--line-strong);border-radius:8px;padding:7px 10px;text-align:center;font-family:var(--serif);font-size:16px}
+  .split input:focus{border-color:var(--accent)}
+
+  /* Step 2 브레인스토밍 */
+  .brain{display:grid;gap:12px}
+  .brain label{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:start;font-family:var(--serif);font-size:15px}
+  .brain label span{padding-top:9px}
+  .brain textarea{border:1px solid var(--line-strong);border-radius:8px;padding:9px 12px;min-height:44px;resize:none;background:#fff;font-family:var(--sans);font-size:15px;width:100%}
+  .brain textarea:focus{border-color:var(--accent)}
+  @media (max-width:640px){.brain label{grid-template-columns:1fr;gap:4px}.brain label span{padding-top:0}}
+  .frames{display:grid;gap:6px;font-family:var(--serif);font-size:14px;line-height:1.45;color:var(--ink)}
+  .frames li{padding-left:12px;text-indent:-12px}
+  .part-frames{margin-top:6px;font-family:var(--serif);font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* Word Bank (본문 안) */
+  .wb-inline{margin-bottom:16px;padding:12px 14px;border:1px dashed var(--line-strong);border-radius:10px;font-size:14px;color:var(--muted)}
+  .wb-inline b{color:var(--ink);font-weight:600}
+  .wb-inline .list{font-family:var(--serif);color:var(--ink);font-size:15px;margin-top:4px}
+
+  /* Step 3 초안: 밑줄이 있는 문장 칸 */
+  .part{margin-top:18px}
+  .part:first-child{margin-top:0}
+  .part-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .part-head h3{font-size:15px;font-weight:600}
+  .part-head .need{font-size:13px;color:var(--muted)}
+  .part-head .count{margin-left:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .part-head .count.ok{color:var(--accent-ink)}
+  .part-head .count.warn{color:var(--warn)}
+  .field-warn.soft{color:var(--warn)}
+  .lines{display:grid;gap:4px;margin-top:6px}
+  .line{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;align-items:end}
+  .line .num{font-family:var(--serif);color:var(--muted);font-size:15px;padding-bottom:10px}
+  .line textarea{width:100%;border:0;border-bottom:1.5px solid var(--line-strong);border-radius:0;background:transparent;padding:8px 4px 7px;resize:none;overflow:hidden;font-family:var(--serif);font-size:18px;line-height:1.5;min-height:42px}
+  .line textarea:focus{border-bottom-color:var(--accent);box-shadow:0 1.5px 0 var(--accent)}
+  .add-line{margin-top:8px}
+
+  /* Step 4 최종본 */
+  .final-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+  .final-tools .hint{font-size:13px;color:var(--muted)}
+  .final{width:100%;border:1px solid var(--line-strong);border-radius:10px;padding:16px 18px;min-height:240px;resize:none;overflow:hidden;font-family:var(--serif);font-size:18px;line-height:1.65;background:#fff}
+  .final:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+  .field-warn{margin-top:6px;font-size:13px;color:var(--danger);min-height:18px}
+  .locked textarea,.locked input{background:var(--bg) !important;color:var(--muted)}
+
+  .sheet-foot{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:18px 0 22px;border-top:1px solid var(--line)}
+  .sheet-foot .btn.primary{padding:12px 26px;font-size:16px}
+
+  /* 옆 패널 */
+  .panel{display:grid;gap:14px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card h3{font-size:14px;font-weight:600;color:var(--muted);margin-bottom:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:1px solid var(--line-strong);border-radius:999px;padding:4px 11px;font-family:var(--serif);font-size:14px;line-height:1.3;color:var(--ink);transition:background .15s,color .15s,border-color .15s}
+  .chip.used{background:var(--accent);border-color:var(--accent);color:#fff}
+  .chip.used::before{content:"✓ ";font-family:var(--sans);font-size:12px}
+  .meter-row{display:flex;align-items:center;gap:12px;margin-top:12px}
+  .meter{display:flex;gap:3px;flex:1}
+  .meter i{flex:1;height:10px;border-radius:3px;background:var(--line);transition:background .15s}
+  .meter i.on{background:var(--accent)}
+  .meter-label{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .meter-label b{color:var(--ink)}
+  .meter-label.ok b{color:var(--accent-ink)}
+  .preview{font-family:var(--serif);font-size:16px;line-height:1.65;min-height:60px;word-break:break-word}
+  .preview .sn{color:var(--muted);font-size:12px;margin-right:2px;vertical-align:1px}
+  .preview .empty{color:var(--muted);font-family:var(--sans);font-size:14px}
+  .preview .src{display:block;font-family:var(--sans);font-size:12px;color:var(--muted);margin-bottom:6px}
+  mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
+  .log{font-size:13px;color:var(--muted);display:grid;gap:4px}
+  .log b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .log .bad b{color:var(--danger)}
+  @media (prefers-reduced-motion:reduce){.chip,.meter i{transition:none}}
+
+  .foot{text-align:center;padding:6px 0 26px}
+  .timer-wrap{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
+  .phase-label{font-size:11px;color:var(--muted);white-space:nowrap}
+  .stat.phase.open{border-color:#2F6FDB;color:#2457B3;background:#E9F0FC}
+  .stat.phase.lock{border-color:var(--warn);color:var(--warn);background:var(--warn-soft)}
+  .start-box{border:1px dashed var(--line-strong);border-radius:10px;padding:18px 16px;text-align:center}
+  .start-box p{color:var(--muted);font-size:14px;margin-bottom:12px}
+  .start-box .btn.primary{padding:12px 24px;font-size:16px}
+  .ro-tag{display:inline-block;font-size:11px;color:var(--warn);border:1px solid var(--warn);border-radius:999px;padding:0 8px;margin-left:8px;vertical-align:middle;font-weight:500}
+  .step.ro textarea,.step.ro input{background:var(--bg) !important;color:var(--muted);border-color:var(--line) !important}
+  .session-box{font-size:14px;color:var(--ink);background:var(--bg);border-radius:8px;padding:10px 12px;margin:-8px 0 16px}
+  .session-box b{font-weight:600}
+
+  /* 잠금 관련 */
+  .stat.env{border-style:dashed}
+  .home-guide{border:1px solid var(--warn);background:var(--warn-soft);border-radius:10px;padding:14px 16px;margin:20px 0 6px;font-size:15px}
+  .home-guide b{display:block;margin-bottom:6px}
+  .home-guide ol{margin:0;padding-left:20px;display:grid;gap:4px}
+  .fs-overlay{position:fixed;inset:0;z-index:45;background:rgba(242,244,247,.96);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+  .fs-overlay .box{max-width:420px}
+  .fs-overlay h2{font-size:20px;font-weight:600;margin-bottom:8px}
+  .fs-overlay p{color:var(--muted);font-size:15px;margin-bottom:18px}
+  .fs-overlay .btn.primary{padding:13px 28px;font-size:17px}
+  .modal.dlg{z-index:60}
+  .dict-pop{position:fixed;right:16px;bottom:16px;width:360px;max-width:calc(100vw - 24px);background:var(--surface);border:1px solid var(--line-strong);border-radius:12px;padding:14px 16px;box-shadow:0 8px 24px rgba(27,36,54,.14);z-index:35}
+  @media (max-width:640px){.dict-pop{right:8px;left:8px;bottom:8px;width:auto}}
+  .dict-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .dict-head b{font-size:14px}
+  .dict-count{font-size:12px;color:var(--muted);margin-left:auto;font-variant-numeric:tabular-nums}
+  .dict-row{display:flex;gap:6px}
+  .dict-row input{flex:1;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;font-size:16px}
+  .dict-row input:focus{border-color:var(--accent)}
+  .dict-out{margin-top:10px;display:grid;gap:4px;max-height:200px;overflow:auto;font-family:var(--serif);font-size:15px}
+  .dict-item{display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--line);padding:4px 0}
+  .dict-item .q{color:var(--muted);font-family:var(--sans);font-size:14px}
+  .dict-item b{font-weight:600}
+  .dict-item.err{color:var(--danger);font-family:var(--sans);font-size:13px}
+  .dict-note{font-size:12px;color:var(--muted);margin-top:8px}
+  .dict-item.unsure{background:var(--warn-soft);border-color:#EBD3A8}
+  .dict-item .base{font-size:11px;color:var(--muted);margin-left:8px}
+  .dict-item .warn{font-size:12px;color:var(--warn);margin-top:4px;line-height:1.4}
+  .dict-item .def{font-size:12px;color:var(--ink);margin-top:3px;line-height:1.45;opacity:.85}
+  .dlg-input{width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:10px 12px;font-size:18px;margin-bottom:16px;letter-spacing:2px}
+  .dlg-input:focus{border-color:var(--accent)}
+  .dlg .modal-actions{flex-wrap:wrap}
+
+  /* 안내 토스트, 모달 */
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;z-index:50;max-width:90vw;text-align:center}
+  .modal{position:fixed;inset:0;background:rgba(27,36,54,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:40}
+  .modal-card{background:var(--surface);border-radius:14px;padding:26px 26px 22px;max-width:460px;width:100%}
+  .modal-card h2{font-size:19px;font-weight:600;margin-bottom:12px}
+  .summary{display:grid;gap:6px;font-size:15px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:12px}
+  .summary div{display:flex;justify-content:space-between;gap:12px}
+  .summary .bad{color:var(--danger)}
+  .summary .good{color:var(--accent-ink)}
+  .modal-note{font-size:14px;color:var(--muted);margin-bottom:16px}
+  .modal-actions{display:flex;justify-content:flex-end;gap:8px}
+
+  /* 제출 완료 화면 */
+  .done{max-width:820px;margin:0 auto;padding:28px 20px 40px}
+  .done .sheet{padding:28px 32px}
+  @media (max-width:640px){.done{padding:16px 10px 30px}.done .sheet{padding:20px 16px}.done-title{font-size:24px}}
+  .done-title{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.2;margin:4px 0 14px}
+  .done-status{font-size:15px;padding:10px 14px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);margin-bottom:16px}
+  .done-status.bad{background:var(--danger-soft);color:var(--danger)}
+  .done-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:18px}
+  .done-grid div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--muted)}
+  .done-grid b{display:block;color:var(--ink);font-size:18px;font-variant-numeric:tabular-nums}
+  .done-grid .bad b{color:var(--danger)}
+  .done-text{font-family:var(--serif);font-size:18px;line-height:1.7;border:1px solid var(--line);border-radius:10px;padding:18px 20px;background:#fff;white-space:pre-wrap;word-break:break-word}
+  .done-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .done-hint{font-size:14px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body>
+
+<!-- 시작 화면 -->
+<section id="gate" class="gate">
+  <div class="gate-card">
+    <p class="kicker" id="gateKicker"></p>
+    <h1 class="gate-title" id="gateTitle"></h1>
+    <div class="session-box" id="gateInfo">학번과 이름으로 로그인하면 지난 작업이 그대로 열립니다. 초안을 아직 제출하지 않았으면 1회차(조사 → 초안), 제출했으면 2회차(최종 글쓰기)가 열립니다.</div>
+    <ul class="rules" id="rules"></ul>
+    <div id="homeGuide" class="home-guide" hidden>
+      <b>홈 화면 앱으로 열어야 시작할 수 있습니다.</b>
+      <ol>
+        <li>Safari 아래(또는 위)의 공유 버튼(네모에서 화살표가 나가는 모양)을 누르세요.</li>
+        <li>"홈 화면에 추가"를 누른 뒤 "추가"를 누르세요.</li>
+        <li>Safari를 닫고, 홈 화면에 생긴 "영어 쓰기" 아이콘으로 다시 여세요.</li>
+      </ol>
+    </div>
+    <div class="gate-form" id="gateForm">
+      <label>학번 <input id="sid" inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="예: 10315"></label>
+      <label>이름 <input id="name" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="이름"></label>
+    </div>
+    <p id="gateNote" class="gate-note"></p>
+    <button id="startBtn" class="btn primary">시작하기</button>
+    <div class="foot" style="padding:14px 0 0"><button id="teacherBtn4" class="link">교사</button><div id="verTag" style="font-size:11px;color:var(--muted);margin-top:4px"></div></div>
+  </div>
+</section>
+
+<!-- 작성 화면 -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="top-title">
+      <p class="kicker" id="topKicker"></p>
+      <h1 id="topTitle"></h1>
+    </div>
+    <div class="who" id="who"></div>
+    <div class="stats" aria-live="polite">
+      <span class="stat" id="stSent"><b>0</b>문장</span>
+      <span class="stat" id="stExpr"><b>0</b>표현</span>
+      <span class="stat" id="stLeave" hidden><b>0</b>이탈</span>
+      <span class="stat phase" id="stPhase" hidden></span>
+      <span class="stat env" id="stEnv" hidden></span>
+    </div>
+    <div class="timer-wrap" id="timerWrap"><span class="phase-label" id="phaseLabel"></span><div class="timer" id="timer" aria-live="off">--:--</div></div>
+    <div class="top-actions">
+      <button id="dictTop" class="btn small" hidden>사전</button>
+      <button id="fsBtn" class="btn ghost small" hidden>전체 화면</button>
+      <button id="submitTop" class="btn primary small">제출</button>
+    </div>
+  </header>
+  <div id="banner" class="banner" hidden></div>
+
+  <main class="layout">
+    <div class="sheet" id="sheet">
+      <section class="step" id="step1">
+        <div class="step-no">Step 1</div>
+        <div>
+          <h2>예시 분석하기<span class="ro-tag" hidden>1회차 작성분 · 수정 불가</span></h2>
+          <p class="desc" id="d1"></p>
+          <div class="step-body">
+            <div class="example" id="example"></div>
+            <div class="split" id="split"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step" id="step2">
+        <div class="step-no">Step 2</div>
+        <div>
+          <h2>조사 및 브레인스토밍<span class="ro-tag" hidden>1회차 작성분 · 수정 불가</span></h2>
+          <p class="desc" id="d2"></p>
+          <div class="step-body">
+            <div class="wb-inline" id="ideaBox"><b>Idea Bank</b><div class="list" id="ideaList"></div></div>
+            <div class="brain" id="brain"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step" id="step3">
+        <div class="step-no">Step 3</div>
+        <div>
+          <h2>초안 쓰기<span class="ro-tag" hidden>1회차 작성분 · 수정 불가</span></h2>
+          <p class="desc" id="step3Desc"></p>
+          <div class="step-body start-box" id="step3Start" hidden>
+            <p>조사와 브레인스토밍이 끝났으면 초안 쓰기를 시작하세요.<br>시작한 뒤에는 다른 앱이나 탭으로 나가면 기록되고, 붙여넣기와 검색을 쓸 수 없습니다.</p>
+            <button id="startDraftBtn" class="btn primary" type="button">초안 쓰기 시작</button>
+          </div>
+          <div class="step-body" id="step3Body">
+            <div class="wb-inline"><b>Word Bank</b><div class="list" id="wbList"></div></div>
+            <div id="parts"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step" id="step4" hidden>
+        <div class="step-no">Step 4</div>
+        <div>
+          <h2>최종 글쓰기</h2>
+          <p class="desc" id="d4"></p>
+          <div class="step-body">
+            <div class="final-tools">
+              <button id="importBtn" class="btn small">초안 가져오기</button>
+              <span class="hint">초안의 문장을 이 칸으로 옮긴 뒤 자유롭게 고쳐 쓰세요.</span>
+            </div>
+            <textarea id="final" class="final" lang="en" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="off" placeholder="Write your final paragraph here."></textarea>
+            <div class="field-warn" id="finalWarn"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="sheet-foot">
+        <span class="hint" id="autosaveNote" style="font-size:13px;color:var(--muted)">자동 저장됨</span>
+        <button id="submitBtn" class="btn primary">제출하기</button>
+      </div>
+    </div>
+
+    <aside class="panel">
+      <div class="card">
+        <h3>Word Bank 사용 현황</h3>
+        <div class="chips" id="chips"></div>
+        <div class="meter-row">
+          <div class="meter" id="meter"></div>
+          <div class="meter-label" id="meterLabel"><b>0</b> / 9 문장</div>
+        </div>
+      </div>
+      <div class="card" id="framesCard" hidden>
+        <h3>문장 틀</h3>
+        <ul class="frames" id="frames"></ul>
+      </div>
+      <div class="card">
+        <h3>미리보기</h3>
+        <div class="preview" id="preview"></div>
+      </div>
+      <div class="card">
+        <h3>기록</h3>
+        <div class="log" id="log"></div>
+      </div>
+    </aside>
+  </main>
+  <div class="foot"><button id="teacherBtn" class="link">교사</button></div>
+</div>
+
+<!-- 제출 확인 -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">제출할까요?</h2>
+    <div class="summary" id="modalSummary"></div>
+    <p class="modal-note" id="modalNote">제출하면 더 이상 고칠 수 없습니다.</p>
+    <div class="modal-actions">
+      <button id="modalCancel" class="btn">더 쓰기</button>
+      <button id="modalOk" class="btn primary">제출하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 제출 완료 -->
+<section id="done" class="done" hidden>
+  <div class="sheet">
+    <p class="kicker" id="doneKicker"></p>
+    <h1 class="done-title" id="doneTitle">제출되었습니다</h1>
+    <div class="done-status" id="doneStatus"></div>
+    <div class="done-grid" id="doneGrid"></div>
+    <div class="done-text" id="doneText"></div>
+    <div class="done-actions">
+      <button id="retryBtn" class="btn primary" hidden>선생님께 다시 보내기</button>
+      <button id="copyBtn" class="btn">최종본 복사</button>
+      <button id="saveBtn" class="btn">파일로 저장</button>
+    </div>
+    <p class="done-hint" id="doneHint">이 화면을 선생님께 보여 주세요. 화면을 닫아도 같은 학번으로 다시 열면 이 화면이 나타납니다.</p>
+    <div class="foot"><button id="teacherBtn2" class="link">교사</button></div>
+  </div>
+</section>
+
+<div id="fsOverlay" class="fs-overlay" hidden>
+  <div class="box">
+    <h2>전체 화면이 해제되었습니다</h2>
+    <p>해제된 시각이 기록되었습니다. 계속 쓰려면 전체 화면으로 돌아가세요.</p>
+    <button id="fsResume" class="btn primary">전체 화면으로 계속 쓰기</button>
+    <div id="fsSkipWrap" hidden style="margin-top:14px">
+      <p style="margin-bottom:8px">이 기기에서는 전체 화면이 열리지 않는 것 같습니다.</p>
+      <button id="fsSkip" class="btn">전체 화면 없이 계속 쓰기 (기록에 남습니다)</button>
+    </div>
+    <div class="foot"><button id="teacherBtn3" class="link">교사</button></div>
+  </div>
+</div>
+
+<!-- 공용 대화상자 (교사 메뉴, 확인) -->
+<div id="dlg" class="modal dlg" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <h2 id="dlgTitle"></h2>
+    <p class="modal-note" id="dlgText"></p>
+    <input id="dlgInput" class="dlg-input" hidden autocomplete="off" autocorrect="off" spellcheck="false">
+    <div class="modal-actions" id="dlgActions"></div>
+  </div>
+</div>
+
+<!-- 단어 사전 (잠금 단계에서 허용되는 유일한 외부 조회) -->
+<div id="dictPop" class="dict-pop" hidden>
+  <div class="dict-head"><b>단어 사전</b><span id="dictCount" class="dict-count"></span><button id="dictClose" class="link" type="button">닫기</button></div>
+  <div class="dict-row">
+    <input id="dictQ" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="단어 하나만 (예: 경사로 / ramp)">
+    <button id="dictBtn" class="btn small primary" type="button">찾기</button>
+  </div>
+  <div id="dictOut" class="dict-out"></div>
+  <p class="dict-note">한 번에 단어 하나만 찾을 수 있고, 찾은 단어는 모두 제출물에 기록됩니다.<br>기본형으로 찾으면 더 정확합니다. (예: 배고픈 → 배고프다)</p>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   교사용 설정 (여기만 고치면 됩니다)
+   ════════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  version: "본보기 1.0",   // 화면 아래에 표시됩니다. 새 파일을 올렸는데 이 글자가 안 바뀌면 옛 파일이 열린 것입니다.
+  title: "Good for All of Us: A Place for Everyone",
+  subtitle: "영어 쓰기 수행평가",
+  assignmentId: "",            // 과제 이름표(영문·숫자). 같은 주소에서 다른 과제를 또 낼 때는 꼭 다른 값으로 바꾸세요. 지난 과제의 저장 내용과 섞이지 않게 합니다.
+
+  // 단계별 제한 시간(분). 주소 뒤 ?r=20&d=25&f=15 로 바꿀 수 있습니다.
+  phases: { research: 15, draft: 20, final: 20 },
+  autosaveSec: 60,             // 작성 중 서버 자동 저장 간격(초). 0이면 제출 때만 서버에 보냅니다.
+  autoSubmitWhenTimeUp: true,  // 시간이 끝나면 자동으로 다음 단계/제출
+  requiredSentences: 9,        // 최종본 필요 문장 수
+  requiredExpressions: 5,      // Word Bank 필요 표현 수
+  teacherPin: "0000",          // ★ 꼭 바꾸세요. 비워 두면("") 교사 메뉴가 꺼집니다.
+
+  // 단어 사전: 잠금 단계에서 허용되는 유일한 조회. 단어 하나(띄어쓰기 없음, maxLen 이하)만 서버(Apps Script 번역)에 물어보고,
+  // 찾은 단어는 모두 기록됩니다. phases 에 적힌 단계에서만 버튼이 보입니다.
+  dictionary: { enabled: true, phases: ["draft", "final"], maxPerPhase: 30, maxLen: 20 },
+
+  lock: {
+    requireHomeScreen: false,   // true: "홈 화면에 추가"한 앱(주소창·탭 없음)으로 열었을 때만 시작. 주소 뒤 ?home=1 로도 켤 수 있음
+    requireFullscreen: false,   // 데스크톱 브라우저용. iPad Safari는 글자 칸을 누르면 전체 화면이 저절로 풀리므로 iPad에서는 항상 꺼집니다.
+    blockHangulSelection: true  // 영어 칸에서 한글을 선택하면 선택을 풀고 기록 (iPad 번역 메뉴 차단용)
+  },
+
+  // 각 단계 안내문
+  desc1: "다음 예시 문단을 읽고, 글을 네 개의 부분으로 나누세요. (해당하는 문장 번호를 적으세요.)",
+  desc2: "우리 학교나 동네에서 누군가는 이용하기 어려운 공간을 하나 고르고, 그곳을 모두에게 편한 곳으로 바꿀 방법을 기록하세요.",
+  desc3: "Step 2에 적은 내용과 아래 Word Bank를 활용하여 제안서를 {n}문장 이상으로 작성하세요. Word Bank 표현을 쓰면 오른쪽에 자동으로 표시됩니다.",
+  desc4: "Step 3의 초안을 바탕으로 본인의 글을 수정하여 최종본을 완성하세요. (이후 말하기 수행평가의 대본으로 활용됩니다.)",
+
+  // Step 1 예시 문단 (문장 단위) — 제목은 exampleTitle
+  exampleTitle: "A Library for Everyone",
+  example: [
+    "I would like to make some suggestions for our school library.",
+    "Many students rely on the library to study and rest.",
+    "However, the entrance has three steps.",
+    "This is the reason why some students cannot come in easily.",
+    "First, we should build a ramp at the entrance.",
+    "This will make it easier for everyone to enter.",
+    "Second, popular books should be on the lower shelves.",
+    "This will ensure that all students can make use of them.",
+    "These changes will make our library more accessible.",
+    "They will benefit everyone, regardless of age or ability.",
+    "I am confident that our library can become a place where every student feels welcome."
+  ],
+  step1Parts: ["Opening: 장소와 문제", "Suggestion 1 & Effect", "Suggestion 2 & Effect", "Closing: 모두에게 좋은 이유"],
+
+  // Step 2 브레인스토밍 (hint = 입력칸 안내문)
+  step2Items: [
+    { label: "1. Place",              hint: "고른 공간. 예) 급식실, 도서관, 정문, 운동장, 화장실, 학교 홈페이지" },
+    { label: "2. Problem",            hint: "누가, 왜 이용하기 어려운가" },
+    { label: "3. Suggestion 1 → Effect", hint: "제안 1 → 기대 효과" },
+    { label: "4. Suggestion 2 → Effect", hint: "제안 2 → 기대 효과" },
+    { label: "5. Good for All",       hint: "이 변화가 결국 모두에게 좋은 이유" }
+  ],
+  // Step 2 참고 목록 (비우면 Idea Bank 상자가 사라집니다)
+  ideaBank: [
+    "경사로(ramp)", "크고 여러 언어로 된 표지판", "높이가 다른 책상·세면대", "글자와 배경의 색 대비",
+    "소리와 불빛을 함께 쓰는 알림", "넓고 평평한 길", "그늘과 의자", "조용한 공간",
+    "홈페이지의 대체 텍스트·자막·글자 크기 조절"
+  ],
+
+  // Step 3 초안 구성 (min = 최소 문장 수, frames = 문장 틀)
+  step3Parts: [
+    { title: "Part 1. Opening", hint: "Step 2의 1, 2번 항목 포함", min: 3,
+      frames: ["I would like to make some suggestions for ___.", "Many students rely on ___.", "However, ___.", "This is the reason why ___."] },
+    { title: "Part 2. Suggestions & Expected Effects", hint: "Step 2의 3, 4번 항목 포함", min: 4,
+      frames: ["First, we should ___.", "This will make it easier for ___ to ___.", "Second, ___ should be ___.", "This will ensure that ___."] },
+    { title: "Part 3. Closing", hint: "Step 2의 5번 항목 포함", min: 2,
+      frames: ["These changes will make ___ more accessible.", "They will benefit everyone, regardless of ___.", "I am confident that ___."] }
+  ],
+
+  // Word Bank. label = 학생에게 보이는 표현, re = 자동 감지 규칙(변형 허용)
+  // 규칙을 만들기 어려우면 re 를 지우고 words: "make a difference" 처럼 적으면 그 문구 그대로만 찾습니다.
+  wordBank: [
+    { label: "inclusive",        re: /\binclusive(?:ly|ness)?\b/i },
+    { label: "accessible (to)",  re: /\baccessib(?:le|ility)\b/i },
+    { label: "regardless of",    re: /\bregardless\s+of\b/i },
+    { label: "benefit (from)",   re: /\bbenefit(?:s|ed|ing|ted|ting)?\b/i },
+    { label: "ensure / make sure that",
+      re: /\b(?:ensur(?:e|es|ed|ing)|mak(?:e|es|ing)\s+sure|made\s+sure)\b/i },
+    { label: "rely on",          re: /\brel(?:y|ies|ied|ying)\s+on\b/i },
+    { label: "make use of",      re: /\b(?:make|makes|made|making)\s+use\s+of\b/i },
+    { label: "make it easier for A to B",
+      re: /\b(?:make|makes|made|making)\s+it\s+(?:much\s+|even\s+)?(?:easier|easy|difficult|harder|hard|possible|safer|safe|comfortable)\b/i },
+    { label: "the reason why / a place where",
+      re: /\b(?:reasons?\s+why|(?:place|places|room|rooms|space|spaces|area|areas|park|parks|school|library)\s+where)\b/i }
+  ],
+
+  // 제출물 보내기
+  submit: {
+    // (권장) Apps Script 웹 앱 주소. 제출물이 PDF/Word로 바뀌어 드라이브에 저장되고 메일로 옵니다.
+    // 함께 드린 Code.gs 파일의 설치 안내를 따라 배포한 뒤 나오는 .../exec 주소를 넣으세요.
+    scriptUrl: "",
+    token: "CHANGE_ME"             // Code.gs 의 CFG.token 과 같아야 합니다.
+  }
+};
+/* ════════════════════════════════════════════════════════════════ */
+
+const HANGUL = /[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF]/;
+// Step 2 항목은 문자열 또는 { label, hint } 둘 다 허용
+function step2Label(item) { return typeof item === "string" ? item : (item.label || ""); }
+const $ = (id) => document.getElementById(id);
+
+// ---------- 분석 ----------
+function normalizeBank(bank) {
+  return bank.map((w) => {
+    if (w.re instanceof RegExp) return { label: w.label, re: w.re };
+    const src = String(w.words || w.label).trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\s+");
+    return { label: w.label, re: new RegExp("\\b" + src + "\\b", "i") };
+  });
+}
+const BANK = normalizeBank(CONFIG.wordBank);
+
+function splitSentences(text) {
+  const t = String(text || "").replace(/\s+/g, " ").trim();
+  if (!t) return [];
+  const out = [];
+  const re = /[^.!?]+(?:[.!?]+["')\]]*|$)/g;
+  let m;
+  while ((m = re.exec(t)) !== null) {
+    if (m.index === re.lastIndex) { re.lastIndex++; continue; }
+    const s = m[0].trim();
+    if (/[A-Za-z]{2,}/.test(s)) out.push(s);
+  }
+  return out;
+}
+
+function usedExpressions(text) {
+  const used = [];
+  BANK.forEach((w, i) => { if (w.re.test(text)) used.push(i); });
+  return used;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// Word Bank 표현을 <mark>로 감싼 HTML (겹치는 구간은 앞의 것만)
+function highlight(text) {
+  const ranges = [];
+  BANK.forEach((w, i) => {
+    const g = new RegExp(w.re.source, w.re.flags.includes("g") ? w.re.flags : w.re.flags + "g");
+    let m;
+    while ((m = g.exec(text)) !== null) {
+      if (m[0].length === 0) { g.lastIndex++; continue; }
+      ranges.push({ s: m.index, e: m.index + m[0].length, i });
+    }
+  });
+  ranges.sort((a, b) => a.s - b.s || b.e - a.e);
+  let html = "", pos = 0;
+  ranges.forEach((r) => {
+    if (r.s < pos) return;
+    html += escapeHtml(text.slice(pos, r.s)) + "<mark>" + escapeHtml(text.slice(r.s, r.e)) + "</mark>";
+    pos = r.e;
+  });
+  return html + escapeHtml(text.slice(pos));
+}
+
+function analyze(text) {
+  return { sentences: splitSentences(text), used: usedExpressions(text), hangul: HANGUL.test(text) };
+}
+
+// ---------- 상태 ----------
+const state = {
+  sid: "", name: "", startedAt: 0, extraSec: 0,
+  step1: [], step2: [], draft: [], final: "",
+  leaves: [], leavesDropped: 0, hangul: 0, bursts: 0, hangulSel: 0, env: "", fsNote: "", lookups: [], autoText: 0,
+  submitted: false, submittedAt: 0, submitReason: "", sent: null,
+  phase: "research", phaseStartedAt: 0, phaseLog: {}, savedAt: 0,
+  draftSubmittedAt: 0, draftReason: "", draftSent: null,
+  // 선생님이 시트 내용으로 PDF를 다시 만들 때(regeneratePdf) 제목이 필요해서 함께 저장합니다.
+  title: "", subtitle: ""
+};
+let locked = false;
+let fsLost = false;
+let suppressLeaveUntil = 0;
+const ENV = {
+  standalone: navigator.standalone === true || !!(window.matchMedia && window.matchMedia("(display-mode: standalone)").matches),
+  ios: /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+};
+const EVENT_LABEL = { hidden: "탭/앱 전환", blur: "포커스 이탈", fullscreen: "전체화면 해제", split: "화면 분할" };
+let saveTimer = null;
+let tickTimer = null;
+let toastTimer = null;
+const hangulFlag = {};   // 필드별 "한글이 들어있는 상태"
+
+const NS = CONFIG.assignmentId ? String(CONFIG.assignmentId) + ":" : "";   // 과제별 저장 칸
+function storageKey() { return "cz1:" + NS + state.sid; }
+function save() {
+  try {
+    state.savedAt = Date.now();
+    const copy = Object.assign({}, state);
+    localStorage.setItem(storageKey(), JSON.stringify(copy));
+    const n = $("autosaveNote"); if (n) n.textContent = "자동 저장됨 " + fmtClock(new Date());
+  } catch (e) {
+    const n = $("autosaveNote"); if (n) n.textContent = "자동 저장이 되지 않습니다. 화면을 닫지 마세요.";
+  }
+}
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 400); }
+function load(sid) {
+  try { const raw = localStorage.getItem("cz1:" + NS + sid); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+}
+
+function fmtClock(d) { return d.toTimeString().slice(0, 8); }
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+function toast(msg, ms) {
+  const t = $("toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, ms || 2200);
+}
+
+function grow(el) { el.style.height = "auto"; el.style.height = (el.scrollHeight + 2) + "px"; }
+
+// ---------- 화면 만들기 ----------
+function renderStatic() {
+  document.title = CONFIG.subtitle + " - " + CONFIG.title;
+  $("gateKicker").textContent = CONFIG.subtitle;
+  $("gateTitle").textContent = CONFIG.title;
+  $("topKicker").textContent = CONFIG.subtitle;
+  $("topTitle").textContent = CONFIG.title;
+  $("doneKicker").textContent = CONFIG.subtitle + " · " + CONFIG.title;
+
+  $("rules").innerHTML = [
+    "붙여넣기는 사용할 수 없습니다. 모든 문장은 직접 입력합니다.",
+    "초안과 최종본을 쓰는 동안 다른 앱이나 탭으로 이동하면 횟수와 시각이 제출물에 기록됩니다.",
+    "글은 자동 저장됩니다. 실수로 닫혀도 같은 학번과 이름으로 다시 시작하면 이어집니다.",
+    "1회차는 조사·브레인스토밍 → 초안, 2회차는 최종본입니다. 2회차에는 1회차 내용을 고칠 수 없습니다.",
+    "제한 시간은 조사 " + ((CONFIG.phases || {}).research || 15) + "분, 초안 " + ((CONFIG.phases || {}).draft || 20) + "분, 최종 " + ((CONFIG.phases || {}).final || 20) + "분이고, 시간이 끝나면 자동으로 다음 단계로 넘어가거나 제출됩니다."
+  ].map((r) => "<li>" + r + "</li>").join("");
+
+  $("d1").textContent = CONFIG.desc1 || "";
+  $("d2").textContent = CONFIG.desc2 || "";
+  $("d4").textContent = CONFIG.desc4 || "";
+
+  // Step 1
+  $("example").innerHTML =
+    (CONFIG.exampleTitle ? '<div style="font-weight:600;margin-bottom:8px">' + escapeHtml(CONFIG.exampleTitle) + "</div>" : "") +
+    CONFIG.example.map((s, i) => '<span class="n">(' + (i + 1) + ")</span>" + escapeHtml(s) + " ").join("");
+  $("split").innerHTML = CONFIG.step1Parts.map((p, i) =>
+    '<label>(' + escapeHtml(p) + ')<input data-step1="' + i + '" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="예: 1-4"></label>').join("");
+
+  // Step 2
+  const ideas = CONFIG.ideaBank || [];
+  $("ideaBox").hidden = ideas.length === 0;
+  $("ideaList").textContent = ideas.join("  /  ");
+  $("brain").innerHTML = CONFIG.step2Items.map((p, i) =>
+    '<label><span>' + escapeHtml(step2Label(p)) + '</span><textarea data-step2="' + i + '" rows="1" autocomplete="off" spellcheck="false" placeholder="' + escapeHtml(p.hint || "") + '"></textarea></label>').join("");
+
+  // Step 3
+  const total = CONFIG.step3Parts.reduce((a, p) => a + p.min, 0);
+  $("step3Desc").textContent = CONFIG.desc3.replace("{n}", Math.max(total, CONFIG.requiredSentences));
+  $("wbList").textContent = BANK.map((w) => w.label).join("  /  ");
+  $("chips").innerHTML = BANK.map((w, i) => '<span class="chip" data-chip="' + i + '">' + escapeHtml(w.label) + "</span>").join("");
+  const allFrames = CONFIG.step3Parts.reduce((a, p) => a.concat(p.frames || []), []);
+  $("framesCard").hidden = allFrames.length === 0;
+  $("frames").innerHTML = allFrames.map((f) => "<li>" + escapeHtml(f) + "</li>").join("");
+  $("meter").innerHTML = Array.from({ length: CONFIG.requiredSentences }, () => "<i></i>").join("");
+}
+
+function renderParts() {
+  let n = 0;
+  $("parts").innerHTML = CONFIG.step3Parts.map((p, pi) => {
+    const lines = state.draft[pi].map((v, li) => {
+      n++;
+      return '<div class="line"><span class="num">(' + n + ')</span><textarea data-part="' + pi + '" data-line="' + li + '" rows="1" lang="en" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="off"></textarea></div>';
+    }).join("");
+    return '<div class="part" data-partbox="' + pi + '"><div class="part-head"><h3>' + escapeHtml(p.title) + '</h3><span class="need">' + escapeHtml(p.hint) + " · " + p.min + '문장 이상</span><span class="count" data-count="' + pi + '"></span></div><div class="lines">' + lines + '</div><button class="btn small add-line" data-add="' + pi + '" type="button">+ 문장 추가</button></div>';
+  }).join("");
+  document.querySelectorAll("[data-part]").forEach((ta) => {
+    ta.value = state.draft[+ta.dataset.part][+ta.dataset.line] || "";
+    ta.readOnly = !canEdit(3); grow(ta); seedField(ta);
+  });
+}
+// 칸에 이미 들어 있는 글을 "새로 입력한 것"으로 오해하지 않도록 기준값을 심습니다.
+// 이것을 빼먹으면 새로고침 뒤 첫 글자에 "대량 입력"과 "한글 입력"이 잘못 기록됩니다.
+function seedField(el) {
+  if (!el) return;
+  el.dataset.len = el.value.length;
+  hangulFlag[el.id || (el.dataset.part + ":" + el.dataset.line)] = HANGUL.test(el.value);
+}
+
+function fillFields() {
+  document.querySelectorAll("[data-step1]").forEach((el) => { el.value = state.step1[+el.dataset.step1] || ""; el.readOnly = !canEdit(1); });
+  document.querySelectorAll("[data-step2]").forEach((el) => { el.value = state.step2[+el.dataset.step2] || ""; el.readOnly = !canEdit(2); grow(el); });
+  renderParts();
+  const f = $("final"); f.value = state.final || ""; f.readOnly = !canEdit(4); grow(f); seedField(f);
+  $("who").textContent = state.sid + " " + state.name;
+  $("sheet").classList.toggle("locked", locked);
+  document.querySelectorAll("[data-add]").forEach((b) => { b.disabled = !canEdit(3); });
+  $("importBtn").disabled = !canEdit(4);
+}
+
+function draftText() {
+  return state.draft.map((part) => part.map((s) => s.trim()).filter(Boolean).join(" ")).filter(Boolean).join("\n\n");
+}
+// 문장 수는 화면 위쪽 통계·9칸 막대·제출 창·선생님 시트가 모두 같은 숫자를 써야 합니다.
+// 예전에는 이 함수만 "빈 줄이 아닌 칸의 개수"를 세서, 한 칸에 두 문장을 쓴 학생에게
+// 위쪽은 9문장, 제출 창은 7문장으로 다르게 보였습니다.
+function draftSentenceCount() {
+  return splitSentences(draftText()).length;
+}
+
+function refresh() {
+  const finalText = state.final.trim();
+  const source = finalText ? "final" : "draft";
+  const text = finalText || draftText();
+  const a = analyze(text);
+  const nS = a.sentences.length, nE = a.used.length;
+
+  // 상단 통계
+  const stS = $("stSent"), stE = $("stExpr");
+  stS.firstChild.textContent = nS; stE.firstChild.textContent = nE;
+  stS.className = "stat" + (nS >= CONFIG.requiredSentences ? " ok" : "");
+  stE.className = "stat" + (nE >= CONFIG.requiredExpressions ? " ok" : "");
+  const stL = $("stLeave");
+  stL.hidden = leaveCount() === 0; stL.firstChild.textContent = leaveCount();
+  stL.className = "stat alert";
+
+  // 칩, 미터
+  document.querySelectorAll("[data-chip]").forEach((c) => c.classList.toggle("used", a.used.includes(+c.dataset.chip)));
+  document.querySelectorAll("#meter i").forEach((seg, i) => seg.classList.toggle("on", i < nS));
+  const ml = $("meterLabel");
+  ml.innerHTML = "<b>" + nS + "</b> / " + CONFIG.requiredSentences + " 문장";
+  ml.className = "meter-label" + (nS >= CONFIG.requiredSentences ? " ok" : "");
+
+  // 초안 부분별 문장 수
+  CONFIG.step3Parts.forEach((p, pi) => {
+    const c = document.querySelector('[data-count="' + pi + '"]');
+    if (!c) return;
+    const k = splitSentences(state.draft[pi].join(" ")).length;   // 총 문장 수와 같은 방식으로 셉니다
+    const noPeriod = state.draft[pi].some((s) => /[A-Za-z]{2,}/.test(s) && !/[.!?]["')\]]*\s*$/.test(s));
+    c.textContent = k + " / " + p.min + (noPeriod ? "  ·  마침표 확인" : "");
+    c.className = "count" + (noPeriod ? " warn" : k >= p.min ? " ok" : "");
+  });
+
+  // 미리보기
+  const pv = $("preview");
+  if (!text.trim()) {
+    pv.innerHTML = '<span class="empty">초안이나 최종본을 쓰면 여기에 문장 번호와 Word Bank 표현이 표시됩니다.</span>';
+  } else {
+    pv.innerHTML = '<span class="src">' + (source === "final" ? "최종본" : "초안 (최종본을 쓰면 최종본이 표시됩니다)") + "</span>" +
+      a.sentences.map((s, i) => '<span class="sn">(' + (i + 1) + ")</span>" + highlight(s)).join(" ");
+  }
+
+  // 최종본 경고
+  const fw = $("finalWarn");
+  if (HANGUL.test(state.final)) { fw.textContent = "한글이 들어 있습니다. 영어로 작성하세요."; fw.className = "field-warn"; }
+  else if (finalText && !/[.!?]["')\]]*$/.test(finalText)) { fw.textContent = "마지막 문장에 마침표를 찍으세요."; fw.className = "field-warn soft"; }
+  else { fw.textContent = ""; fw.className = "field-warn"; }
+
+  // 기록
+  $("log").innerHTML =
+    '<div class="' + (leaveCount() ? "bad" : "") + '">화면 이탈 <b>' + leaveCount() + "</b>회</div>" +
+    '<div class="' + (state.hangul ? "bad" : "") + '">영어 칸 한글 입력 <b>' + state.hangul + "</b>회</div>" +
+    '<div class="' + (state.bursts ? "bad" : "") + '">대량 입력 <b>' + state.bursts + "</b>회</div>" +
+    '<div class="' + (state.autoText ? "bad" : "") + '">자동완성 차단 <b>' + state.autoText + "</b>회</div>" +
+    '<div class="' + (state.hangulSel ? "bad" : "") + '">한글 선택 <b>' + state.hangulSel + "</b>회</div>" +
+    "<div>사전 조회 <b>" + (state.lookups || []).length + "</b>회</div>" +
+    "<div>초안 문장 <b>" + draftSentenceCount() + "</b>개</div>" +
+    "<div>실행 환경 <b>" + (ENV.standalone ? "홈 화면 앱" : "브라우저") + "</b></div>";
+}
+
+// ---------- 단계(phase) ----------
+// research: 조사·브레인스토밍 (Step 1-2, 외부 접속 허용)
+// draft:    초안 쓰기 (Step 1-3 입력, 잠금)
+// draftDone: 1회차 제출 완료
+// final:    최종 글쓰기 (Step 4만 입력, 잠금)
+// done:     최종 제출 완료
+const ORDER = { research: 0, draft: 1, draftDone: 2, final: 3, done: 4 };
+const PHASE_LABEL = { research: "조사·브레인스토밍", draft: "초안 쓰기", draftDone: "1회차 완료", final: "최종 글쓰기", done: "제출 완료" };
+const urlQ = new URLSearchParams(location.search);
+const urlMin = { research: +urlQ.get("r") || 0, draft: +urlQ.get("d") || 0, final: +urlQ.get("f") || 0 };
+let finalOpen = true;          // 서버에서 closeFinal() 로 닫아 두면 false
+// 기기 열쇠: 첫 로그인 때 서버가 발급해 이 기기에만 보관. 이후 모든 요청에 붙는다.
+function getKey(sid) { try { return localStorage.getItem("czkey:" + NS + sid) || ""; } catch (e) { return ""; } }
+function setKey(sid, key) { try { if (key) localStorage.setItem("czkey:" + NS + sid, key); } catch (e) {} }
+let dupWarned = false;
+let lastCheck = null;          // 마지막 저장 확인 응답 (PDF 링크 포함)
+let dirty = false;             // 마지막 서버 저장 이후 바뀐 것이 있는지
+let autosaveTimer = null;
+let noKeyWarned = false;       // 열쇠 없이 쓰고 있다는 경고를 이미 띄웠는지
+let saveVerified = false;      // 이 시간 첫 자동 저장을 서버에서 확인했는지
+let brokenWarned = false;      // 서버에 저장된 상태를 읽지 못했는지
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+function phaseAllows(step) {
+  const ph = state.phase;
+  if (ph === "research") return step === 1 || step === 2;
+  if (ph === "draft") return step <= 3;
+  if (ph === "final") return step === 4;
+  return false;
+}
+function canEdit(step) { return !locked && !fsLost && phaseAllows(step); }
+function lockActive() { return !$("app").hidden && !locked && (state.phase === "draft" || state.phase === "final"); }
+function phaseMinutes() {
+  const key = state.phase === "draft" ? "draft" : state.phase === "final" ? "final" : "research";
+  return urlMin[key] || (CONFIG.phases && CONFIG.phases[key]) || 20;
+}
+
+function markDirty() { dirty = true; }
+// 이탈 총 횟수. 목록은 300건까지만 보관하므로 버린 개수를 함께 셉니다.
+function leaveCount() { return state.leaves.length + (state.leavesDropped || 0); }
+function applyPhase() {
+  const ph = state.phase;
+  $("step4").hidden = !(ph === "final" || ph === "done");
+  $("step3Start").hidden = ph !== "research";
+  $("step3Body").hidden = ph === "research";
+  $("step1").classList.toggle("ro", !phaseAllows(1));
+  $("step2").classList.toggle("ro", !phaseAllows(2));
+  $("step3").classList.toggle("ro", ORDER[ph] >= ORDER.draftDone);
+  document.querySelectorAll("#step1 .ro-tag, #step2 .ro-tag, #step3 .ro-tag").forEach((t) => { t.hidden = !(ph === "final" || ph === "done"); });
+
+  const label = ph === "research" ? "초안 쓰기 시작" : ph === "draft" ? "초안 제출" : "최종 제출";
+  $("submitBtn").textContent = label; $("submitTop").textContent = ph === "research" ? "초안 시작" : "제출";
+  $("phaseLabel").textContent = PHASE_LABEL[ph] || "";
+
+  $("dictTop").hidden = !dictAllowed();
+  if (!dictAllowed()) $("dictPop").hidden = true;
+  updateDictCount();
+
+  const badge = $("stPhase");
+  badge.hidden = false;
+  if (ph === "research") { badge.textContent = "외부 접속 허용"; badge.className = "stat phase open"; }
+  else { badge.textContent = "잠금 중"; badge.className = "stat phase lock"; }
+  fillFields(); refresh();
+}
+
+// ---------- 입력 처리 ----------
+function isWritingField(el) { return el && el.matches("[data-part], #final"); }
+
+function onInput(e) {
+  const el = e.target;
+  if (el.matches("[data-step1]")) { if (!canEdit(1)) return; state.step1[+el.dataset.step1] = el.value; }
+  else if (el.matches("[data-step2]")) { if (!canEdit(2)) return; state.step2[+el.dataset.step2] = el.value; grow(el); }
+  else if (el.matches("[data-part]")) { if (!canEdit(3)) return; state.draft[+el.dataset.part][+el.dataset.line] = el.value; grow(el); }
+  else if (el.id === "final") { if (!canEdit(4)) return; state.final = el.value; grow(el); }
+  else return;
+
+  if (isWritingField(el)) {
+    const key = el.id || (el.dataset.part + ":" + el.dataset.line);
+    const has = HANGUL.test(el.value);
+    if (has && !hangulFlag[key]) { state.hangul++; toast("영어로 작성하세요. 한글 입력이 기록됩니다.", 2600); }
+    hangulFlag[key] = has;
+    const prev = +(el.dataset.len || 0);
+    if (el.value.length - prev > 25 && e.inputType !== "insertReplacementText") state.bursts++;
+    el.dataset.len = el.value.length;
+  }
+  refresh();
+  scheduleSave(); markDirty();
+}
+
+function blockPaste(e) {
+  if (!$("app").hidden) { e.preventDefault(); toast("붙여넣기는 사용할 수 없습니다. 직접 입력하세요."); }
+}
+
+function addLine(pi) {
+  if (!canEdit(3)) return;
+  if (state.draft[pi].length >= 8) { toast("한 부분에는 8문장까지 쓸 수 있습니다."); return; }
+  state.draft[pi].push("");
+  renderParts(); refresh(); scheduleSave(); markDirty();
+  const last = document.querySelector('[data-part="' + pi + '"][data-line="' + (state.draft[pi].length - 1) + '"]');
+  if (last) last.focus();
+}
+
+async function importDraft() {
+  if (!canEdit(4)) return;
+  const text = draftText();
+  if (!text) { toast("초안이 비어 있습니다."); return; }
+  if (state.final.trim()) {
+    const r = await dialog({ title: "초안 가져오기", text: "최종본에 쓴 내용이 초안으로 바뀝니다.",
+      buttons: [{ label: "취소", value: null }, { label: "바꾸기", value: "yes", primary: true }] });
+    if (r.value !== "yes") return;
+  }
+  state.final = text;
+  const f = $("final"); f.value = text; f.dataset.len = text.length; grow(f);
+  hangulFlag["final"] = HANGUL.test(text);
+  refresh(); scheduleSave(); markDirty(); f.focus();
+}
+
+// ---------- 이탈·잠금 감시 (잠금 단계에서만) ----------
+function noteEvent(kind) {
+  if (!lockActive()) return;
+  const now = Date.now();
+  if (now < suppressLeaveUntil) return;
+  const fam = (k) => (k === "hidden" || k === "blur") ? "leave" : k;
+  const last = state.leaves[state.leaves.length - 1];
+  if (last && now - last.t < 1500 && fam(last.k) === fam(kind)) return;
+  state.leaves.push({ t: now, k: kind, p: state.phase });
+  // 상태(JSON)가 서버 칸(45000자)을 넘으면 다음 로그인 때 읽을 수 없게 됩니다.
+  // 이탈 기록이 유일하게 끝없이 늘어나는 항목이라 여기서 개수를 제한합니다.
+  // 앞부분(언제 시작했는지)과 뒷부분(최근)을 남기고 가운데를 버립니다. 총 횟수는 state.leavesDropped 에 셉니다.
+  const LEAVE_MAX = 300;
+  if (state.leaves.length > LEAVE_MAX) {
+    const keepHead = 50;
+    const removed = state.leaves.length - LEAVE_MAX;
+    state.leaves.splice(keepHead, removed);
+    state.leavesDropped = (state.leavesDropped || 0) + removed;
+  }
+  // 이탈 기록은 서버에도 올라가야 합니다. markDirty() 를 빼면 학생이 앱만 여러 번 옮겨 다니고
+  // 글을 더 쓰지 않은 경우, 다음 자동 저장이 "바뀐 것 없음"으로 건너뛰어 기록이 남지 않습니다.
+  markDirty();
+  refresh(); save();
+  flushSoon();      // 60초를 기다리지 않고 바로 보냅니다 (선생님 화면에서 빨리 보이도록)
+}
+// 이탈처럼 선생님이 바로 알아야 하는 일은 즉시 보냅니다. 너무 자주 보내지 않도록 4초에 한 번으로 제한합니다.
+// (선생님 화면이 3초마다 새로 읽으므로 여기서 늦어지면 그만큼 늦게 보입니다.)
+let lastFlush = 0;
+function flushSoon() {
+  const now = Date.now();
+  if (now - lastFlush < 4000) return;
+  lastFlush = now;
+  autosaveToServer(true);
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden) noteEvent("hidden"); });
+
+// 창 포커스 이탈(blur)은 글자 칸을 누르거나 키보드가 붙었다 떨어질 때도 잠깐 생기므로,
+// 1.2초 뒤에도 페이지가 포커스를 잃은 상태이고 그 사이 글자 칸 포커스가 없었을 때만 기록합니다.
+let lastFocusIn = 0, blurTimer = null;
+document.addEventListener("focusin", () => { lastFocusIn = Date.now(); });
+window.addEventListener("focus", () => { clearTimeout(blurTimer); });
+window.addEventListener("blur", () => {
+  clearTimeout(blurTimer);
+  blurTimer = setTimeout(() => {
+    if (!document.hidden && Date.now() - lastFocusIn < 1500) return;
+    if (document.hidden || !document.hasFocus()) noteEvent("blur");
+  }, 1200);
+});
+
+let lastW = window.innerWidth, lastH = window.innerHeight;
+window.addEventListener("resize", () => {
+  const w = window.innerWidth, h = window.innerHeight;
+  if (h === lastH && w < lastW * 0.85) noteEvent("split");
+  lastW = w; lastH = h;
+});
+
+// 전체 화면 강제 (Safari에서 열었을 때, 잠금 단계에서만)
+let fsUnavailable = false;
+let fsTries = 0;
+function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+function fsSupported() { const r = document.documentElement; return !!(r.requestFullscreen || r.webkitRequestFullscreen); }
+function requestFs() {
+  const r = document.documentElement;
+  try {
+    const p = (r.requestFullscreen || r.webkitRequestFullscreen).call(r);
+    if (p && p.catch) p.catch(() => { fsFallback("전체 화면을 열 수 없는 기기"); });
+  } catch (e) { fsFallback("전체 화면을 열 수 없는 기기"); }
+}
+function fsFallback(why) {
+  if (fsUnavailable) return;
+  fsUnavailable = true; state.fsNote = why; save();
+  setFsLost(false); $("fsSkipWrap").hidden = true;
+  toast("전체 화면 없이 계속합니다. 제출물에 기록됩니다.", 3000);
+}
+function needFs() { return !fsUnavailable && !ENV.ios && !!(CONFIG.lock && CONFIG.lock.requireFullscreen) && !ENV.standalone && fsSupported() && lockActive(); }
+function setFsLost(v) {
+  if (v && fsUnavailable) v = false;
+  if (fsLost === v) return;
+  fsLost = v;
+  $("fsOverlay").hidden = !v;
+  fillFields();
+}
+function onFsChange() {
+  if (!needFs() || state.submitted) { setFsLost(false); return; }
+  if (fsElement()) { setFsLost(false); return; }
+  // 글자 칸을 눌러서 풀린 경우(iPad 등)는 이탈로 치지 않음
+  if (Date.now() - lastFocusIn < 1500) { setFsLost(false); return; }
+  noteEvent("fullscreen");
+  setFsLost(true);
+}
+document.addEventListener("fullscreenchange", onFsChange);
+document.addEventListener("webkitfullscreenchange", onFsChange);
+function ensureFsSoon() {
+  setTimeout(() => { if (needFs() && !fsElement()) { suppressLeaveUntil = Date.now() + 500; setFsLost(true); } }, 800);
+}
+
+// 영어 칸에서 한글을 선택하면 선택을 풀기 (선택 메뉴의 '번역'을 쓸 수 없게)
+document.addEventListener("selectionchange", () => {
+  if (!(CONFIG.lock && CONFIG.lock.blockHangulSelection) || !lockActive()) return;
+  const el = document.activeElement;
+  if (!el || !isWritingField(el)) return;
+  if (el.selectionStart === el.selectionEnd) return;
+  const sel = el.value.slice(el.selectionStart, el.selectionEnd);
+  if (!HANGUL.test(sel)) return;
+  const end = el.selectionEnd;
+  try { el.setSelectionRange(end, end); } catch (e) {}
+  state.hangulSel++; markDirty(); refresh(); scheduleSave();
+  toast("한글은 선택할 수 없습니다. 영어로 작성하세요.");
+});
+
+// ---------- 타이머 (단계별) ----------
+function remainingSec() {
+  return phaseMinutes() * 60 + (state.extraSec || 0) - Math.floor((Date.now() - state.phaseStartedAt) / 1000);
+}
+function tick() {
+  const wrap = $("timerWrap");
+  if (!(state.phase in { research: 1, draft: 1, final: 1 }) || !state.phaseStartedAt) { wrap.hidden = true; return; }
+  wrap.hidden = false;
+  const r = remainingSec();
+  const t = $("timer");
+  const shown = Math.max(r, 0);
+  t.textContent = pad(Math.floor(shown / 60)) + ":" + pad(shown % 60);
+  t.className = "timer" + (r <= 60 ? " danger" : r <= 300 ? " warn" : "");
+  if (r <= 0 && !locked) timeUp();
+}
+function startTick() { clearInterval(tickTimer); tick(); tickTimer = setInterval(tick, 500); }
+
+function timeUp() {
+  if (state.phase === "research") {
+    showBanner("조사 시간이 끝났습니다. 초안 쓰기 단계로 넘어갑니다.", false);
+    if (CONFIG.autoSubmitWhenTimeUp) startDraft(false, "시간 종료 자동 전환");
+    else setLocked(true);
+    return;
+  }
+  setLocked(true);
+  if (state.phase === "draft") {
+    showBanner("초안 시간이 끝났습니다. " + (CONFIG.autoSubmitWhenTimeUp ? "초안을 제출합니다." : "초안 제출 버튼을 눌러 주세요."), true);
+    if (CONFIG.autoSubmitWhenTimeUp) submitDraft("시간 종료 자동 제출");
+  } else if (state.phase === "final") {
+    showBanner("시간이 종료되었습니다. " + (CONFIG.autoSubmitWhenTimeUp ? "제출 중입니다." : "제출 버튼을 눌러 주세요."), true);
+    if (CONFIG.autoSubmitWhenTimeUp) submitNow("시간 종료 자동 제출");
+  }
+}
+// applyPhase() 를 함께 불러야 사전 버튼 같은 것이 다시 계산됩니다.
+// 예전에는 잠긴 뒤에도 사전 버튼이 남아 있고, 눌러도 아무 일이 없었습니다.
+function setLocked(v) { locked = v; if (v) setFsLost(false); applyPhase(); }   // applyPhase() 가 fillFields()·refresh() 까지 합니다
+function showBanner(msg, danger) {
+  const b = $("banner"); b.textContent = msg; b.hidden = false; b.className = "banner" + (danger ? " danger" : "");
+}
+function setPhase(ph) {
+  const prev = state.phase;
+  if (prev && state.phaseStartedAt) state.phaseLog[prev + "End"] = Date.now();
+  state.phase = ph; state.phaseStartedAt = Date.now(); state.extraSec = 0;
+  // 같은 단계로 다시 들어오는 경우(교사가 "제출 취소"로 되돌릴 때)에는 시작 시각을 덮어쓰지 않습니다.
+  // 덮어쓰면 끝난 시각이 시작보다 앞서서 소요 시간이 음수("초안 -18분")로 기록됩니다.
+  if (!state.phaseLog[ph + "Start"]) state.phaseLog[ph + "Start"] = Date.now();
+  else delete state.phaseLog[ph + "End"];
+}
+
+// ---------- 단계 전환 ----------
+async function startDraft(byClick, reason) {
+  if (state.phase !== "research") return;
+  if (byClick) {
+    const r = await dialog({
+      title: "초안 쓰기 시작", text: "지금부터 다른 앱이나 탭으로 나가면 기록되고, 검색과 붙여넣기를 쓸 수 없습니다. 조사가 끝났으면 시작하세요.",
+      buttons: [{ label: "아직 아니요", value: null }, { label: "시작", value: "go", primary: true, onClick: () => { if (!ENV.ios && !ENV.standalone && fsSupported() && CONFIG.lock && CONFIG.lock.requireFullscreen) requestFs(); } }]
+    });
+    if (r.value !== "go") { if (fsElement()) exitFsQuiet(); return; }
+  }
+  locked = false; $("banner").hidden = true;
+  setPhase("draft"); state.phaseLog.draftHow = reason || "학생 시작"; save(); markDirty(); autosaveToServer(true);
+  applyPhase(); startTick(); ensureFsSoon();
+  const y = $("step3").getBoundingClientRect().top + window.scrollY - 80;
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
+function exitFsQuiet() {
+  const ex = document.exitFullscreen || document.webkitExitFullscreen;
+  try { if (ex && fsElement()) { const p = ex.call(document); if (p && p.catch) p.catch(() => {}); } } catch (e) {}
+}
+
+// ---------- 제출물 만들기 ----------
+function buildBrainstorm() {
+  const s1 = CONFIG.step1Parts.map((p, i) => p + ": " + (state.step1[i] || "").trim()).join("\n");
+  const s2 = CONFIG.step2Items.map((p, i) => step2Label(p) + " " + (state.step2[i] || "").trim()).join("\n");
+  return "[Step 1]\n" + s1 + "\n\n[Step 2]\n" + s2;
+}
+function buildDraft() {
+  let n = 0;
+  return CONFIG.step3Parts.map((p, pi) =>
+    p.title + "\n" + state.draft[pi].map((s) => { n++; return "(" + n + ") " + s.trim(); }).join("\n")
+  ).join("\n\n");
+}
+function mins(a, b) { return a && b ? Math.round((b - a) / 60000) + "분" : "-"; }
+// 작성 중 자동 저장에 실어 보내는 자동집계.
+// 이탈·한글·사전 횟수가 여기 들어가야 선생님 총괄 화면에서 수업 중에도 보입니다.
+// (예전에는 단계와 문장 수만 보냈기 때문에 제출 전까지 이탈 칸이 계속 비어 있었습니다.)
+// 이름표(화면이탈·한글입력·소요 …)는 buildMeta 와 똑같이 맞춰야 서버가 읽습니다.
+function buildLiveMeta() {
+  const L = state.phaseLog || {};
+  const lk = state.lookups || [];
+  const parts = ["자동저장 " + (PHASE_LABEL[state.phase] || state.phase)];
+  parts.push("초안 문장 " + draftSentenceCount() + " (표현 " + usedExpressions(draftText()).length + ")");
+  if (state.phase === "final") {
+    const a = analyze(state.final);
+    parts.push("작성 중 최종 문장 " + a.sentences.length + " (표현 " + a.used.length + ")");
+  }
+  parts.push("화면이탈 " + leaveCount() + "회");
+  parts.push("한글입력 " + state.hangul + "회", "한글선택 " + state.hangulSel + "회", "대량입력 " + state.bursts + "회");
+  parts.push("사전 " + lk.length + "회");
+  parts.push("자동완성차단 " + (state.autoText || 0) + "회");
+  parts.push("환경 " + (ENV.standalone ? "홈화면앱" : "브라우저"));
+  parts.push("소요 조사 " + mins(L.researchStart, L.researchEnd || Date.now()) + " / 초안 " + mins(L.draftStart, L.draftEnd || Date.now()) + " / 최종 " + mins(L.finalStart, L.finalEnd || Date.now()));
+  return parts.join(" | ");
+}
+function buildMeta(reason, kind) {
+  const a = analyze(state.final);
+  const dCount = draftSentenceCount();
+  const dUsed = usedExpressions(draftText()).length;
+  const L = state.phaseLog || {};
+  // 목록이 길어지면 자동집계가 서버의 4000자 한도를 넘어 뒤쪽(소요 시간·제출 시각)이 잘립니다.
+  // 그래서 앞 40개만 적고 나머지는 개수로 줄입니다.
+  const LMAX = 40;
+  const shown = state.leaves.slice(0, LMAX);
+  const leaves = shown.map((l) => fmtClock(new Date(l.t)).slice(0, 5) + " " + (EVENT_LABEL[l.k] || l.k) + (l.p === "final" ? "(최종)" : "(초안)")).join(", ")
+    + (state.leaves.length > LMAX ? " 외 " + (state.leaves.length - LMAX) + "건" : "");
+  const parts = [];
+  if (kind === "final") parts.push("최종 문장 " + a.sentences.length, "표현 " + a.used.length + "/" + BANK.length + (a.used.length ? " (" + a.used.map((i) => BANK[i].label).join(", ") + ")" : ""));
+  parts.push("초안 문장 " + dCount + " (표현 " + dUsed + ")");
+  parts.push("화면이탈 " + leaveCount() + "회" + (leaves ? " [" + leaves + "]" : ""));
+  parts.push("한글입력 " + state.hangul + "회", "한글선택 " + state.hangulSel + "회", "대량입력 " + state.bursts + "회");
+  const lk = state.lookups || [];
+  const lkShown = lk.slice(0, 60);
+  parts.push("사전 " + lk.length + "회" + (lk.length ? " [" + lkShown.map((l) => l.q + "→" + l.a).join(", ") + (lk.length > 60 ? " 외 " + (lk.length - 60) + "건" : "") + "]" : ""));
+  parts.push("자동완성차단 " + (state.autoText || 0) + "회");
+  parts.push("환경 " + (ENV.standalone ? "홈화면앱" : "브라우저") + (state.fsNote ? "(" + state.fsNote + ")" : ""));
+  parts.push("소요 조사 " + mins(L.researchStart, L.researchEnd) + " / 초안 " + mins(L.draftStart, L.draftEnd) + " / 최종 " + mins(L.finalStart, L.finalEnd));
+  if (state.draftSubmittedAt) parts.push("1회차 제출 " + fmtClock(new Date(state.draftSubmittedAt)).slice(0, 5) + " (" + (state.draftReason || "") + ")");
+  if (kind === "final") parts.push("최종 제출 " + fmtClock(new Date(state.submittedAt)).slice(0, 5) + " (" + reason + ")");
+  return parts.join(" | ");
+}
+
+// ---------- 확인 창 ----------
+function openModal() {
+  const ph = state.phase;
+  if (ph === "research") { startDraft(true); return; }
+  if (ph !== "draft" && ph !== "final") return;
+  const rows = [];
+  if (ph === "draft") {
+    const d = draftSentenceCount(), u = usedExpressions(draftText()).length;
+    const empty = state.draft.reduce((c, part) => c + part.filter((s) => !s.trim()).length, 0);
+    rows.push('<div><span>초안 문장 수</span><b class="' + (d >= CONFIG.requiredSentences ? "good" : "bad") + '">' + d + " / " + CONFIG.requiredSentences + "</b></div>");
+    rows.push('<div><span>Word Bank 표현</span><b class="' + (u >= CONFIG.requiredExpressions ? "good" : "bad") + '">' + u + " / " + CONFIG.requiredExpressions + "</b></div>");
+    if (empty) rows.push('<div><span>비어 있는 초안 칸</span><b>' + empty + "</b></div>");
+    $("modalTitle").textContent = "초안을 제출할까요?";
+    $("modalNote").textContent = "제출하면 1회차가 끝나고 초안을 더 고칠 수 없습니다. 2회차에는 최종본만 씁니다.";
+  } else {
+    const a = analyze(state.final);
+    rows.push('<div><span>최종본 문장 수</span><b class="' + (a.sentences.length >= CONFIG.requiredSentences ? "good" : "bad") + '">' + a.sentences.length + " / " + CONFIG.requiredSentences + "</b></div>");
+    rows.push('<div><span>Word Bank 표현</span><b class="' + (a.used.length >= CONFIG.requiredExpressions ? "good" : "bad") + '">' + a.used.length + " / " + CONFIG.requiredExpressions + "</b></div>");
+    if (!state.final.trim()) rows.push('<div class="bad"><span>최종본이 비어 있습니다</span></div>');
+    if (a.hangul) rows.push('<div class="bad"><span>최종본에 한글이 들어 있습니다</span></div>');
+    $("modalTitle").textContent = "제출할까요?";
+    $("modalNote").textContent = "제출하면 더 이상 고칠 수 없습니다.";
+  }
+  $("modalSummary").innerHTML = rows.join("");
+  suppressLeaveUntil = Date.now() + 1000;
+  $("modal").hidden = false; $("modalOk").focus();
+}
+function closeModal() { $("modal").hidden = true; }
+function onModalOk() { if (state.phase === "draft") submitDraft("학생 제출"); else submitNow("학생 제출"); }
+
+// ---------- 서버 통신 (Apps Script) ----------
+function jsonp(params, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const url = CONFIG.submit.scriptUrl;
+    if (!url) { reject(new Error("no url")); return; }
+    const cb = "cb" + Date.now() + Math.floor(Math.random() * 1e6);
+    const s = document.createElement("script");
+    let done = false;
+    const cleanup = () => { try { delete window[cb]; } catch (e) { window[cb] = undefined; } s.remove(); };
+    window[cb] = (data) => { done = true; cleanup(); resolve(data); };
+    s.onerror = () => { if (!done) { done = true; cleanup(); reject(new Error("load")); } };
+    const q = new URLSearchParams(params); q.set("callback", cb); q.set("token", CONFIG.submit.token || "");
+    if (state.sid && !q.has("key")) q.set("key", getKey(state.sid));
+    s.src = url + (url.includes("?") ? "&" : "?") + q.toString();
+    document.head.appendChild(s);
+    setTimeout(() => { if (!done) { done = true; cleanup(); reject(new Error("timeout")); } }, timeoutMs || 6000);
+  });
+}
+/* ── 서버와 이야기하는 방법 ────────────────────────────────────────
+   구글 쿠키를 보내지 않는 fetch 를 씁니다(credentials:"omit").
+   쿠키를 보내면 구글이 "어느 계정으로 실행할지" 고르려고 주소를 /macros/u/1/s/... 로 바꾸는데,
+   그 계정이 이 스크립트를 열 권한이 없으면 "파일을 열 수 없습니다"가 뜨면서 아무것도 안 됩니다.
+   구글 계정이 두 개 이상 로그인된 기기에서 실제로 일어납니다(2026-09-10).
+   쿠키를 안 보내면 구글은 익명 요청으로 처리하므로 이 문제가 아예 생기지 않습니다.
+   fetch 가 안 되는 옛 브라우저를 대비해 JSONP 를 예비로 남겨 둡니다. */
+
+// 읽기. { …응답 } 을 돌려주고, 못 읽으면 예전 방식(JSONP)으로 한 번 더 시도합니다.
+async function askServer(params, timeoutMs) {
+  const url = CONFIG.submit.scriptUrl;
+  if (!url) throw new Error("no url");
+  const q = new URLSearchParams(params);
+  q.set("token", CONFIG.submit.token || "");
+  if (state.sid && !q.has("key")) q.set("key", getKey(state.sid));
+  const ctl = ("AbortController" in window) ? new AbortController() : null;
+  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs || 15000) : null;
+  try {
+    const r = await fetch(url + "?" + q.toString(), { credentials: "omit", signal: ctl ? ctl.signal : undefined });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return JSON.parse(await r.text());
+  } catch (e) {
+    return await jsonp(params, timeoutMs);      // 예비 수단
+  } finally { if (timer) clearTimeout(timer); }
+}
+
+// 쓰기. 서버가 돌려준 한 마디("OK_DRAFT" 등)를 그대로 돌려줍니다. 못 읽으면 "" 입니다.
+async function sendToServer(body) {
+  const url = CONFIG.submit.scriptUrl;
+  // keepalive 는 64KB 까지만 됩니다. 글이 길면 keepalive 없이 보냅니다(화면을 닫는 순간이 아니면 문제없음).
+  const big = body.toString().length > 60000;
+  try {
+    const r = await fetch(url, { method: "POST", credentials: "omit", body: body, keepalive: !big });
+    return (await r.text()).trim();
+  } catch (e) {
+    // 응답을 못 읽었어도 저장 자체는 갔을 수 있습니다. 부르는 쪽에서 확인합니다.
+    try { await fetch(url, { method: "POST", mode: "no-cors", credentials: "omit", body: body, keepalive: !big }); } catch (e2) {}
+    return "";
+  }
+}
+const OK_REPLY = { OK: 1, OK_SAVE: 1, OK_DRAFT: 1, OK_REOPEN: 1 };
+const BAD_REPLY = { NO_KEY: 1, UNKNOWN_KEY: 1, BAD_TOKEN: 1, BAD_PHASE: 1, ERROR: 1 };
+
+async function postToServer(kind, reason) {
+  const cfg = CONFIG.submit;
+  if (!cfg.scriptUrl) return null;
+  // 기기 열쇠가 없으면 서버는 어떤 저장도 받지 않습니다(NO_KEY). 보내 봐야 버려지므로 실패로 알립니다.
+  if (!getKey(state.sid)) { warnNoKey(); return false; }
+  const body = new URLSearchParams();
+  body.append("token", cfg.token || ""); body.append("phase", kind); body.append("key", getKey(state.sid));
+  body.append("sid", state.sid); body.append("name", state.name);
+  body.append("title", CONFIG.title); body.append("subtitle", CONFIG.subtitle);
+  body.append("brainstorm", buildBrainstorm()); body.append("draft", buildDraft());
+  body.append("final", state.final); body.append("meta", buildMeta(reason, kind));
+  body.append("bank", JSON.stringify(BANK.map((w) => ({ label: w.label, source: w.re.source, flags: w.re.flags }))));
+  body.append("data", JSON.stringify(state));
+  const reply = await sendToServer(body);
+  // 서버 답을 읽었으면 그것이 가장 확실합니다. 실패라고 답하면 굳이 다시 확인하지 않습니다.
+  if (BAD_REPLY[reply]) return false;
+  // 저장 확인. 서버가 돌려주는 draftAt 은 [초안제출시각] 칸이라 제출이 실제로 기록되었을 때만 값이 있습니다.
+  // (예전에는 [저장시각]을 봤기 때문에 1분마다 도는 자동 저장 덕분에 제출이 실패해도 성공으로 보였습니다.)
+  // 시각이 오래되었으면(= 지난번 제출) 실패로 봅니다. 초안은 서버가 기록한 단계까지 함께 확인합니다.
+  try {
+    const r = await askServer({ action: "check", sid: state.sid, name: state.name }, 12000);
+    lastCheck = r;
+    const at = kind === "draft" ? r.draftAt : r.finalAt;
+    if (!at) return false;
+    if (Date.now() - new Date(at).getTime() >= 3 * 60 * 1000) return false;
+    if (kind === "draft" && (ORDER[r.phase] || 0) < ORDER.draftDone) return false;
+    return true;
+  } catch (e) { return null; }
+}
+// 로그인: 서버에 저장된 상태를 가져온다. { data, phase, finalAt, error, dup, name }
+async function fetchRemote(sid, name) {
+  const r = await askServer({ action: "load", sid, name, key: getKey(sid) }, 15000);
+  if (!r) return null;
+  if (typeof r.finalOpen === "boolean") finalOpen = r.finalOpen;
+  if (r.key) setKey(sid, r.key);          // 새로 발급되었거나 확인된 열쇠
+  let data = null;
+  if (r.found && r.data) {
+    try { data = typeof r.data === "string" ? JSON.parse(r.data) : r.data; } catch (e) { data = null; }
+    if (data && String(data.sid) !== String(sid)) data = null;
+  }
+  // 서버의 [단계] 칸이 더 앞서 있으면 그것을 따른다.
+  // (데이터 칸이 비었거나 읽을 수 없을 때 학생을 처음 단계로 되돌려 보내지 않기 위해)
+  const srvPhase = String(r.phase || "");
+  if (data && srvPhase && (ORDER[srvPhase] || 0) > (ORDER[data.phase] || 0)) data.phase = srvPhase;
+  return { data, phase: srvPhase, dataBroken: !!(r.found && r.data && !data),
+           finalAt: r.finalAt || null, error: r.error || "", dup: !!r.dup, name: r.name || "" };
+}
+
+// 작성 중 자동 저장 (서버). 바뀐 것이 있을 때만 보낸다.
+async function autosaveToServer(force) {
+  const cfg = CONFIG.submit;
+  if (!cfg.scriptUrl || !state.sid) return;
+  if (!(state.phase in { research: 1, draft: 1, final: 1 })) return;
+  // 열쇠가 없으면 서버가 저장을 받지 않습니다(NO_KEY). 바뀐 것이 없어도 매번 확인해서
+  // 학생이 모르는 채로 계속 쓰지 않도록 바로 알립니다.
+  if (!getKey(state.sid)) { warnNoKey(); return; }
+  if (!dirty && !force) return;
+  dirty = false;
+  try {
+    const body = new URLSearchParams();
+    body.append("token", cfg.token || ""); body.append("phase", "save"); body.append("key", getKey(state.sid));
+    body.append("sid", state.sid); body.append("name", state.name);
+    body.append("meta", buildLiveMeta());
+    body.append("brainstorm", buildBrainstorm()); body.append("draft", buildDraft()); body.append("final", state.final);
+    body.append("data", JSON.stringify(state));
+    const reply = await sendToServer(body);
+    if (BAD_REPLY[reply]) { showBanner("선생님 서버가 저장을 받지 않고 있습니다(" + reply + "). 선생님께 알려 주세요.", true); saveVerified = true; return; }
+    // 이 시간 첫 저장은 한 번 확인합니다. 토큰이 안 맞거나 열쇠가 틀리면 20분 동안 모르고 쓰게 되기 때문입니다.
+    if (!saveVerified) {
+      saveVerified = true;
+      try {
+        const r = await askServer({ action: "check", sid: state.sid, name: state.name }, 12000);
+        if (!r || r.error || (!r.savedAt && !r.draftAt && !r.finalAt)) {
+          showBanner("선생님 서버에 저장된 것이 확인되지 않습니다. 글은 이 아이패드에 남아 있습니다. 선생님께 알려 주세요.", true);
+        }
+      } catch (e) {}
+    }
+  } catch (e) { dirty = true; }
+}
+// 교사가 "제출 취소"로 단계를 되돌렸을 때 서버에도 알립니다.
+async function reopenOnServer(to) {
+  const cfg = CONFIG.submit;
+  if (!cfg.scriptUrl || !state.sid || !getKey(state.sid)) return;
+  try {
+    const body = new URLSearchParams();
+    body.append("token", cfg.token || ""); body.append("phase", "reopen"); body.append("to", to);
+    body.append("key", getKey(state.sid)); body.append("sid", state.sid); body.append("name", state.name);
+    body.append("meta", "교사 제출 취소 → " + (PHASE_LABEL[to] || to) + " | " + buildLiveMeta());
+    body.append("brainstorm", buildBrainstorm()); body.append("draft", buildDraft()); body.append("final", state.final);
+    body.append("data", JSON.stringify(state));
+    await sendToServer(body);
+  } catch (e) {}
+}
+// 서버가 저장을 받지 않는 상태(열쇠 없음)를 학생에게 한 번만 알립니다.
+function warnNoKey() {
+  if (noKeyWarned) return;
+  noKeyWarned = true;
+  showBanner("선생님 서버와 연결되지 않았습니다. 지금 쓰는 글은 이 아이패드에만 저장됩니다. 선생님께 알려 주세요.", true);
+}
+function startAutosave() {
+  clearInterval(autosaveTimer);
+  const sec = +urlQ.get("as") || CONFIG.autosaveSec || 0;
+  if (sec > 0) autosaveTimer = setInterval(() => autosaveToServer(false), sec * 1000);
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden && !$("app").hidden) autosaveToServer(false); });
+function pickState(local, remote) {
+  if (!local) return remote; if (!remote) return local;
+  const ol = ORDER[local.phase] || 0, orr = ORDER[remote.phase] || 0;
+  if (orr > ol) return remote; if (ol > orr) return local;
+  return (remote.savedAt || 0) > (local.savedAt || 0) ? remote : local;
+}
+
+// ---------- 1회차 제출 (초안) ----------
+async function submitDraft(reason) {
+  if (state.phase !== "draft") return;
+  closeModal();
+  state.draftSubmittedAt = Date.now(); state.draftReason = reason;
+  setPhase("draftDone"); state.phaseStartedAt = 0;
+  setLocked(true); save(); clearInterval(autosaveTimer);
+  showDone("draft");
+  if (CONFIG.submit.scriptUrl) {
+    setDoneStatus("초안을 저장하는 중입니다…", false);
+    try {
+      const ok = await postToServer("draft", reason);
+      state.draftSent = ok; save();
+      if (ok === true) {
+        const pdfOk = lastCheck && lastCheck.draftPdf && !/^PDF 실패/.test(lastCheck.draftPdf);
+        setDoneStatus(pdfOk ? "초안이 선생님 드라이브에 저장되었습니다(PDF 포함). 다음에 같은 학번·이름으로 열면 이어집니다."
+                            : "초안은 저장되었습니다. (PDF는 만들지 못했습니다. 선생님이 시트에서 다시 만들 수 있습니다.)", false);
+      }
+      else if (ok === false) setDoneStatus("이 기기에는 저장되었지만 선생님 드라이브 저장은 확인되지 않았습니다. 2회차는 이 아이패드로 진행하세요.", true);
+      else setDoneStatus("이 기기에 저장되었습니다. (서버 확인 불가) 2회차는 이 아이패드로 진행하세요.", false);
+    } catch (e) {
+      state.draftSent = false; save();
+      setDoneStatus("이 기기에는 저장되었지만 전송에 실패했습니다. 2회차는 이 아이패드로 진행하고, 선생님께 알려 주세요.", true);
+    }
+  } else {
+    setDoneStatus("이 기기에 저장되었습니다. 2회차는 이 아이패드에서 같은 학번·이름으로 시작하세요.", false);
+  }
+}
+
+// ---------- 2회차 제출 (최종) ----------
+async function submitNow(reason) {
+  if (state.submitted || state.phase !== "final") return;
+  closeModal();
+  state.submitted = true; state.submittedAt = Date.now(); state.submitReason = reason;
+  setPhase("done"); state.phaseStartedAt = 0;
+  setLocked(true); setFsLost(false); save(); clearInterval(autosaveTimer);
+  showDone("final");
+  if (CONFIG.submit.scriptUrl) {
+    setDoneStatus("전송 중입니다…", false);
+    try {
+      const ok = await postToServer("final", reason);
+      state.sent = ok; save();
+      if (ok === true) setDoneStatus("선생님께 전송했습니다. (" + fmtClock(new Date()) + ")", false);
+      else if (ok === false) setDoneStatus("전송이 확인되지 않았습니다. 아래 '최종본 복사' 또는 '파일로 저장'을 사용하고 선생님께 알려 주세요.", true);
+      else setDoneStatus("전송했습니다. (확인 불가) 선생님께 화면을 보여 주세요.", false);
+    } catch (e) {
+      state.sent = false; save();
+      setDoneStatus("전송하지 못했습니다. 아래 '최종본 복사' 또는 '파일로 저장'을 사용하고 선생님께 알려 주세요.", true);
+    }
+  } else {
+    setDoneStatus("제출이 저장되었습니다. 이 화면을 선생님께 보여 주거나, 아래 버튼으로 복사·저장하세요.", false);
+  }
+}
+function setDoneStatus(msg, bad) {
+  const s = $("doneStatus"); s.textContent = msg; s.className = "done-status" + (bad ? " bad" : "");
+  // 전송이 확인되지 않았을 때만 "다시 보내기"를 보여 줍니다.
+  const r = $("retryBtn");
+  if (r) r.hidden = !bad;
+}
+// 제출은 이미 끝났지만 전송이 확인되지 않았을 때 다시 시도합니다.
+// 예전에는 이 버튼이 없어서, 제출이 몰려 전송이 실패하면 학생이 할 수 있는 일이 없었습니다.
+let retrying = false;
+async function retrySend() {
+  if (retrying) return;
+  const kind = state.submitted || state.phase === "done" ? "final" : "draft";
+  const reason = (kind === "final" ? state.submitReason : state.draftReason) || "다시 보내기";
+  retrying = true; $("retryBtn").disabled = true;
+  setDoneStatus("다시 보내는 중입니다…", false);
+  try {
+    const ok = await postToServer(kind, reason);
+    if (kind === "final") state.sent = ok; else state.draftSent = ok;
+    save();
+    if (ok === true) setDoneStatus(kind === "final" ? "선생님께 전송했습니다. (" + fmtClock(new Date()) + ")" : "초안이 선생님 드라이브에 저장되었습니다.", false);
+    else if (ok === false) setDoneStatus("아직 확인되지 않았습니다. 잠시 뒤 다시 눌러 보고, 안 되면 아래 버튼으로 복사·저장하고 선생님께 알려 주세요.", true);
+    else setDoneStatus("보냈지만 확인은 되지 않았습니다. 선생님께 화면을 보여 주세요.", false);
+  } catch (e) {
+    setDoneStatus("다시 보내지 못했습니다. 아래 버튼으로 복사·저장하고 선생님께 알려 주세요.", true);
+  } finally { retrying = false; $("retryBtn").disabled = false; }
+}
+
+function showDone(kind) {
+  $("app").hidden = true; $("gate").hidden = true; $("done").hidden = false;
+  const isDraft = kind === "draft";
+  $("doneTitle").textContent = isDraft ? "1회차 제출 완료" : "제출되었습니다";
+  $("doneHint").textContent = isDraft
+    ? (finalOpen ? "이 화면을 선생님께 보여 주세요. 다음에 같은 학번·이름으로 로그인하면 초안이 그대로 열리고 최종 글쓰기를 시작합니다."
+                 : "이 화면을 선생님께 보여 주세요. 최종 글쓰기(2회차)는 선생님이 열면 시작됩니다. 그때 같은 학번·이름으로 로그인하세요.")
+    : "이 화면을 선생님께 보여 주세요. 화면을 닫아도 같은 학번으로 다시 열면 이 화면이 나타납니다.";
+  $("copyBtn").textContent = isDraft ? "초안 복사" : "최종본 복사";
+  const text = isDraft ? draftText() : state.final;
+  const a = analyze(text);
+  // 제출 시각이 없으면(예: 교사가 초안 없이 최종만 진행) 09:00 처럼 엉뚱한 시각이 찍히므로 "-" 로 둡니다.
+  const stampAt = isDraft ? state.draftSubmittedAt : state.submittedAt;
+  const rows = [["학번", state.sid], ["이름", state.name],
+    [isDraft ? "1회차 제출" : "제출 시각", stampAt ? fmtClock(new Date(stampAt)).slice(0, 5) : "-"],
+    [isDraft ? "초안 문장" : "문장 수", a.sentences.length], ["표현", a.used.length + "/" + BANK.length],
+    ["화면 이탈", leaveCount() + "회", leaveCount() > 0],
+    ["한글 입력", state.hangul + "회", state.hangul > 0],
+    ["한글 선택", state.hangulSel + "회", state.hangulSel > 0],
+    ["사전 조회", (state.lookups || []).length + "회"]];
+  $("doneGrid").innerHTML = rows.map((r) => '<div class="' + (r[2] ? "bad" : "") + '">' + r[0] + "<b>" + escapeHtml(String(r[1])) + "</b></div>").join("");
+  $("doneText").innerHTML = text.trim() ? highlight(text) : '<span style="color:var(--muted)">(비어 있습니다)</span>';
+  const sent = isDraft ? state.draftSent : state.sent;
+  if (sent === true) setDoneStatus(isDraft ? "초안이 선생님 드라이브에 저장되었습니다." : "선생님께 전송했습니다.", false);
+  else if (sent === false) setDoneStatus(isDraft ? "이 기기에는 저장되었지만 드라이브 저장은 확인되지 않았습니다. 2회차는 이 아이패드로 진행하세요." : "전송이 확인되지 않았습니다. 아래 버튼으로 복사·저장하고 선생님께 알려 주세요.", true);
+  else setDoneStatus(isDraft ? "이 기기에 저장되었습니다." : "제출이 저장되었습니다.", false);
+  window.scrollTo(0, 0);
+}
+
+function fullText() {
+  return CONFIG.subtitle + " - " + CONFIG.title + "\n학번: " + state.sid + "  이름: " + state.name + "\n\n" +
+    buildBrainstorm() + "\n\n[Step 3 초안]\n" + buildDraft() + "\n\n[Step 4 최종본]\n" + state.final + "\n\n[자동 집계]\n" + buildMeta(state.submitReason || "", state.submitted ? "final" : "draft");
+}
+async function copyFinal() {
+  // 버튼 이름과 실제로 복사되는 내용이 어긋나지 않게, 초안 화면에서는 초안을 복사합니다.
+  const isDraftView = state.phase === "draftDone" || state.phase === "draft";
+  const text = isDraftView ? draftText() : state.final;
+  try { await navigator.clipboard.writeText(text); toast("복사했습니다."); }
+  catch (e) {
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); toast("복사했습니다."); } catch (e2) { toast("복사할 수 없습니다. 파일로 저장을 사용하세요."); }
+    ta.remove();
+  }
+}
+function saveFile() {
+  const blob = new Blob([fullText()], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = state.sid + "_" + state.name + "_영어쓰기.txt";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+// ---------- 단어 사전 ----------
+function dictCfg() { return CONFIG.dictionary || {}; }
+function dictAllowed() {
+  const c = dictCfg();
+  return !!(c.enabled && CONFIG.submit.scriptUrl) && !$("app").hidden && !locked && (c.phases || []).includes(state.phase);
+}
+function dictUsedThisPhase() { return (state.lookups || []).filter((l) => l.p === state.phase).length; }
+function updateDictCount() {
+  const c = dictCfg(); const used = dictUsedThisPhase();
+  $("dictCount").textContent = (c.maxPerPhase ? used + " / " + c.maxPerPhase + "회" : used + "회");
+  $("dictBtn").disabled = !!(c.maxPerPhase && used >= c.maxPerPhase);
+}
+function renderDictOut() {
+  const items = (state.lookups || []).filter((l) => l.p === state.phase).slice(-8).reverse();
+  // 되돌려 확인이 안 된 뜻은 그대로 믿지 말라고 알려 줍니다. 구글 번역은 단어 하나만 주면 자주 틀립니다.
+  $("dictOut").innerHTML = items.map((l) => {
+    const bad = l.sure === false;
+    const tag = [l.pos, l.base ? "기본형 " + l.base : ""].filter(Boolean).join(" · ");
+    return '<div class="dict-item' + (bad ? " unsure" : "") + '"><span class="q">' + escapeHtml(l.q) + "</span>→<b>" + escapeHtml(l.a) + "</b>" +
+      (tag ? '<span class="base">' + escapeHtml(tag) + "</span>" : "") +
+      (l.def ? '<div class="def">' + escapeHtml(l.def) + "</div>" : "") +
+      (bad ? '<div class="warn">뜻이 확실하지 않습니다. 문장에 넣어 어울리는지 꼭 확인하세요.</div>' : "") +
+      "</div>";
+  }).join("");
+}
+function toggleDict(show) {
+  const pop = $("dictPop");
+  pop.hidden = show === undefined ? !pop.hidden : !show;
+  if (!pop.hidden) { renderDictOut(); updateDictCount(); $("dictQ").focus(); }
+}
+async function dictLookup() {
+  if (!dictAllowed()) return;
+  const c = dictCfg();
+  const q = $("dictQ").value.trim();
+  if (!q) return;
+  if (/\s/.test(q) || q.length > (c.maxLen || 20) || !/^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ'\-]+$/.test(q)) {
+    $("dictOut").insertAdjacentHTML("afterbegin", '<div class="dict-item err">단어 하나만 찾을 수 있습니다. (띄어쓰기·문장 불가)</div>');
+    return;
+  }
+  if (c.maxPerPhase && dictUsedThisPhase() >= c.maxPerPhase) { toast("이 단계에서 찾을 수 있는 횟수를 다 썼습니다."); return; }
+  $("dictBtn").disabled = true; $("dictBtn").textContent = "찾는 중…";
+  try {
+    const r = await askServer({ action: "dict", q, sid: state.sid, name: state.name, phase: state.phase }, 12000);
+    if (!r || r.error) throw new Error(r && r.error || "no result");
+    state.lookups.push({ t: Date.now(), p: state.phase, q: r.q || q, a: r.a || "",
+                        sure: r.sure !== false, base: r.base || "",
+                        src: r.src || "", pos: r.pos || "", def: r.def || "" });
+    save(); markDirty(); refresh();
+    $("dictQ").value = "";
+    renderDictOut(); updateDictCount();
+  } catch (e) {
+    const msg = String(e.message || "");
+    $("dictOut").insertAdjacentHTML("afterbegin", '<div class="dict-item err">' + (msg === "LIMIT" ? "찾을 수 있는 횟수를 다 썼습니다." : msg === "BAD_QUERY" ? "단어 하나만 찾을 수 있습니다." : "지금은 찾을 수 없습니다. 잠시 후 다시 해 보세요.") + "</div>");
+  } finally {
+    $("dictBtn").textContent = "찾기"; updateDictCount(); $("dictQ").focus();
+  }
+}
+
+// ---------- 공용 대화상자 ----------
+function dialog(o) {
+  return new Promise((resolve) => {
+    const box = $("dlg"), inp = $("dlgInput"), acts = $("dlgActions");
+    $("dlgTitle").textContent = o.title || "";
+    $("dlgText").textContent = o.text || ""; $("dlgText").hidden = !o.text;
+    inp.hidden = !o.input; inp.value = "";
+    if (o.input) { inp.type = o.input.password ? "password" : "text"; inp.placeholder = o.input.placeholder || ""; inp.inputMode = o.input.numeric ? "numeric" : "text"; }
+    acts.innerHTML = "";
+    const finish = (v) => { box.hidden = true; resolve({ value: v, input: inp.value }); };
+    o.buttons.forEach((b) => {
+      const btn = document.createElement("button");
+      btn.className = "btn" + (b.primary ? " primary" : ""); btn.textContent = b.label;
+      btn.addEventListener("click", () => { if (b.onClick) { try { b.onClick(); } catch (e) {} } finish(b.value); }); acts.appendChild(btn);
+    });
+    inp.onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); const prim = o.buttons.find((b) => b.primary); finish(prim ? prim.value : null); } };
+    setTimeout(() => {
+      box.hidden = false;
+      if (o.input) inp.focus(); else { const prim = acts.querySelector(".primary") || acts.lastChild; if (prim) prim.focus(); }
+    }, 60);
+  });
+}
+
+// ---------- 교사 메뉴 ----------
+async function teacherMenu() {
+  if (!CONFIG.teacherPin) return;
+  suppressLeaveUntil = Date.now() + 120000;
+  try {
+    const r = await dialog({ title: "교사 확인", input: { placeholder: "PIN", password: true, numeric: true },
+      buttons: [{ label: "취소", value: null }, { label: "확인", value: "ok", primary: true }] });
+    if (r.value !== "ok") return;
+    if (r.input !== CONFIG.teacherPin) { toast("PIN이 맞지 않습니다."); return; }
+    const onGate = !$("gate").hidden;
+    const who = state.sid ? state.sid + " " + state.name : "(시작 전)";
+    const info = who + " · " + (PHASE_LABEL[state.phase] || "") + (state.phaseStartedAt ? " · 남은 " + Math.max(0, Math.ceil(remainingSec() / 60)) + "분" : "") + (finalOpen ? "" : " · 최종 닫힘");
+    const buttons = [];
+    if (!onGate) {
+      buttons.push({ label: "5분 추가", value: "add" });
+      if (state.phase === "research") buttons.push({ label: "초안 단계로 넘기기", value: "todraft" });
+      if (locked && (state.phase === "draft" || state.phase === "final")) buttons.push({ label: "잠금 해제 + 5분", value: "unlock" });
+    }
+    if (state.phase === "draftDone" || state.phase === "done") buttons.push({ label: "제출 취소 (다시 열기)", value: "reopen" });
+    if (onGate) {
+      const sidNow = $("sid").value.trim(), nameNow = $("name").value.trim();
+      if (/^\d{3,}$/.test(sidNow) && nameNow) {
+        if (!state.sid || state.sid !== sidNow) { const local = load(sidNow); if (local) restoreState(local); else newState(sidNow, nameNow); }
+        buttons.push({ label: "초안 없이 최종만 진행", value: "finalOnly" });
+        buttons.push({ label: "처음(1회차)부터 진행", value: "fullFlow" });
+      }
+    }
+    if (state.sid) buttons.push({ label: "데이터 삭제", value: "wipe" });
+    buttons.push({ label: "닫기", value: null });
+    const c = await dialog({ title: "교사 메뉴", text: info, buttons });
+    if (!c.value) return;
+
+    if (c.value === "add") { state.extraSec = (state.extraSec || 0) + 300; save(); tick(); toast("5분을 추가했습니다."); }
+    else if (c.value === "todraft") { startDraft(false, "교사 전환"); toast("초안 단계로 넘겼습니다."); }
+    else if (c.value === "unlock") {
+      if (remainingSec() <= 0) state.extraSec = (state.extraSec || 0) + (-remainingSec()) + 300;
+      $("banner").hidden = true; setLocked(false); save(); startTick(); toast("잠금을 해제했습니다."); setTimeout(onFsChange, 300);
+    }
+    else if (c.value === "reopen") {
+      if (state.phase === "done") { state.submitted = false; state.sent = null; state.submitReason = ""; setPhase("final"); state.extraSec = 300; }
+      else { state.draftSent = null; state.draftSubmittedAt = 0; setPhase("draft"); state.extraSec = 300; }
+      save(); $("done").hidden = true; $("banner").hidden = true;
+      // 서버에도 단계를 되돌린다고 알립니다. 알리지 않으면 서버가 "이미 제출됨"으로 알고 있어서
+      // 다시 쓴 글의 단계가 시트에 반영되지 않습니다.
+      await reopenOnServer(state.phase);
+      enterApp(); toast("다시 열었습니다. 5분이 주어집니다.");
+    }
+    else if (c.value === "finalOnly") {
+      if (!state.startedAt) newState(state.sid, state.name);
+      state.phaseLog = state.phaseLog || {}; state.draftReason = "초안 없음(교사 허용)";
+      setPhase("draftDone"); state.phaseStartedAt = 0; save();
+      beginFinal();
+    }
+    else if (c.value === "fullFlow") {
+      if (!state.startedAt) newState(state.sid, state.name);
+      state.submitted = false; state.sent = null; state.draftSubmittedAt = 0; state.draftSent = null;
+      setPhase("research"); save();
+      await reopenOnServer("research");
+      enterApp();
+    }
+    else if (c.value === "wipe") {
+      const ok = await dialog({ title: "데이터 삭제", text: who + " 학생의 이 기기 저장 데이터를 지우고 처음부터 다시 시작합니다. 다음 로그인은 새 줄로 등록되어 시트에 \"중복\"으로 표시됩니다. (선생님 드라이브의 초안은 지워지지 않습니다.)",
+        buttons: [{ label: "취소", value: null }, { label: "삭제", value: "yes", primary: true }] });
+      // 기기 열쇠까지 지워야 정말 처음부터 시작합니다. 열쇠를 남기면 다음 로그인 때 서버가 같은 상태를 그대로 돌려줍니다.
+      if (ok.value === "yes") {
+        try { localStorage.removeItem(storageKey()); } catch (e) {}
+        try { localStorage.removeItem("czkey:" + NS + state.sid); } catch (e) {}
+        location.reload();
+      }
+    }
+  } finally { suppressLeaveUntil = Date.now() + 1500; }
+}
+
+// ---------- 시작 ----------
+function newState(sid, name) {
+  state.sid = sid; state.name = name; state.startedAt = Date.now(); state.extraSec = 0;
+  state.step1 = CONFIG.step1Parts.map(() => "");
+  state.step2 = CONFIG.step2Items.map(() => "");
+  state.draft = CONFIG.step3Parts.map((p) => Array.from({ length: p.min }, () => ""));
+  state.final = ""; state.leaves = []; state.hangul = 0; state.bursts = 0; state.hangulSel = 0;
+  state.submitted = false; state.submittedAt = 0; state.submitReason = ""; state.sent = null;
+  state.phase = "research"; state.phaseStartedAt = 0; state.phaseLog = {}; state.savedAt = 0;
+  state.draftSubmittedAt = 0; state.draftReason = ""; state.draftSent = null; state.fsNote = ""; state.lookups = []; state.autoText = 0;
+  state.leavesDropped = 0; state.title = CONFIG.title; state.subtitle = CONFIG.subtitle;
+}
+function restoreState(saved) {
+  Object.assign(state, saved);
+  state.step1 = CONFIG.step1Parts.map((p, i) => (state.step1 || [])[i] || "");
+  state.step2 = CONFIG.step2Items.map((p, i) => (state.step2 || [])[i] || "");
+  state.draft = CONFIG.step3Parts.map((p, pi) => {
+    const arr = ((state.draft || [])[pi] || []).slice();
+    while (arr.length < p.min) arr.push("");
+    return arr;
+  });
+  state.leaves = state.leaves || []; state.hangulSel = state.hangulSel || 0; state.lookups = state.lookups || []; state.autoText = state.autoText || 0;
+  state.leavesDropped = state.leavesDropped || 0;
+  state.title = CONFIG.title; state.subtitle = CONFIG.subtitle;   // 설정을 바꿨으면 항상 현재 제목을 쓴다
+  state.phase = state.phase || (state.submitted ? "done" : "research");
+  state.phaseLog = state.phaseLog || {};
+}
+
+function enterApp() {
+  $("gate").hidden = true; $("done").hidden = true; $("app").hidden = false;
+  locked = false;
+  applyPhase(); save(); startTick(); ensureFsSoon(); startAutosave(); dirty = true;
+  // 글자 수·한글 기준값은 칸을 채운 뒤에 심어야 합니다. applyPhase() 안에서 칸이 새로 만들어지기 때문입니다.
+  document.querySelectorAll("[data-part], #final").forEach(seedField);
+  if (brokenWarned) showBanner("선생님 서버에 저장된 내용을 읽지 못했습니다. 선생님께 꼭 알려 주세요.", true);
+  else if (dupWarned) showBanner("이 학번은 이미 다른 기기에서 사용 중입니다. 내 글은 따로 저장되지만, 선생님께 꼭 알려 주세요.", true);
+  window.scrollTo(0, 0);
+}
+function beginFinal() {
+  if (state.phase !== "final") { setPhase("final"); save(); markDirty(); autosaveToServer(true); }
+  enterApp();
+  const y = $("step4").getBoundingClientRect().top + window.scrollY - 80;
+  setTimeout(() => window.scrollTo({ top: y, behavior: "smooth" }), 200);
+}
+
+async function start() {
+  const sid = $("sid").value.trim(), name = $("name").value.trim();
+  const note = $("gateNote");
+  if (!/^\d{3,}$/.test(sid)) { note.textContent = "학번을 숫자로 입력하세요."; note.className = "gate-note error"; $("sid").focus(); return; }
+  if (!name) { note.textContent = "이름을 입력하세요."; note.className = "gate-note error"; $("name").focus(); return; }
+
+  $("startBtn").disabled = true; note.textContent = "저장된 내용을 확인하는 중…"; note.className = "gate-note";
+  const local = load(sid);
+  let remote = null, serverOk = false;
+  if (CONFIG.submit.scriptUrl) {
+    // 30명이 한꺼번에 로그인하면 서버가 늦어 한 번에 실패할 수 있습니다. 세 번까지 다시 시도합니다.
+    for (let i = 0; i < 3 && !serverOk; i++) {
+      if (i) { note.textContent = "서버 응답이 늦습니다. 다시 시도하는 중… (" + (i + 1) + "/3)"; await sleep(600 * i); }
+      try { remote = await fetchRemote(sid, name); serverOk = !!remote && !remote.error; } catch (e) { remote = null; }
+    }
+  }
+  $("startBtn").disabled = false; note.textContent = "";
+
+  // 같은 학번이 이미 다른 기기에 등록되어 있으면: 막지 않고 따로 저장하되, 학생과 선생님이 알 수 있게 표시
+  dupWarned = !!(remote && remote.dup);
+
+  // 서버도 안 되고 이 기기에 저장된 것도 없으면, 조용히 처음부터 시작하지 않습니다.
+  // 그대로 들어가면 열쇠가 없어 20분 동안 쓴 글이 서버에 하나도 안 남습니다.
+  if (CONFIG.submit.scriptUrl && !serverOk && !local) {
+    const c = await dialog({ title: "선생님 서버에 연결할 수 없습니다",
+      text: "저장된 내용을 불러오지 못했습니다. 이대로 시작하면 쓴 글이 이 아이패드에만 남습니다. 먼저 선생님께 알리세요.",
+      buttons: [{ label: "다시 시도", value: "retry", primary: true }, { label: "이 기기에만 저장하고 시작", value: "go" }] });
+    if (c.value !== "go") { note.textContent = "다시 시도하세요. 계속 안 되면 선생님께 알리세요."; note.className = "gate-note error"; return; }
+    noKeyWarned = false;
+  }
+  if (CONFIG.submit.scriptUrl && !serverOk && local) {
+    note.textContent = "서버에 연결할 수 없어 이 기기의 저장 내용만 사용합니다."; note.className = "gate-note";
+  }
+  brokenWarned = !!(remote && remote.dataBroken);
+
+  const chosen = pickState(local, remote && remote.data);
+  if (chosen) { restoreState(chosen); if (name && name !== state.name) state.name = name; }
+  else newState(sid, name);
+  if (remote && remote.name && remote.data) state.name = remote.name;   // 서버에 등록된 이름을 기준으로
+  state.env = ENV.standalone ? "home" : "browser";
+  if (remote && remote.finalAt && !state.submitted) { state.submitted = true; state.phase = "done"; state.sent = true; if (!state.submittedAt) state.submittedAt = new Date(remote.finalAt).getTime() || Date.now(); }
+  save();
+
+  // 서버 상태에 따라 단계 자동 결정
+  if (state.submitted || state.phase === "done") { showDone("final"); return; }
+  if (state.phase === "final") { if (!finalOpen) { showDone("draft"); return; } enterApp(); return; }
+  if (state.phase === "draftDone") { if (!finalOpen) { showDone("draft"); return; } beginFinal(); return; }
+  if (!state.phaseStartedAt) setPhase("research");
+  enterApp();
+  if (chosen) toast("이어서 작성합니다. 남은 시간은 그대로입니다.", 3000);
+}
+
+function init() {
+  if (urlQ.get("home") === "1") CONFIG.lock.requireHomeScreen = true;
+  renderStatic();
+  $("verTag").textContent = "버전 " + (CONFIG.version || "") + (CONFIG.submit.scriptUrl ? "" : " · 연습 모드(서버 연결 없음: 이 기기에만 저장)");
+
+  const envBadge = $("stEnv");
+  envBadge.hidden = false;
+  envBadge.textContent = ENV.standalone ? "홈 화면 앱" : "브라우저";
+  if (CONFIG.lock.requireHomeScreen && !ENV.standalone) {
+    $("homeGuide").hidden = false; $("gateForm").hidden = true; $("startBtn").hidden = true; $("gateNote").hidden = true;
+  }
+
+
+  document.addEventListener("input", onInput);
+  document.addEventListener("paste", blockPaste, true);
+  document.addEventListener("drop", blockPaste, true);
+  document.addEventListener("beforeinput", (e) => {
+    if ($("app").hidden) return;
+    if (e.inputType === "insertFromPaste" || e.inputType === "insertFromDrop") { e.preventDefault(); toast("붙여넣기는 사용할 수 없습니다. 직접 입력하세요."); return; }
+    // 영어 칸: 자동 수정(단어 교체)과 예측 텍스트 수락(여러 글자가 한 번에 들어옴)을 막고 기록
+    if (isWritingField(e.target)) {
+      // 여러 글자가 한꺼번에 들어오는 것은 예측 텍스트 수락으로 보고 막습니다.
+      // 단, iOS의 "스페이스 두 번 = 마침표" 기능은 ". " 처럼 두 글자로 들어오는 정상 입력이라 막지 않습니다.
+      // 이것을 막으면 그 설정을 켠 학생은 마침표를 아예 찍을 수 없습니다.
+      const multi = e.inputType === "insertText" && typeof e.data === "string" && e.data.length > 1
+        && !/^\s+$/.test(e.data) && !/^[.,!?;:'"()\[\]-]+\s*$/.test(e.data);
+      if (e.inputType === "insertReplacementText" || multi) {
+        e.preventDefault();
+        state.autoText = (state.autoText || 0) + 1; refresh(); scheduleSave(); markDirty();
+        toast("자동 수정·자동 완성은 사용할 수 없습니다. 직접 입력하세요.");
+      }
+    }
+  }, true);
+  document.addEventListener("click", (e) => {
+    const add = e.target.closest("[data-add]"); if (add) addLine(+add.dataset.add);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.matches("[data-part]")) {
+      e.preventDefault();
+      const pi = +e.target.dataset.part, li = +e.target.dataset.line;
+      const next = document.querySelector('[data-part="' + pi + '"][data-line="' + (li + 1) + '"]') ||
+        document.querySelector('[data-part="' + (pi + 1) + '"][data-line="0"]');
+      if (next) next.focus();
+    }
+  });
+
+  $("startBtn").addEventListener("click", start);
+  $("name").addEventListener("keydown", (e) => { if (e.key === "Enter") start(); });
+  $("sid").addEventListener("input", () => {
+    const saved = load($("sid").value.trim()); const note = $("gateNote");
+    if (saved && saved.startedAt) {
+      note.textContent = saved.submitted ? "이미 최종 제출한 학번입니다." : saved.phase === "draftDone" ? "1회차 초안이 이 기기에 있습니다." : "저장된 내용이 있습니다. 시작하면 이어서 작성합니다.";
+      note.className = "gate-note";
+    } else { note.textContent = ""; note.className = "gate-note"; }
+  });
+  $("startDraftBtn").addEventListener("click", () => startDraft(true));
+  $("importBtn").addEventListener("click", importDraft);
+  $("dictTop").addEventListener("click", () => toggleDict());
+  $("dictClose").addEventListener("click", () => toggleDict(false));
+  $("dictBtn").addEventListener("click", dictLookup);
+  $("dictQ").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); dictLookup(); } });
+  $("submitBtn").addEventListener("click", openModal);
+  $("submitTop").addEventListener("click", openModal);
+  $("modalCancel").addEventListener("click", closeModal);
+  $("modalOk").addEventListener("click", onModalOk);
+  $("copyBtn").addEventListener("click", copyFinal);
+  $("saveBtn").addEventListener("click", saveFile);
+  $("retryBtn").addEventListener("click", retrySend);
+  ["teacherBtn", "teacherBtn2", "teacherBtn3", "teacherBtn4"].forEach((id) => { const b = $(id); if (b) b.addEventListener("click", teacherMenu); });
+  $("fsResume").addEventListener("click", () => {
+    requestFs();
+    setTimeout(() => { onFsChange(); if (!fsElement() && needFs()) { fsTries++; if (fsTries >= 1) $("fsSkipWrap").hidden = false; } }, 700);
+  });
+  $("fsSkip").addEventListener("click", () => fsFallback("전체 화면 사용 불가 (학생이 없이 계속 선택)"));
+
+  const root = document.documentElement;
+  const req = root.requestFullscreen || root.webkitRequestFullscreen;
+  if (req && !ENV.ios && !(CONFIG.lock && CONFIG.lock.requireFullscreen)) {
+    $("fsBtn").hidden = false;
+    $("fsBtn").addEventListener("click", () => {
+      const exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (fsElement()) exit.call(document); else req.call(root);
+    });
+  }
+  window.addEventListener("resize", () => document.querySelectorAll("textarea").forEach(grow));
+  $("sid").focus();
+}
+init();
+
+</script>
+</body>
+</html>

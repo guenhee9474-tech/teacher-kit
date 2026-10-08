@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연수 전 준비</title>
+<meta name="description" content="연수 시작 전에 갖춰 둘 것을 확인하는 체크리스트">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .checks { list-style:none; margin:16px 0; padding:0; border:1px solid var(--line); border-radius:14px; background:var(--card); overflow:hidden; }
+  .checks li { margin:0; padding:0; border-top:1px solid var(--line); }
+  .checks li:first-child { border-top:0; }
+  .checks label { display:grid; grid-template-columns:24px minmax(0, 1fr); gap:14px; padding:16px 20px; cursor:pointer; align-items:start; }
+  .checks label:hover { background:var(--soft); }
+  .checks input { width:20px; height:20px; margin:4px 0 0; accent-color:var(--accent); }
+  .checks b { display:block; }
+  .checks small { display:block; font-size:15px; color:var(--sub); margin-top:2px; }
+  .checks input:checked + span b { color:var(--faint); text-decoration:line-through; text-decoration-thickness:1px; }
+  .progress { display:flex; align-items:center; gap:12px; margin-top:20px; font-size:15px; color:var(--sub); }
+  .progress .barwrap { flex:1; max-width:260px; height:6px; border-radius:999px; background:var(--soft); overflow:hidden; }
+  .progress .bar { height:100%; width:0; background:var(--accent); border-radius:999px; transition:width .25s; }
+  .progress button { border:1px solid var(--line); background:none; color:var(--sub); border-radius:8px; padding:4px 10px; font:inherit; font-size:14px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+  <nav><a href="#all">모두</a><a href="#cool">coolwatch</a><a href="#dev">개발환경</a><a href="#host">진행자</a></nav>
+</div></div>
+
+<main class="in doc">
+  <div class="head" style="padding-bottom:0">
+    <h1>연수 전 준비</h1>
+    <p class="lead">연수 시작 전에 갖춰 두면 실습이 바로 됩니다. 체크한 것은 이 기기에 저장되어, 다시 열어도 남아 있습니다.</p>
+    <div class="progress"><span id="count">0 / 0</span><span class="barwrap"><span class="bar" id="bar" style="display:block"></span></span><button id="reset">체크 지우기</button></div>
+  </div>
+
+  <section id="all">
+    <h2>모두</h2>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-k="claude-login"><span><b>Claude 구독 계정으로 로그인되는지 확인</b><small><a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에 들어가 Pro 또는 Max 요금제인지 봅니다. 연수 중에 다시 로그인하니 아이디와 비밀번호(또는 로그인에 쓰는 메일)를 기억해 오세요.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="pc"><span><b>실습할 PC 준비</b><small>coolwatch는 쿨메신저가 깔린 업무용 Windows PC에서 합니다. 충전기도 챙기세요.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="bookmark"><span><b>이 사이트를 즐겨찾기에 추가</b><small>연수 중에 여기서 자료를 받고 설명서를 봅니다.</small></span></label></li>
+    </ul>
+  </section>
+
+  <section id="cool">
+    <h2>coolwatch 실습</h2>
+    <p class="sub">쿨메신저 업무 메시지를 정리하는 도구입니다. <a href="../coolwatch/">설명서 보기</a></p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-k="cool-messenger"><span><b>쿨메신저에 한 번 로그인해 두기</b><small>로그인한 적이 있어야 coolwatch가 메시지 기록을 찾습니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="cool-zip"><span><b>압축 파일 미리 받아 두기</b><small><a href="../downloads/coolwatch.zip" download>coolwatch.zip</a>을 받아 압축을 풀어 둡니다. 설치(<code>설치.bat</code>)는 연수 때 함께 합니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="cool-words"><span><b>제외할 단어 생각해 오기</b><small>학생·학부모 관련 글을 빼는 단어입니다. 기본값은 상담, 학부모, 생활기록, 성적, 결석이고, 학교 사정에 맞게 더 넣습니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="cool-notion"><span><b>(선택) 노션 계정</b><small>정리된 업무를 휴대폰에서도 보고 싶은 분만 준비합니다.</small></span></label></li>
+    </ul>
+  </section>
+
+  <section id="dev">
+    <h2>개발환경 (수행평가 페이지를 직접 설치해 볼 분)</h2>
+    <p class="sub">coolwatch만 쓸 분은 건너뛰어도 됩니다. <a href="../writing/">수행평가 페이지 설명서</a> · <a href="../devenv/">AI 작업실 설계도</a></p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-k="dev-google"><span><b>구글 계정</b><small>제출물을 받을 계정입니다. 학교 계정은 웹 앱 공개가 막혀 있을 수 있어 개인 계정을 권합니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-github"><span><b>GitHub 가입</b><small><a href="https://github.com/signup" target="_blank" rel="noopener">github.com</a>에서 가입하고, 로그인되는지 확인합니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-vscode"><span><b>VS Code 설치</b><small><a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-git"><span><b>Git 설치</b><small>Windows: <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com</a>(설치 옵션은 기본값). Mac: 터미널에서 <code>git</code>을 치면 설치 안내가 뜹니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-node"><span><b>Node.js LTS 설치</b><small><a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-python"><span><b>Python 3 설치</b><small><a href="https://www.python.org" target="_blank" rel="noopener">python.org</a>. Windows에서는 설치 첫 화면의 "Add python.exe to PATH"를 체크합니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-claude"><span><b>Claude Code 설치와 로그인</b><small>아래 명령으로 설치한 뒤, 터미널에서 <code>claude</code>를 실행해 구독 계정으로 로그인합니다.</small></span></label></li>
+    </ul>
+    <h3>Claude Code 설치 명령</h3>
+<pre><code># Windows (PowerShell)
+irm https://claude.ai/install.ps1 | iex
+
+# Mac (터미널)
+curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+    <h3>다 됐는지 확인</h3>
+    <p>터미널(Windows는 PowerShell)을 새로 열고 한 줄씩 실행합니다. 네 줄 모두 버전 숫자가 나오면 준비가 끝난 것입니다.</p>
+<pre><code>git --version
+node -v
+python --version
+claude --version</code></pre>
+  </section>
+
+  <section id="host">
+    <h2>진행자 준비</h2>
+    <p class="sub">연수를 진행하는 사람이 미리 확인할 것입니다.</p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-k="host-net"><span><b>연수 장소의 인터넷에서 접속 확인</b><small>claude.ai, github.com, python.org, notion.so, 그리고 이 사이트가 열리는지 봅니다. 학교 망에서 막힌 곳이 있으면 설치가 멈춥니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="host-rehearsal"><span><b>다른 PC 한 대에서 coolwatch 설치 리허설</b><small>내 PC가 아닌 곳에서 <code>설치.bat</code>부터 처음 설정까지 한 번 해 봅니다. 보안 프로그램이 막는지, 쿨메신저 버전이 달라도 되는지 확인합니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="host-download"><span><b>압축 파일이 받아지는지 확인</b><small><a href="../downloads/coolwatch.zip" download>coolwatch.zip</a>, <a href="../downloads/english-writing-kit.zip" download>english-writing-kit.zip</a>. 막힐 때를 대비해 USB에도 담아 둡니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="host-notion"><span><b>노션 템플릿이 복제되는지 확인</b><small>로그아웃한 창(시크릿 창)에서 <a href="https://no-more-cucumber-043.notion.site/48098d6eac3b49559059227d10f829fe?v=97c7bb8107e54dfc8c7c2819ca0dc368" target="_blank" rel="noopener">받은 업무함 템플릿</a>을 열어 복제 버튼이 보이는지 봅니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="host-screen"><span><b>화면에 띄울 것 정하기</b><small>내 PC의 coolwatch 창에는 실제 업무 메시지가 보입니다. 시연할 때는 설명서의 화면 사진이나 수행평가 <a href="../writing/demo/?r=2&d=5&f=5" target="_blank" rel="noopener">체험 페이지</a>를 쓰고, 실제 화면은 공유하지 않습니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="host-exclude"><span><b>내 coolwatch의 제외 단어 채우기</b><small>지금 비어 있다면, 연수에서 권하는 것과 같게 맞춰 둡니다.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="host-link"><span><b>참가자에게 이 사이트 주소 보내기</b><small>"연수 전 준비"를 미리 해 오도록 안내합니다. QR로 만들어 첫 화면에 띄우면 편합니다.</small></span></label></li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="in"><span>연수 전 준비</span><a href="../">연수 자료로</a></div></footer>
+
+<script>
+// 체크한 것은 이 기기(브라우저)에만 저장됩니다.
+const KEY = "prep-checks-v1";
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+const boxes = [...document.querySelectorAll(".checks input")];
+function paint() {
+  const n = boxes.filter(b => b.checked).length;
+  document.getElementById("count").textContent = n + " / " + boxes.length;
+  document.getElementById("bar").style.width = (boxes.length ? n / boxes.length * 100 : 0) + "%";
+}
+boxes.forEach(b => {
+  b.checked = !!saved[b.dataset.k];
+  b.addEventListener("change", () => { saved[b.dataset.k] = b.checked; try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} paint(); });
+});
+document.getElementById("reset").addEventListener("click", () => { saved = {}; try { localStorage.removeItem(KEY); } catch (e) {} boxes.forEach(b => b.checked = false); paint(); });
+paint();
+</script>
+</body>
+</html>

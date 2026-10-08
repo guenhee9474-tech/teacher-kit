@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 작업실 설계도</title>
+<meta name="description" content="교사가 Claude와 일할 때 어디서 무엇을 할지 정리한 설계도: Claude 앱, 클라우드, 로컬, 그리고 데이터 경계">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+/* 설계도 전용: 작업대별 색과 구조도 부품 */
+:root{ --app:#2E479C; --app-t:#E6EAF6;
+  --claude:#1D7067; --claude-t:#E3F0EE;
+  --local:#86560F; --local-t:#F6EEDF;
+  --data:#8E2C55; --data-t:#F5E6EC;
+  --git:#44516B; --git-t:#E7EAF0;
+  --notion:#4A4A48; --notion-t:#ECECE8; }
+@media (prefers-color-scheme:dark){ :root{ --app:#9DB0F0; --app-t:#1D2440;
+    --claude:#5FC2B5; --claude-t:#16302D;
+    --local:#E2B266; --local-t:#33281A;
+    --data:#E07AA3; --data-t:#34202A;
+    --git:#9DAACB; --git-t:#20252F;
+    --notion:#CFCFCB; --notion-t:#25272B; } }
+.dv section{ margin-top:64px; }
+.dv h2{ font-size:26px; font-weight:800; letter-spacing:-.03em; margin:0 0 8px; }
+.dv p.sub{ color:var(--sub); margin:0 0 24px; max-width:40em; }
+.dv h3{ font-size:18px; font-weight:700; margin:0; }
+.dv button{ font:inherit; color:inherit; }
+.z-app{--zc:var(--app);--zt:var(--app-t)}
+.z-claude{--zc:var(--claude);--zt:var(--claude-t)}
+.z-local{--zc:var(--local);--zt:var(--local-t)}
+.z-data{--zc:var(--data);--zt:var(--data-t)}
+.z-git{--zc:var(--git);--zt:var(--git-t)}
+.z-notion{--zc:var(--notion);--zt:var(--notion-t)}
+.z-people{--zc:var(--ink);--zt:var(--card)}
+
+/* 판단 기준 */
+.decide{margin-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.q{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--zc);border-radius:4px 4px 10px 10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.q .ask{font-size:16px;margin:0}
+.q .go{margin:auto 0 0;font-weight:700;color:var(--zc)}
+.q .go::before{content:"→ "}
+
+/* 구조도 */
+.tier-label{font-size:14px;letter-spacing:.06em;color:var(--sub);margin:28px 0 8px}
+.row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.row.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.zone{border:1.5px solid var(--zc);background:var(--zt);border-radius:14px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.zone h3{color:var(--zc);font-size:18px}
+.zone .tag{font-size:13.5px;font-weight:700;color:var(--zc);letter-spacing:.04em}
+.zone .role{color:var(--sub);font-size:15px;margin:0 0 8px}
+.zone ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.zone li{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 9px;font-size:15px}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;font-size:14px;color:var(--sub)}
+.flow span{position:relative;padding:8px 0 8px 22px;min-height:40px;display:flex;align-items:center}
+.flow span::before{content:"";position:absolute;left:8px;top:0;bottom:0;border-left:1.5px dashed var(--sub)}
+.flow span.down::after{content:"";position:absolute;left:4px;bottom:0;border:5px solid transparent;border-top-color:var(--sub);border-bottom:0}
+.flow span.up::after{content:"";position:absolute;left:4px;top:0;border:5px solid transparent;border-bottom-color:var(--sub);border-top:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:20px;font-size:15px;color:var(--sub)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1.5px solid var(--zc);background:var(--zt)}
+
+/* 필터 */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.filters button{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 14px;font-size:15px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.status{font-size:15px;color:var(--sub);margin:0 0 10px}
+
+/* 업무별 라우팅 */
+.routes{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.route{display:grid;grid-template-columns:minmax(0,15rem) 8.5rem minmax(0,1fr);gap:6px 18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+.route h3{font-size:17px;font-weight:500}
+.chip{display:inline-block;font-size:14px;font-weight:700;color:var(--zc);background:var(--zt);border:1px solid var(--zc);border-radius:6px;padding:0 8px;white-space:nowrap}
+.route p{margin:0;font-size:16px;max-width:68ch}
+.route .alt{color:var(--sub);font-size:15px;margin-top:4px}
+
+/* 카드 */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card p{margin:6px 0 0;font-size:16px;color:var(--sub)}
+.card.rule{border-top:3px solid var(--data)}
+.nflow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 16px;font-size:15px}
+.nflow b{background:var(--notion-t);border:1px solid var(--line);border-radius:6px;padding:2px 10px;font-weight:500}
+.nflow span{color:var(--sub)}
+
+/* 하루 */
+ol.day{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+ol.day li{position:relative;padding:0 0 18px 26px;max-width:72ch}
+ol.day li::before{content:"";position:absolute;left:-8px;top:7px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--zc)}
+ol.day .when{color:var(--sub);font-size:15px;display:block}
+ol.day b{font-weight:700}
+
+/* 도구 목록 */
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.item{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--zc);border-radius:0 10px 10px 0;padding:12px 14px;min-width:0}
+.item h4{margin:0;font-size:17px;font-weight:500}
+.item .where{font-size:14px;color:var(--sub);margin:0 0 4px}
+.item p{margin:4px 0;font-size:16px}
+.item .cmd{display:block;font-family:"Cascadia Code", Consolas, "D2Coding", monospace;background:var(--code);border-radius:6px;padding:6px 8px;margin:8px 0 2px;overflow-x:auto;white-space:pre;font-size:14px}
+.item .note{font-size:14.5px;color:var(--data)}
+.group h3{margin:26px 0 10px}
+
+/* 단계 */
+ol.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;counter-reset:s}
+ol.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+ol.steps li::before{content:counter(s) "단계";display:block;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--zc)}
+ol.steps h3{margin:2px 0 6px}
+ol.steps p{margin:0;font-size:16px;color:var(--sub)}
+pre.block{background:var(--code);border-radius:10px;padding:14px 16px;overflow-x:auto;font-family:"Cascadia Code", Consolas, "D2Coding", monospace;font-size:14.5px;line-height:1.6;margin:0}
+
+
+
+.dv .note-end{ margin-top:64px; padding-top:20px; border-top:1px solid var(--line); font-size:14.5px; color:var(--sub); max-width:46em; }
+@media (max-width:760px){
+  .decide,.row,.row.two{grid-template-columns:1fr}
+  .flow{display:none}
+  .row+.row,.tier-label{margin-top:14px}
+  .route{grid-template-columns:minmax(0,1fr) auto}
+  .route>div:last-child{grid-column:1/-1}
+  .dv section{ margin-top:48px; }
+}
+</style>
+</head>
+<body>
+<div class="top"><div class="in wide">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+  <nav><a href="#h-map">구조</a><a href="#route">업무별</a><a href="#h-data">데이터 경계</a><a href="#tools">도구</a><a href="#h-steps">도입 순서</a></nav>
+</div></div>
+
+<main class="in wide dv" style="padding-bottom:80px">
+  <div class="head" style="padding-bottom:0">
+    <h1>교사 바이브코더의 AI 작업실 설계도</h1>
+    <p class="lead">기본은 Claude 앱에서 하고, 코드는 클라우드에서 키우고, 내 PC가 꼭 필요한 일만 로컬에서 합니다. 실제 학생 데이터는 학교 구글 계정과 내 PC 밖으로 나가지 않습니다.</p>
+  </div>
+
+
+<section aria-labelledby="h-decide">
+  <h2 id="h-decide">어디서 할지 정하는 세 질문</h2>
+  <p class="sub">새 일이 생기면 위에서부터 차례로 물어봅니다. 처음 “예”가 나오는 곳에서 합니다.</p>
+  <div class="decide">
+    <div class="q z-local"><p class="ask">내 PC의 파일이나 프로그램을 건드리나요? 실제 학생 데이터를 다루나요? 계속 켜져 있어야 하나요?</p><p class="go">로컬</p></div>
+    <div class="q z-claude"><p class="ask">코드를 만들고, 저장소에 쌓아 가며 계속 고칠 일인가요?</p><p class="go">클라우드 세션</p></div>
+    <div class="q z-app"><p class="ask">그 밖의 일: 자료 만들기, 정리하기, 페이지 공유, 노션·캘린더 다루기.</p><p class="go">Claude 앱</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-map">
+  <h2 id="h-map">전체 구조</h2>
+  <p class="sub">위에는 Claude와 일하는 세 작업대가, 아래에는 결과가 쌓이고 운영되는 곳이 있습니다. 화살표는 각 작업대의 결과가 어디로 가는지를 보여 줍니다.</p>
+
+  <p class="tier-label">만드는 곳</p>
+  <div class="row">
+    <div class="zone z-app">
+      <span class="tag">기본 작업대</span>
+      <h3>Claude 앱</h3>
+      <p class="role">웹, 데스크톱, 폰 어디서나. 설치할 것 없음.</p>
+      <ul><li>프로젝트</li><li>노션·드라이브·캘린더 커넥터</li><li>슬라이드·문서</li><li>페이지 게시</li><li>예약 작업</li></ul>
+    </div>
+    <div class="zone z-claude">
+      <span class="tag">개발 작업대</span>
+      <h3>Claude Code 클라우드</h3>
+      <p class="role">GitHub 저장소를 맡기고 노트북을 닫아도 되는 곳.</p>
+      <ul><li>클라우드 세션</li><li>Routines</li><li>환경 설정·API credentials</li><li>폰으로 확인</li></ul>
+    </div>
+    <div class="zone z-local">
+      <span class="tag">필요할 때만</span>
+      <h3>로컬</h3>
+      <p class="role">내 PC가 있어야만 되는 일.</p>
+      <ul><li>Mac: tmux + Claude Code</li><li>Mac: clasp 배포</li><li>학교 PC: <a href="../coolwatch/">coolwatch</a></li><li>실제 명단 처리</li></ul>
+    </div>
+  </div>
+  <div class="flow" aria-hidden="true">
+    <span class="down">커넥터로 읽고 쓰기, 아침 정리</span>
+    <span class="down">결과를 브랜치로 push</span>
+    <span class="down">검토 후 배포, 메시지 기록</span>
+  </div>
+
+  <p class="tier-label">보관하고 운영하는 곳</p>
+  <div class="row">
+    <div class="zone z-notion">
+      <h3>Notion</h3>
+      <p class="role">Claude와 함께 보는 교무수첩.</p>
+      <ul><li>받은 업무함</li><li>업무·공문 트래커</li><li>수업 설계</li><li>수행평가 운영</li><li>Notion Calendar</li></ul>
+    </div>
+    <div class="zone z-git">
+      <h3>GitHub</h3>
+      <p class="role">코드와 규칙의 창고, 공개 안내의 출구.</p>
+      <ul><li>비공개 저장소</li><li>CLAUDE.md·스킬</li><li>Actions</li><li>Pages 수업 사이트</li></ul>
+    </div>
+    <div class="zone z-data">
+      <h3>학교 구글 계정</h3>
+      <p class="role">학생이 접속하고 학생 데이터가 쌓이는 곳.</p>
+      <ul><li>Apps Script 제출 페이지</li><li>드라이브 제출 폴더</li><li>제출 기록 시트</li><li>시간 기반 트리거</li></ul>
+    </div>
+  </div>
+  <div class="flow" aria-hidden="true">
+    <span class="up">동료 교사: 게시 페이지 링크</span>
+    <span class="up">학생: Pages에서 안내 확인</span>
+    <span class="up">학생: QR로 접속해 제출</span>
+  </div>
+
+  <p class="tier-label">사용하는 사람</p>
+  <div class="row two">
+    <div class="zone z-people"><h3>동료 교사</h3><p class="role" style="margin:0">선생님이 공유한 페이지와 자료를 봅니다. 각자의 환경은 따로입니다.</p></div>
+    <div class="zone z-people"><h3>학생</h3><p class="role" style="margin:0">폰이나 크롬북으로 안내를 보고, 파일·URL·글을 제출합니다.</p></div>
+  </div>
+
+  <div class="legend">
+    <span class="z-app"><i></i>Claude 앱</span>
+    <span class="z-claude"><i></i>클라우드 개발</span>
+    <span class="z-local"><i></i>로컬</span>
+    <span class="z-data"><i></i>실제 학생 데이터가 사는 곳</span>
+    <span class="z-git"><i></i>코드·공개 안내</span>
+    <span class="z-notion"><i></i>기록과 계획</span>
+  </div>
+</section>
+
+<section aria-labelledby="h-route" id="route">
+  <h2 id="h-route">업무별로 어디서 할까</h2>
+  <p class="sub">지금까지 이야기한 업무를 모두 모았습니다. 작업대를 골라 그곳에서 하는 일만 볼 수 있습니다.</p>
+  <div class="filters" role="group" aria-label="작업대로 거르기" id="routeFilters"></div>
+  <p class="status" id="routeStatus" aria-live="polite"></p>
+  <div class="routes" id="routes"></div>
+</section>
+
+<section aria-labelledby="h-data">
+  <h2 id="h-data">데이터 경계</h2>
+  <p class="sub">이 설계도에서 가장 중요한 부분입니다. 편의보다 이 원칙이 먼저입니다.</p>
+  <div class="cols">
+    <div class="card rule"><h3>Claude가 보는 것</h3><p>코드, 가짜 학생 데이터, 학생 정보가 없는 공문과 업무 문서까지입니다. 실제 명단, 성적, 상담 내용은 채팅에 붙여넣거나 올리지 않습니다.</p></div>
+    <div class="card rule"><h3>실제 학생 데이터의 자리</h3><p>학교 구글 계정과 내 PC, 두 곳뿐입니다. 처리는 Claude가 가짜 데이터로 완성한 스크립트를 선생님이 직접 실행해서 합니다.</p></div>
+    <div class="card rule"><h3>학생 앞 배포는 직접</h3><p>학생이 쓰는 페이지는 diff를 읽은 뒤 선생님이 배포합니다. Claude는 코드를 제안하고, 배포 명령은 막아 둡니다.</p></div>
+    <div class="card rule"><h3>비밀키는 저장소 밖</h3><p>.env는 커밋하지 않습니다. 클라우드에 필요한 키는 환경의 API credentials에, 학교 PC의 노션 키는 환경변수에 둡니다.</p></div>
+  </div>
+  <p style="margin:22px 0 8px">원칙을 실제로 강제하는 설정입니다. 저장소의 <code>.claude/settings.json</code>에 둡니다. CLAUDE.md의 규칙은 부탁이고, 이 설정은 차단입니다.</p>
+<pre class="block">{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./data/real/**)",
+      "Read(./**/credentials*.json)",
+      "Bash(clasp deploy:*)"
+    ]
+  }
+}</pre>
+</section>
+
+<section aria-labelledby="h-notion">
+  <h2 id="h-notion">Notion 교무수첩</h2>
+  <p class="sub">업무가 들어오는 길과 정리되는 길이 노션 안에서 만납니다.</p>
+  <div class="nflow" aria-label="업무 흐름">
+    <b>쿨메신저</b><span>→ coolwatch →</span><b>받은 업무함</b><span>→ 아침 예약 작업 →</span><b>업무·공문 트래커</b><span>→</span><b>Notion Calendar</b>
+  </div>
+  <div class="cols">
+    <div class="card"><h3>받은 업무함</h3><p>coolwatch가 정리한 업무 메시지가 한 줄씩 쌓이는 곳. 할 일·기한·일정이 뽑혀 들어오고, 팝업 대신 보는 조용한 알림창입니다.</p></div>
+    <div class="card"><h3>업무·공문 트래커</h3><p>할 일, 마감일, 회의 일시, 상태. 받은 업무함에서 정리되어 들어오고, 날짜는 캘린더에 그대로 보입니다.</p></div>
+    <div class="card"><h3>수업 설계</h3><p>단원, 차시, 성취기준, 자료 링크. Claude가 이걸 읽고 PPT와 학습지를 만듭니다.</p></div>
+    <div class="card"><h3>수행평가 운영</h3><p>과제, 기간, 루브릭, 제출 페이지 주소, 상태. 학생 개인 점수는 넣지 않고 시트에 둡니다.</p></div>
+    <div class="card"><h3>프롬프트·스킬 노트</h3><p>잘 통한 지시문과 실패 기록. 세 번 이상 쓴 지시문은 스킬로 옮깁니다.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-day">
+  <h2 id="h-day">하루의 흐름</h2>
+  <p class="sub">구조도가 실제 일과에서 움직이는 순서입니다.</p>
+  <ol class="day">
+    <li class="z-app"><span class="when">출근길</span><b>폰으로 오늘 할 일 확인.</b> 새벽에 예약 작업이 받은 업무함을 업무 트래커로 정리해 두었습니다.</li>
+    <li class="z-local"><span class="when">근무 중</span><b>쿨메신저는 조용히 쌓입니다.</b> 업무 메시지는 coolwatch가 카드로 정리하고 받은 업무함에도 올립니다. 팝업은 꺼 둡니다.</li>
+    <li class="z-app"><span class="when">공강 시간</span><b>앱에서 수업자료.</b> 수업 설계 DB를 읽혀 슬라이드와 학습지를 만들고, 공문 서식은 HWPX로 올려 채웁니다.</li>
+    <li class="z-claude"><span class="when">퇴근 전</span><b>개발 작업을 클라우드에 맡깁니다.</b> “제출 페이지에 지각 표시 추가”처럼 범위가 분명한 일을 넘기고 노트북을 닫습니다.</li>
+    <li class="z-claude"><span class="when">저녁</span><b>폰으로 진행 확인.</b> 질문이 와 있으면 답합니다.</li>
+    <li class="z-git"><span class="when">다음 날 아침</span><b>브랜치를 읽고 병합합니다.</b> PR은 자동으로 열리지 않으니 직접 만듭니다.</li>
+    <li class="z-local"><span class="when">수업 전</span><b>학생용 코드는 Mac에서 배포.</b> <code>clasp push</code>와 <code>clasp deploy</code>를 선생님이 실행합니다.</li>
+    <li class="z-data"><span class="when">수행평가 기간</span><b>학생 제출과 자동 집계.</b> 파일은 드라이브에, 기록은 시트에 쌓이고, 미제출 확인은 Apps Script 트리거가 구글 안에서 합니다.</li>
+  </ol>
+</section>
+
+<section aria-labelledby="h-tools" id="tools">
+  <h2 id="h-tools">도구·MCP·라이브러리</h2>
+  <p class="sub">작업대마다 무엇을 쓰는지와 설치 명령입니다.</p>
+  <div class="filters" role="group" aria-label="영역으로 거르기" id="toolFilters"></div>
+  <p class="status" id="toolStatus" aria-live="polite"></p>
+  <div id="toolList"></div>
+</section>
+
+<section aria-labelledby="h-steps">
+  <h2 id="h-steps">도입 순서</h2>
+  <p class="sub">한꺼번에 다 갖추지 않아도 됩니다. 앞 단계만으로도 바로 쓸모가 있습니다.</p>
+  <ol class="steps">
+    <li class="z-app"><h3>앱과 노션</h3><p>“수업자료”, “업무 정리” 프로젝트 두 개를 만들고 노션·구글 커넥터를 연결합니다. 노션에 교무수첩 DB 다섯 개를 만듭니다.</p></li>
+    <li class="z-local"><h3>업무 수집 자동화</h3><p>학교 PC에 <a href="../coolwatch/">coolwatch</a>를 설치합니다(설치.bat 한 번). 받은 업무함이 차기 시작하면 아침 정리 예약 작업을 겁니다.</p></li>
+    <li class="z-claude"><h3>저장소와 클라우드</h3><p>GitHub 비공개 저장소를 만들고 클라우드 세션을 연결합니다. 첫 작업은 가짜 학생 명단, 둘째는 제출 페이지입니다.</p></li>
+    <li class="z-data"><h3>첫 수행평가</h3><p>Mac에서 clasp로 제출 페이지를 배포하고, QR을 수업 슬라이드에 넣어 실제로 운영해 봅니다.</p></li>
+  </ol>
+</section>
+
+<section aria-labelledby="h-repo">
+  <h2 id="h-repo">저장소 구조</h2>
+  <p class="sub">3단계에서 만드는 비공개 저장소입니다. 클라우드 세션과 Mac이 같은 규칙을 읽습니다.</p>
+<pre class="block">school-workshop/
+├── CLAUDE.md                   학교 환경, 한국어, 데이터 경계
+├── .claude/
+│   ├── settings.json           차단 규칙
+│   ├── skills/                 루브릭, 제출폼, 수업 PPT, HWPX 공문
+│   └── agents/privacy-reviewer.md   커밋 전 개인정보 점검
+├── .mcp.json                   노션·Playwright·Context7 (project 범위)
+├── apps-script/                학생 제출 페이지 (clasp 폴더)
+├── scripts/                    PPT 일괄 생성, 명단 처리, 집계
+├── site/                       GitHub Pages 수업 사이트
+├── templates/                  학교 PPT 템플릿, HWPX 서식
+├── fixtures/fake_students.csv  가짜 명단
+└── data/real/                  .gitignore, Claude 읽기 차단</pre>
+  <p style="max-width:70ch;font-size:15px;color:var(--muted);margin-top:12px">coolwatch는 학교 PC 전용이라 이 저장소와 따로 둡니다. 받은 압축 파일 안에 소스와 인수인계 문서(HANDOFF.md), 안전 규칙(CLAUDE.md)이 들어 있습니다.</p>
+</section>
+
+<p class="note-end">2026년 10월 8일 기준입니다. Claude 앱과 Claude Code의 기능, 설치 방법, 요금과 한도는 바뀔 수 있으니 공식 문서에서 다시 확인하세요. Claude 앱에서 게시한 페이지는 교사와 동료용으로 쓰고, 학생 제출 창구로는 쓰지 않습니다. 학생 정보를 노션이나 외부 서비스로 옮기기 전에는 학교 개인정보 지침을 먼저 확인하세요.</p>
+
+</main>
+
+<footer><div class="in wide"><span>AI 작업실 설계도</span><a href="../">연수 자료로</a></div></footer>
+<script>
+const W={app:"Claude 앱",cloud:"클라우드 세션",local:"로컬",google:"학교 구글"};
+const WC={app:"z-app",cloud:"z-claude",local:"z-local",google:"z-data"};
+const R=[
+ {t:"수업 PPT",w:"app",d:"수업 설계 DB를 읽혀 앱에서 슬라이드로 만들고 PPTX로 내려받습니다.",a:"학교 템플릿을 꼭 써야 하거나 여러 개를 한꺼번에 찍어야 하면, 클라우드 세션에서 python-pptx 스크립트를 만듭니다."},
+ {t:"학습지·안내문·가정통신문",w:"app",d:"앱에서 문서로 만들고 Word나 PDF로 내려받습니다."},
+ {t:"루브릭·수행평가 안내",w:"app",d:"동료와 볼 것은 앱에서 페이지로 게시해 링크로 공유합니다.",a:"학생이 볼 공개 안내는 GitHub Pages 수업 사이트에 올립니다."},
+ {t:"공문 HWPX 서식 채우기",w:"app",d:"학생 정보가 없는 서식은 HWPX 파일을 올리면 빈칸을 채운 파일로 돌려받습니다. 결과는 한글에서 열어 확인합니다.",a:"자주 하는 서식은 스킬로 만들어 둡니다."},
+ {t:"업무 목록·일정 정리",w:"app",d:"아침 예약 작업이 노션 받은 업무함을 읽어 할 일과 마감일을 업무 트래커로 옮깁니다. 날짜는 Notion Calendar에 그대로 보입니다."},
+ {t:"쿨메신저 업무 메시지 수집",w:"local",d:"학교 PC의 coolwatch가 업무 메시지에서 할 일·기한·일정을 뽑아 카드로 보여 주고 받은 업무함에 올립니다. 메시지 DB는 읽기 전용으로만 엽니다.",a:"학생·학부모 관련 글은 제외 단어로 걸러 기록하지 않습니다."},
+ {t:"학생 제출 페이지 개발",w:"cloud",d:"Apps Script 코드를 저장소에서 키웁니다. 시험은 가짜 데이터로 하고, 결과는 브랜치로 받습니다."},
+ {t:"제출 페이지 배포",w:"local",d:"Mac에서 diff를 확인한 뒤 clasp push와 clasp deploy를 직접 실행합니다.",a:"작은 수정은 Apps Script 편집기에 붙여넣어도 됩니다."},
+ {t:"제출 집계·미제출 확인",w:"google",d:"Apps Script 시간 기반 트리거가 구글 안에서 처리합니다. 학생 데이터가 밖으로 나가지 않습니다."},
+ {t:"수업 사이트",w:"cloud",d:"클라우드 세션이 저장소의 site 폴더를 고쳐 push하면 GitHub Actions가 Pages로 배포합니다."},
+ {t:"실제 명단으로 서식 일괄 생성",w:"local",d:"클라우드에서 가짜 명단으로 스크립트를 완성하고, 실제 명단은 내 PC에서 선생님이 직접 실행합니다."},
+ {t:"나이스 엑셀 정리·성적 집계",w:"local",d:"같은 원칙입니다. Claude는 같은 구조의 가짜 파일로 코드를 만들고, 실제 파일은 보지 않습니다."},
+ {t:"서술형 답안 분석",w:"local",d:"실제 답안은 내 PC에서 스크립트로 분석합니다. 핵심어 빈도는 kiwipiepy로 봅니다."}
+];
+const TZ={app:"Claude 앱",cloud:"클라우드",mac:"Mac",pc:"학교 PC",google:"학교 구글",github:"GitHub",notion:"Notion"};
+const TC={app:"z-app",cloud:"z-claude",mac:"z-local",pc:"z-local",google:"z-data",github:"z-git",notion:"z-notion"};
+const T=[
+ {n:"프로젝트",z:["app"],u:"“수업자료”, “업무 정리”처럼 일의 종류별로 지침과 참고 자료를 묶어 둡니다."},
+ {n:"커넥터",z:["app","notion"],u:"노션, 구글 드라이브, 캘린더, Gmail을 연결합니다. 채팅과 클라우드 세션에서 함께 씁니다.",w:"학생 개인정보가 담긴 파일은 불러오지 않습니다."},
+ {n:"슬라이드·문서",z:["app"],u:"수업 PPT와 학습지를 만들고 PPTX, Word, PDF로 내려받습니다."},
+ {n:"페이지 게시",z:["app"],u:"링크로 공유하는 페이지입니다. 이 설계도도 그렇게 만들었습니다.",w:"교사·동료용입니다. 학생 제출 창구로는 쓰지 않습니다."},
+ {n:"예약 작업",z:["app"],u:"정해진 시각에 Claude가 일을 합니다. 아침 업무 정리에 씁니다."},
+ {n:"스킬",z:["app","cloud","github"],u:"루브릭 작성, 공문 서식, 업무 메시지 정리처럼 반복되는 일을 묶어 둡니다.",w:"claude.ai에 올리면 앱과 클라우드 세션 모두에서, 저장소 .claude/skills에 두면 Claude Code에서 씁니다."},
+ {n:"클라우드 세션",z:["cloud"],u:"앱, 웹, 폰, 또는 터미널에서 시작합니다. 결과는 브랜치로 올라옵니다.",x:"claude --cloud \"작업 내용\"",w:"PR은 자동으로 열리지 않습니다. 로컬에만 있는 커밋은 먼저 push하세요."},
+ {n:"Routines",z:["cloud"],u:"정해진 시간에 클라우드 세션을 자동으로 실행합니다. 저장소 작업을 정기적으로 할 때 씁니다."},
+ {n:"클라우드 환경 설정",z:["cloud"],u:"setup script로 라이브러리를 미리 설치하고, 허용 도메인과 API credentials를 관리합니다.",w:"세션에서 설치한 패키지는 다음 세션으로 이어지지 않습니다."},
+ {n:"claude --teleport",z:["cloud","mac"],u:"클라우드에서 하던 세션을 Mac 터미널로 가져와 이어서 합니다.",x:"claude --teleport"},
+ {n:"Claude Code + tmux",z:["mac"],u:"Mac 로컬 작업의 중심입니다.",x:"brew install tmux\ncurl -fsSL https://claude.ai/install.sh | bash"},
+ {n:"VS Code",z:["mac"],u:"선택 사항입니다. Claude가 바꾼 파일과 diff를 넓게 볼 때 엽니다."},
+ {n:"clasp",z:["mac"],u:"Apps Script 코드를 학교 구글 계정으로 올리고 배포합니다.",x:"npm install -g @google/clasp\nclasp login",w:"script.google.com 사용자 설정에서 Apps Script API를 먼저 켜야 합니다."},
+ {n:"uv · Node · gh",z:["mac"],u:"파이썬 라이브러리, clasp·MCP 실행, GitHub 작업에 씁니다.",x:"brew install uv node gh"},
+ {n:"MCP: Notion · Playwright · Context7",z:["mac"],u:"노션 읽고 쓰기, 만든 제출 페이지를 폰 화면 크기로 열어 확인하기, 라이브러리 최신 문서 찾기.",x:"claude mcp add --scope project --transport http notion https://mcp.notion.com/mcp\nclaude mcp add --scope project playwright -- npx @playwright/mcp@latest\nclaude mcp add --scope project context7 -- npx -y @upstash/context7-mcp",w:"project 범위로 추가해야 클라우드 세션에도 따라갑니다."},
+ {n:"Claude Code (Windows)",z:["pc"],u:"coolwatch의 Claude 요약이 이 프로그램으로 동작합니다. coolwatch를 고쳐 쓸 때도 씁니다.",x:"irm https://claude.ai/install.ps1 | iex",w:"설치와 외부 접속이 허용되는지 정보부장님께 먼저 확인합니다."},
+ {n:"coolwatch",z:["pc","notion"],u:"쿨메신저 메시지 DB를 읽기 전용으로 확인해 업무 메시지를 카드로 정리하고 받은 업무함에 올립니다. 쿨메신저에 낯선 오류가 생기면 멈춥니다.",w:"Claude 요약을 켜면 메시지 본문이 Anthropic으로 전송됩니다. 제외 단어를 먼저 정하세요."},
+ {n:"로그온 자동 실행",z:["pc"],u:"coolwatch의 설치.bat이 시작프로그램 바로가기를 만들어, 로그온하면 창 없이 켜집니다. 따로 등록할 것이 없습니다."},
+ {n:"pyhwpx",z:["pc"],u:"한글이 설치된 학교 PC에서 한글 프로그램을 직접 조종합니다. 옛 .hwp 파일도 다룰 수 있습니다.",w:"Windows 전용입니다. Mac과 클라우드에서는 HWPX 직접 처리를 씁니다."},
+ {n:"Faker (ko_KR)",z:["cloud","mac"],u:"한국식 이름의 가짜 학생 명단을 만듭니다. 모든 개발과 시험의 출발점입니다.",x:"uv add faker"},
+ {n:"python-pptx",z:["cloud","mac"],u:"학교 템플릿으로 슬라이드를 일괄 생성하고, 발표 원고를 노트에 넣습니다.",x:"uv add python-pptx"},
+ {n:"HWPX 처리 (zipfile + lxml)",z:["app","cloud","mac"],u:"HWPX는 압축된 XML이라 어디서나 빈칸을 채울 수 있습니다.",x:"uv add lxml",w:"옛 .hwp는 한글에서 .hwpx로 다른 이름 저장 후 처리합니다."},
+ {n:"pandas + openpyxl",z:["mac","pc"],u:"나이스 엑셀과 제출 기록을 정리하고 집계합니다.",x:"uv add pandas openpyxl"},
+ {n:"kiwipiepy",z:["mac","pc"],u:"한국어 형태소 분석기입니다. 서술형 답안의 핵심어를 봅니다.",x:"uv add kiwipiepy"},
+ {n:"qrcode",z:["cloud","mac"],u:"제출 페이지 주소를 QR로 만들어 슬라이드에 넣습니다.",x:"uv add qrcode"},
+ {n:"matplotlib",z:["cloud","mac"],u:"수업용 그래프와 성취도 분포를 그립니다.",x:"uv add matplotlib",w:"한글 폰트를 지정해야 글자가 깨지지 않습니다."},
+ {n:"HtmlService + google.script.run",z:["google"],u:"학생이 보는 제출 페이지와 구글 쪽 저장 함수를 잇습니다. 파일, URL, 글을 한 페이지에서 받습니다.",w:"한 번 실행에 6분 제한이 있고, 큰 파일 업로드에는 한계가 있습니다."},
+ {n:"DriveApp · SpreadsheetApp",z:["google"],u:"제출 파일을 학번 이름으로 드라이브에 저장하고, 제출 시각과 지각 여부를 시트에 기록합니다."},
+ {n:"시간 기반 트리거",z:["google"],u:"마감 전 미제출 확인과 밤마다 집계를 구글 안에서 자동으로 돌립니다."},
+ {n:"Tailwind (Play CDN)",z:["google"],u:"제출 페이지를 폰에서도 보기 좋게 꾸밉니다. 빌드 과정이 필요 없습니다."},
+ {n:"CLAUDE.md + settings.json",z:["github"],u:"규칙은 CLAUDE.md에, 실제 차단은 settings.json의 deny에 둡니다. 클라우드 세션과 Mac이 같은 규칙을 읽습니다."},
+ {n:"개인정보 점검 서브에이전트",z:["github"],u:"커밋 전에 실명, 학번, 성적이 코드에 들어갔는지 검사합니다. 읽기 도구만 허용합니다."},
+ {n:"MkDocs Material + Pages",z:["github"],u:"마크다운으로 쓴 수업 안내와 루브릭을 Pages 사이트로 만듭니다. Actions로 자동 배포합니다.",x:"uv add mkdocs-material",w:"Pages는 공개됩니다. 학생 정보는 올리지 않습니다."},
+ {n:"Notion Calendar",z:["notion"],u:"업무 트래커의 날짜 속성을 구글 캘린더 일정과 한 화면에 보여 줍니다."}
+];
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
+function buttons(el,map,cur,onPick){
+  el.innerHTML="";
+  [["all","전체"],...Object.entries(map)].forEach(([k,v])=>{
+    const b=document.createElement("button");b.type="button";b.textContent=v;
+    b.setAttribute("aria-pressed",String(cur===k));
+    b.addEventListener("click",()=>onPick(k));el.appendChild(b);
+  });
+}
+let rw="all",tz="all";
+function renderRoutes(){
+  buttons(document.getElementById("routeFilters"),W,rw,k=>{rw=k;renderRoutes();});
+  const f=R.filter(r=>rw==="all"||r.w===rw);
+  document.getElementById("routeStatus").textContent=`업무 ${f.length}개`;
+  document.getElementById("routes").innerHTML=f.map(r=>
+    `<article class="route"><h3>${esc(r.t)}</h3><div><span class="chip ${WC[r.w]}">${W[r.w]}</span></div><div><p>${esc(r.d)}</p>${r.a?`<p class="alt">${esc(r.a)}</p>`:""}</div></article>`).join("");
+}
+function renderTools(){
+  buttons(document.getElementById("toolFilters"),TZ,tz,k=>{tz=k;renderTools();});
+  const f=T.filter(t=>tz==="all"||t.z.includes(tz));
+  document.getElementById("toolStatus").textContent=`${f.length}개 항목`;
+  const order=tz==="all"?Object.keys(TZ):[tz];
+  const used=new Set();
+  document.getElementById("toolList").innerHTML=order.map(z=>{
+    const g=f.filter(t=>t.z[0]===z||(tz!=="all"&&t.z.includes(z))).filter(t=>!used.has(t.n));
+    g.forEach(t=>used.add(t.n));
+    if(!g.length)return"";
+    return `<div class="group"><h3>${TZ[z]}</h3><div class="items">`+g.map(t=>
+      `<article class="item ${TC[z]}"><h4>${esc(t.n)}</h4><p class="where">${t.z.map(x=>TZ[x]).join(", ")}</p><p>${esc(t.u)}</p>`+
+      (t.x?`<code class="cmd">${esc(t.x)}</code>`:"")+(t.w?`<p class="note">${esc(t.w)}</p>`:"")+`</article>`).join("")+`</div></div>`;
+  }).join("");
+}
+renderRoutes();renderTools();
+</script>
+</body>
+</html>
