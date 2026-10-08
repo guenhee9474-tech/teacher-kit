@@ -11,7 +11,7 @@
 <body>
 <div class="top"><div class="in">
   <a class="brand" href="../">← 연수 자료<i>.</i></a>
-  <nav><a href="#need">필요한 것</a><a href="#install">설치</a><a href="#work">일하는 방식</a><a href="#kit">본보기 폴더</a><a href="#data">자료</a><a href="#stuck">막히는 곳</a><a href="#terms">용어</a></nav>
+  <nav><a href="#need">필요한 것</a><a href="#ways">쓰는 방법</a><a href="#install">설치</a><a href="#work">일하는 방식</a><a href="#kit">본보기 폴더</a><a href="#data">자료</a><a href="#stuck">막히는 곳</a><a href="#terms">용어</a></nav>
 </div></div>
 
 <main class="in doc">
@@ -31,9 +31,40 @@
     <p class="sub">Claude는 Pro 또는 Max 요금제 계정으로 로그인합니다.</p>
   </section>
 
+  <section id="ways">
+    <h2>Claude Code를 쓰는 방법</h2>
+    <p>Claude Code는 여러 모양으로 쓸 수 있습니다. 어느 쪽이든 같은 폴더의 <code>CLAUDE.md</code>를 읽고 같은 일을 합니다. 모두 Pro, Max 같은 유료 요금제 계정이 필요합니다.</p>
+    <table>
+      <tr><th>터미널</th><td>터미널에서 <code>claude</code>를 실행해 글로 주고받습니다. 내 PC의 폴더와 명령을 그대로 씁니다. 가장 기본이 되는 방식입니다.</td></tr>
+      <tr><th>VS Code 확장</th><td>VS Code 옆 칸에 대화 창이 생깁니다. 고친 곳을 편집기에서 바로 비교해 볼 수 있습니다. 내 PC에서 돕니다.</td></tr>
+      <tr><th>데스크톱 앱</th><td>Claude 앱의 Code 탭. 터미널 없이 폴더를 골라 시킵니다. 내 PC에서 돌리거나 클라우드에서 돌리는 것을 고를 수 있습니다.</td></tr>
+      <tr><th>웹</th><td><a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>. 설치 없이 브라우저에서 씁니다. 내 PC가 아니라 Anthropic 쪽에서 돌고, GitHub 저장소를 연결해야 합니다.</td></tr>
+      <tr><th>JetBrains 플러그인</th><td>IntelliJ, PyCharm 같은 프로그램을 쓰는 사람용입니다. 연수에서는 다루지 않습니다.</td></tr>
+    </table>
+
+    <h3>연수에서는 왜 VS Code와 터미널인가</h3>
+    <ul>
+      <li><b>내 PC에서 돌아야 합니다.</b> 수행평가 페이지 설치는 구글 로그인 창을 내 브라우저로 열고, GitHub에 올리고, 자동 시험을 돌립니다. coolwatch는 학교 PC에 있는 쿨메신저 기록을 읽습니다. 웹 방식은 내 PC가 아닌 곳에서 돌아서 이 일을 할 수 없습니다.</li>
+      <li><b>VS Code는 폴더를 눈으로 보게 해 줍니다.</b> 왼쪽에 파일 목록, 가운데에 파일 내용, 아래에 터미널이 한 창에 있습니다. Claude가 무엇을 고쳤는지 따라가기 쉽습니다.</li>
+      <li><b>터미널 방식이 기준입니다.</b> 본보기의 안내 파일과 공식 문서의 명령이 터미널 기준으로 적혀 있습니다. coolwatch의 Claude 요약도 터미널용 <code>claude</code> 명령을 부르므로, 이 설치가 있어야 합니다.</li>
+      <li><b>어느 PC에서나 같습니다.</b> 노트북에서도 학교 PC에서도 같은 명령 한 줄로 설치하고 같은 방식으로 씁니다.</li>
+    </ul>
+    <p class="sub">VS Code 확장을 함께 깔아도 됩니다. 같은 폴더에서 터미널과 확장을 번갈아 써도 됩니다. 터미널이 낯설면 확장이나 데스크톱 앱으로 시작하고, 설치·배포처럼 명령이 필요한 일만 터미널에서 해도 됩니다.</p>
+
+    <h3>방법별 설치</h3>
+    <table>
+      <tr><th>터미널</th><td>아래 “설치와 확인”의 명령 한 줄. Windows에서는 Git for Windows를 함께 깔아 두는 것을 권합니다. 처음 <code>claude</code>를 실행하면 브라우저가 열려 로그인합니다.</td></tr>
+      <tr><th>VS Code 확장</th><td>VS Code에서 <code>Ctrl+Shift+X</code>(Mac은 <code>Cmd+Shift+X</code>)로 확장 목록을 열고 “Claude Code”를 검색해 Anthropic이 올린 것을 설치합니다. 확장만으로 대화 창은 쓸 수 있지만, 터미널에서 <code>claude</code>를 치려면 터미널용을 따로 설치해야 합니다.</td></tr>
+      <tr><th>데스크톱 앱</th><td><a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>에서 받아 설치하고, 로그인한 뒤 Code 탭을 엽니다. 따로 설치할 것이 없습니다.</td></tr>
+      <tr><th>웹</th><td>설치가 없습니다. <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>에 로그인하고 GitHub를 연결합니다.</td></tr>
+      <tr><th>JetBrains 플러그인</th><td>터미널용을 먼저 설치한 뒤, 프로그램의 Settings → Plugins에서 “Claude Code”를 검색해 설치합니다.</td></tr>
+    </table>
+    <p class="sub">2026년 10월 공식 문서 기준입니다. 설치 방법과 이름은 바뀔 수 있으니 <a href="https://code.claude.com/docs" target="_blank" rel="noopener">공식 문서</a>에서 다시 확인하세요.</p>
+  </section>
+
   <section id="install">
     <h2>설치와 확인</h2>
-    <p>프로그램을 받는 곳과 설치할 때 고를 것은 <a href="../prep/">연수 전 준비</a>에 있습니다. Claude Code는 아래 명령으로 설치합니다.</p>
+    <p>프로그램을 받는 곳과 설치할 때 고를 것은 <a href="../prep/">연수 전 준비</a>에 있습니다. 터미널용 Claude Code는 아래 명령으로 설치합니다.</p>
 <pre><code># Windows (PowerShell)
 irm https://claude.ai/install.ps1 | iex
 
