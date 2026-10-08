@@ -3,46 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>연수 자료 모음</title>
-<meta name="description" content="연수에서 쓰는 자료와 도구를 카드로 모아 둔 곳입니다.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230f1014'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23e4003a'/%3E%3C/svg%3E">
+<title>연수 자료</title>
+<meta name="description" content="연수에서 쓰는 자료와 도구 모음">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<div class="top"><div class="in">
-  <a class="brand" href="./">연수 자료 모음<i>.</i></a>
+<div class="top"><div class="in wide">
+  <a class="brand" href="./">연수 자료<i>.</i></a>
 </div></div>
 
-<header class="hero"><div class="in">
-  <p class="eyebrow">Workshop Kit</p>
-  <h1>필요한 자료를<br><em>카드</em>로 골라 보세요</h1>
-  <p class="lead">연수에서 쓰는 도구와 자료를 한곳에 모았습니다. 카드를 누르면 설명과 받는 곳이 나옵니다.</p>
-</div></header>
-
-<main class="in">
+<main class="in wide">
+  <div class="head">
+    <h1>연수 자료</h1>
+    <p>연수에서 쓰는 자료와 도구입니다. 카드를 누르면 설명과 받는 곳이 나옵니다.</p>
+  </div>
   <div class="filters" id="filters" role="group" aria-label="분류"></div>
   <div class="wall" id="wall"></div>
 </main>
 
-<footer><div class="in"><span>연수 자료 모음</span><span>카드는 계속 추가됩니다</span></div></footer>
-
 <script>
 /* ───────── 카드 목록: 자료를 올릴 때는 여기에 한 덩어리만 추가하면 됩니다 ─────────
-   title  제목            cat   분류(같은 글자면 같은 묶음)     icon  그림 글자(이모지)
-   desc   한 줄 설명      points  상세 사항 2~3줄              color 카드 색(crimson·blue·green·violet·amber)
-   href   눌렀을 때 갈 곳 (비워 두면 '준비 중' 카드)                                                   */
+   title  제목          cat   분류(같은 글자면 같은 묶음)
+   desc   한 줄 설명    points  상세 사항 2~3줄
+   href   눌렀을 때 갈 곳 (비워 두면 '준비 중' 카드)                                  */
 const CARDS = [
-  { title: "coolwatch", cat: "도구", icon: "📬", color: "crimson", href: "coolwatch/",
-    desc: "쿨메신저 업무 메시지에서 할 일·기한·일정을 뽑아 조용히 정리해 주는 도구",
-    points: ["설치.bat 한 번으로 설치 (3분)", "Claude 요약과 노션 연결은 선택", "쿨메신저는 읽기만, 건드리지 않음"] },
-  { title: "수행평가", cat: "수업·평가", icon: "📝", color: "blue", href: "",
-    desc: "수행평가 자료", points: ["준비 중입니다"] },
-  { title: "개발환경", cat: "환경 설정", icon: "🛠️", color: "green", href: "",
-    desc: "개발환경 안내", points: ["준비 중입니다"] },
+  { title: "coolwatch", cat: "도구", href: "coolwatch/",
+    desc: "쿨메신저로 받은 업무 메시지에서 할 일·기한·일정을 뽑아 카드로 정리하는 도구",
+    points: ["설치.bat 한 번으로 설치", "Claude 요약, 노션 연결은 선택", "쿨메신저는 읽기만 함"] },
+  { title: "수행평가", cat: "수업·평가", href: "", desc: "준비 중", points: [] },
+  { title: "개발환경", cat: "환경 설정", href: "", desc: "준비 중", points: [] },
 ];
 /* ─────────────────────────────────────────────────────────────────────────────── */
 
-const COLORS = { crimson: "var(--accent)", blue: "var(--blue)", green: "var(--green)", violet: "var(--violet)", amber: "var(--amber)" };
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 let current = "전체";
 
@@ -50,17 +43,14 @@ function draw() {
   const cats = ["전체", ...new Set(CARDS.map(c => c.cat))];
   document.getElementById("filters").innerHTML = cats.map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="${c === current}">${esc(c)}</button>`).join("");
   const list = CARDS.filter(c => current === "전체" || c.cat === current);
-  document.getElementById("wall").innerHTML = list.length ? list.map((c, i) => {
+  document.getElementById("wall").innerHTML = list.length ? list.map(c => {
     const ready = !!c.href, tag = ready ? "a" : "div";
-    return `<${tag} class="card${ready ? "" : " soon"}" ${ready ? `href="${esc(c.href)}"` : ""} style="--c:${COLORS[c.color] || COLORS.crimson}; --i:${i}">
-      <div class="art"><span>${esc(c.icon)}</span></div>
-      <div class="body">
-        <div class="tags"><span class="tag">${esc(c.cat)}</span>${ready ? "" : '<span class="tag plain">준비 중</span>'}</div>
-        <h3>${esc(c.title)}</h3>
-        <p>${esc(c.desc)}</p>
-        <ul>${(c.points || []).map(p => `<li>${esc(p)}</li>`).join("")}</ul>
-        <div class="go"><span>${ready ? "열어 보기" : "곧 올라옵니다"}</span>${ready ? "<b>→</b>" : ""}</div>
-      </div>
+    return `<${tag} class="card${ready ? "" : " soon"}" ${ready ? `href="${esc(c.href)}"` : ""}>
+      <div class="cat">${esc(c.cat)}${ready ? "" : " <b>준비 중</b>"}</div>
+      <h3>${esc(c.title)}</h3>
+      ${ready ? `<p>${esc(c.desc)}</p>` : ""}
+      ${(c.points || []).length ? `<ul>${c.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+      ${ready ? '<div class="go">열기 →</div>' : ""}
     </${tag}>`;
   }).join("") : '<p class="empty">이 분류에는 아직 카드가 없습니다.</p>';
 }
