@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Claude Code와 일하는 법</title>
+<title>발표 정리: 구조와 계획</title>
 <meta name="description" content="구조를 틀로 Claude Code와 계획하고, 말로 시키고, 확인하는 방법을 정리한 참고 자료">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../assets/style.css">
@@ -11,13 +11,13 @@
 <body>
 <div class="top"><div class="in">
   <a class="brand" href="../">← 연수 자료<i>.</i></a>
-  <nav><a href="#plan">계획하기</a><a href="#work">일하는 방식</a><a href="#ways">쓰는 방법</a><a href="#need">필요한 것</a><a href="#kit">본보기 폴더</a><a href="#data">자료가 가는 길</a><a href="#terms">용어</a></nav>
+  <nav><a href="#plan">계획하기</a><a href="#ways">Claude Code를 쓰는 방법</a><a href="#data">자료가 가는 길</a><a href="#terms">용어</a></nav>
 </div></div>
 
 <main class="in doc">
   <div class="head" style="padding-bottom:0">
-    <h1>Claude Code와 일하는 법</h1>
-    <p class="lead">연수에서 다룬 내용을 다시 볼 수 있게 모은 참고 자료입니다. 구조를 틀로 계획하고, 말로 시키고, 내가 확인하는 방법입니다.</p>
+    <h1>발표 정리: 구조와 계획</h1>
+    <p class="lead">연수에서 발표한 내용을 다시 볼 수 있게 글로 옮겼습니다. 직접 해 보는 순서는 <a href="../practice/">실습</a>에, 설치는 <a href="../prep/">연수 전 준비</a>에 있습니다.</p>
   </div>
 
   <section id="plan">
@@ -60,25 +60,7 @@
       <tr><th>시트에는 있는데 PDF가 없다</th><td>백엔드. 시트의 오류 탭을 봅니다.</td></tr>
       <tr><th>버튼이 안 눌린다</th><td>프론트엔드. 그 화면 자체를 봅니다.</td></tr>
     </table>
-  </section>
-
-  <section id="work">
-    <h2>일하는 방식</h2>
-    <p>계획이 서면 아래 순서로 만듭니다. 이미 있는 폴더를 고칠 때도 같습니다. 직접 해 보는 순서는 <a href="../practice/">실습: Claude Code 첫걸음</a>에 있습니다.</p>
-    <ol>
-      <li>받은 폴더를 VS Code로 엽니다.</li>
-      <li>VS Code의 터미널에서 <code>claude</code>를 실행합니다.</li>
-      <li>할 일을 말로 시킵니다.
-        <ul>
-          <li>“CLAUDE.md의 처음 설치를 진행해 줘”</li>
-          <li>“예시문과 Word Bank를 이 내용으로 바꿔 줘”</li>
-          <li>“테스트 돌리고 배포해 줘”</li>
-        </ul>
-      </li>
-      <li>Claude가 파일을 고치고 자동 시험을 돌립니다. 브라우저에서 눌러야 하는 것은 무엇을 누르는지 알려 줍니다.</li>
-      <li>결과는 내가 화면으로 확인합니다. 학생 페이지를 열어 직접 한 번 해 봅니다.</li>
-    </ol>
-    <h3>이 방식을 받치는 세 가지</h3>
+    <h3>계획을 받치는 세 가지</h3>
     <table>
       <tr><th><code>CLAUDE.md</code></th><td>Claude가 폴더를 열 때마다 읽는 규칙입니다. 구조, 바꾸면 안 되는 것, 실제로 겪은 문제가 적혀 있습니다.</td></tr>
       <tr><th>자동 시험</th><td>고친 것이 다른 곳을 망가뜨리지 않았는지 확인합니다. 지어낸 자료와 가짜 서버로 돌립니다.</td></tr>
@@ -106,36 +88,7 @@
     </ul>
     <p class="sub">VS Code 확장을 함께 깔아도 됩니다. 같은 폴더에서 터미널과 확장을 번갈아 써도 됩니다. 터미널이 낯설면 확장이나 데스크톱 앱으로 시작하고, 설치·배포처럼 명령이 필요한 일만 터미널에서 해도 됩니다.</p>
 
-    <p class="sub">터미널용 설치와 로그인은 <a href="../setup/">가입과 설치 따라 하기</a> 3, 4번에 있습니다. VS Code 확장은 VS Code의 확장 목록에서 “Claude Code”를 검색해 설치하고, 데스크톱 앱은 <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>에서 받습니다.</p>
-  </section>
-
-  <section id="need">
-    <h2>무엇을 하려면 무엇이 필요한가</h2>
-    <table>
-      <tr><th>수업 자료 만들기</th><td>브라우저에서 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에 로그인하면 됩니다. 설치할 것이 없습니다.</td></tr>
-      <tr><th>쿨메신저 보조도구 쓰기</th><td>쿨메신저가 깔린 학교 Windows PC에서 <code>설치.bat</code>을 실행합니다. PC에 파이썬이 없으면 설치 파일이 받아 옵니다. Claude 요약을 쓸 때만 Claude Code 설치와 로그인이 필요하고, 처음 설정의 버튼으로 합니다. 노션은 선택입니다. <a href="../coolwatch/">설명서</a></td></tr>
-      <tr><th>수행평가 페이지<br>설치·수정</th><td>노트북(Windows 또는 Mac)에 VS Code, Git, Node.js LTS, Python 3, Claude Code. 그리고 제출물을 받을 구글 계정(학교 계정이 막히면 개인 계정)과 GitHub 계정. <a href="../writing/">안내</a></td></tr>
-      <tr><th>쿨메신저 보조도구 고쳐 쓰기</th><td>그 PC에 Claude Code를 설치하고 쿨메신저 보조도구 폴더를 엽니다.</td></tr>
-    </table>
-    <p class="sub">Claude는 Pro 또는 Max 요금제 계정으로 로그인합니다. 설치하는 순서와 명령은 <a href="../setup/">가입과 설치 따라 하기</a>에 있습니다.</p>
-  </section>
-
-  <section id="kit">
-    <h2>수행평가 본보기 폴더</h2>
-<pre><code>english-writing/
-├── docs/index.html     학생 페이지 (GitHub Pages가 이 폴더를 보여 줌)
-├── docs/teacher.html   교사 현황 화면
-├── gas/Code.gs         Apps Script 웹 앱 (저장, PDF, 시트, 사전)
-├── tests/              자동 시험
-├── scripts/deploy.sh   GitHub 올리기와 Apps Script 재배포를 한 번에
-└── CLAUDE.md           Claude Code가 읽는 설명서와 규칙</code></pre>
-    <h3>배포 규칙</h3>
-    <ul>
-      <li>배포는 선생님이 “배포해 줘”라고 말할 때만 Claude Code가 <code>deploy.sh</code>로 합니다.</li>
-      <li>수업 전날까지 마치고, 태블릿으로 로그인 화면 아래 버전 글자를 확인합니다. 수업 당일 아침에는 배포하지 않습니다.</li>
-      <li>Apps Script 편집기에 코드를 직접 붙여넣지 않습니다. 폴더의 코드와 어긋납니다.</li>
-      <li>GitHub 저장소는 공개입니다. 학생 정보와 비밀값을 넣지 않습니다.</li>
-    </ul>
+    <p class="sub">터미널용 설치와 로그인은 <a href="../prep/#install">연수 전 준비</a>에 있습니다. VS Code 확장은 VS Code의 확장 목록에서 “Claude Code”를 검색해 설치하고, 데스크톱 앱은 <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>에서 받습니다.</p>
   </section>
 
   <section id="data">
@@ -163,6 +116,6 @@
   </section>
 </main>
 
-<footer><div class="in"><span>개발환경 · 2026년 10월 8일 기준</span><a href="../">연수 자료로</a></div></footer>
+<footer><div class="in"><span>발표 정리: 구조와 계획 · 2026년 10월 기준</span><a href="../">연수 자료로</a></div></footer>
 </body>
 </html>

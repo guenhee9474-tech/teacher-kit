@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>연수 전 준비</title>
-<meta name="description" content="연수 시작 전에 갖춰 둘 것을 확인하는 체크리스트">
+<meta name="description" content="연수 전에 해 올 것: Claude Code 설치와 로그인, VS Code 설치, 본보기 폴더 받기. 명령 모음과 화면으로 따라 하는 순서">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/screens.css">
 <style>
   .checks { list-style:none; margin:16px 0; padding:0; border:1px solid var(--line); border-radius:14px; background:var(--card); overflow:hidden; }
   .checks li { margin:0; padding:0; border-top:1px solid var(--line); }
@@ -26,28 +27,28 @@
 <body>
 <div class="top"><div class="in">
   <a class="brand" href="../">← 연수 자료<i>.</i></a>
-  <nav><a href="#all">연수 전에 꼭</a><a href="#dev">연수 뒤에</a><a href="#cool">쿨메신저 보조도구 (선택)</a></nav>
+  <nav><a href="#all">해 올 것</a><a href="#cmd">명령 모음</a><a href="#ps">따라 하기</a><a href="#stuck">막힐 때</a></nav>
 </div></div>
 
 <main class="in doc">
   <div class="head" style="padding-bottom:0">
     <h1>연수 전 준비</h1>
-    <p class="lead">연수 전에 해 올 것을 모았습니다. 명령은 복사해서 붙여넣으면 됩니다. 체크한 것은 이 기기에 저장되어, 다시 열어도 남아 있습니다.</p>
+    <p class="lead">연수 전에 해 올 것입니다. 위쪽은 체크 목록과 붙여넣을 명령, 아래쪽은 화면으로 따라 하는 순서입니다. 체크한 것은 이 기기에 저장됩니다.</p>
     <div class="progress"><span id="count">0 / 0</span><span class="barwrap"><span class="bar" id="bar" style="display:block"></span></span><button id="reset">체크 지우기</button></div>
   </div>
 
   <section id="all">
-    <h2>연수 전에 꼭 (20분)</h2>
-    <p class="sub">연수의 실습은 수행평가 페이지 본보기로 Claude Code를 처음 써 보는 것입니다. 아래를 해 오면 됩니다. 모두 명령을 붙여넣는 것으로 끝납니다. 화면 순서대로 따라 하려면 <a href="../setup/">가입과 설치 따라 하기</a>의 1, 3, 4, 5번을 보세요.</p>
+    <h2>해 올 것 (20분)</h2>
+    <p class="sub">연수의 실습은 수행평가 페이지 본보기로 Claude Code를 처음 써 보는 것입니다. 아래 다섯 가지를 해 오면 됩니다. 처음이라면 체크 목록 아래의 <a href="#ps">화면으로 따라 하기</a>를 보면서 하세요.</p>
     <ul class="checks">
       <li><label><input type="checkbox" data-k="claude-login"><span><b>Claude 구독 계정 확인</b><small><a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에 로그인해 Pro 또는 Max 요금제인지 봅니다. 로그인에 쓰는 메일과 비밀번호를 기억해 오세요.</small></span></label></li>
-      <li><label><input type="checkbox" data-k="dev-claude"><span><b>Claude Code 설치</b><small>터미널(Windows는 PowerShell)에 명령 한 줄을 넣습니다. <a href="../setup/#install">따라 하기 3번</a></small></span></label></li>
-      <li><label><input type="checkbox" data-k="claude-code-login"><span><b>Claude Code에 구독 계정으로 로그인</b><small><code>claude</code> 를 켜고 로그인 방법 1번을 고른 뒤 브라우저에서 승인합니다. API 키는 필요 없습니다. <a href="../setup/#login">따라 하기 4번</a></small></span></label></li>
-      <li><label><input type="checkbox" data-k="vscode"><span><b>VS Code 설치</b><small>명령 한 줄입니다. 실습을 VS Code 안에서 합니다. <a href="../setup/#kit">따라 하기 5번</a></small></span></label></li>
-      <li><label><input type="checkbox" data-k="kit-zip"><span><b>본보기 폴더 받아 VS Code로 열어 보기</b><small>명령으로 받아 풀고 엽니다. 왼쪽에 <code>docs</code>, <code>CLAUDE.md</code> 가 보이면 됩니다. <a href="../setup/#kit">따라 하기 5번</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-claude"><span><b>Claude Code 설치</b><small>터미널(Windows는 PowerShell)에 명령 한 줄을 넣습니다. <a href="#install">따라 하기 2번</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="claude-code-login"><span><b>Claude Code에 구독 계정으로 로그인</b><small><code>claude</code> 를 켜고 로그인 방법 1번을 고른 뒤 브라우저에서 승인합니다. API 키는 필요 없습니다. <a href="#login">따라 하기 3번</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="vscode"><span><b>VS Code 설치</b><small>명령 한 줄입니다. 실습을 VS Code 안에서 합니다. <a href="#kit">따라 하기 4번</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="kit-zip"><span><b>본보기 폴더 받아 VS Code로 열어 보기</b><small>명령으로 받아 풀고 엽니다. 왼쪽에 <code>docs</code>, <code>CLAUDE.md</code> 가 보이면 됩니다. <a href="#kit">따라 하기 4번</a></small></span></label></li>
       <li><label><input type="checkbox" data-k="pc"><span><b>그 노트북과 충전기 가져오기</b><small>위의 것을 설치한 노트북(Windows 또는 Mac)을 가져옵니다.</small></span></label></li>
     </ul>
-    <h3>붙여넣을 명령 (Windows PowerShell)</h3>
+    <h3 id="cmd">붙여넣을 명령 (Windows PowerShell)</h3>
     <p>PowerShell을 열고(Windows 키 → <code>powershell</code> → Enter) 위에서부터 차례로 넣습니다. <b>덩어리 하나를 넣은 뒤에는 PowerShell 창을 닫고 새로 엽니다.</b></p>
 <pre><code># 1) Claude Code 설치
 irm https://claude.ai/install.ps1 | iex</code></pre>
@@ -80,32 +81,183 @@ open -a "Visual Studio Code" ~/Documents/english-writing</code></pre>
     <p class="sub">집이나 휴대폰 핫스팟에서 하는 것을 권합니다. 학교 망에서는 설치가 막힐 수 있습니다. 막혀서 못 했다면 그대로 오세요. 연수 시작 10분 전에 함께 봅니다. 연수 때 할 일은 <a href="../practice/">실습: Claude Code 첫걸음</a>에 있습니다.</p>
   </section>
 
-  <section id="dev">
-    <h2>연수 뒤에: 내 수업용으로 설치할 분 (선택)</h2>
-    <p class="sub">수행평가 페이지를 내 계정에 올려 실제 수업에 쓰려면 아래가 더 필요합니다. 연수 날에는 없어도 됩니다. <a href="../writing/">수행평가 페이지 안내</a> · <a href="../devenv/">Claude Code와 일하는 법</a></p>
-    <ul class="checks">
-      <li><label><input type="checkbox" data-k="dev-google"><span><b>구글 계정</b><small>제출물을 받을 계정입니다. 학교 계정은 웹 앱 공개가 막혀 있을 수 있어 개인 계정을 권합니다.</small></span></label></li>
-      <li><label><input type="checkbox" data-k="dev-github"><span><b>GitHub 가입</b><small><a href="../setup/#github">따라 하기 2번</a>. 학생 페이지 주소가 여기서 나옵니다.</small></span></label></li>
-      <li><label><input type="checkbox" data-k="dev-tools"><span><b>나머지 도구는 Claude Code에게 설치시키기</b><small>Git, Node.js, Python. <code>claude</code> 를 켜고 “깔려 있는지 확인하고 없는 것만 설치해 줘”라고 시킵니다. <a href="../setup/#tools">따라 하기 6번</a></small></span></label></li>
-    </ul>
-    <details><summary>Claude Code로 설치가 안 될 때: 직접 받는 곳</summary><div>
-      <ul>
-        <li>VS Code: <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a></li>
-        <li>Git: Windows는 <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com</a>(설치 옵션은 기본값), Mac은 터미널에서 <code>git</code>을 치면 설치 안내가 뜹니다.</li>
-        <li>Node.js LTS: <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a></li>
-        <li>Python 3: <a href="https://www.python.org" target="_blank" rel="noopener">python.org</a>. Windows에서는 설치 첫 화면의 “Add python.exe to PATH”를 체크합니다.</li>
-      </ul>
+  <section id="walk">
+    <h2>화면으로 따라 하기</h2>
+    <p>처음 하는 분을 위해, 화면에 무엇이 나오고 무엇을 누르는지 차례로 적었습니다. 그림은 실제 화면을 본떠 그린 예시이고, 글자와 모양은 버전에 따라 조금 다를 수 있습니다. Windows 기준이며 Mac에서 다른 곳은 따로 적었습니다.</p>
+  </section>
+
+  <section id="ps">
+    <h2>1. 터미널 열기</h2>
+    <p>터미널은 글자로 명령을 넣는 창입니다. Windows에서는 <b>PowerShell</b>을 씁니다. 뒤의 모든 단계에서 이 창을 씁니다.</p>
+    <ol class="steps">
+      <li>키보드의 <b>Windows 키</b>를 누르고 <code>powershell</code>이라고 칩니다. 맨 위에 <b>Windows PowerShell</b>이 나오면 Enter를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">시작 메뉴 검색</span></div><div class="web">
+          <div class="f"><span>검색</span><div style="color:var(--ink)">powershell</div></div>
+          <p style="margin:6px 0 0"><span class="n">1</span><b>Windows PowerShell</b> <span style="color:var(--sub)">앱</span> ← 이것을 엽니다</p>
+          <p style="margin:6px 0 0;color:var(--faint)">Windows PowerShell ISE · 명령 프롬프트 ← 이것들은 아닙니다</p>
+        </div></div>
+        <p class="cap">"관리자 권한으로 실행"은 누르지 않습니다. 그냥 엽니다.</p>
+      </li>
+      <li>파란색이나 검은색 창이 열리고, 맨 아래 줄 끝에서 커서가 깜빡입니다. 여기에 명령을 넣습니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="dim">Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.</span>
+
+<span class="p">PS C:\Users\내이름&gt;</span> <span class="t">▌</span></div></div>
+        <p class="cap"><code>PS C:\Users\내이름&gt;</code> 은 "지금 이 폴더에 있다"는 표시입니다. 이 뒤에 명령을 넣고 Enter를 누릅니다.</p>
+      </li>
+      <li><b>붙여넣기</b>는 창 안에서 <b>마우스 오른쪽 단추</b>를 한 번 누르면 됩니다(<code>Ctrl+V</code>도 됩니다). 이 안내의 명령은 복사해서 붙여넣으세요. 손으로 치면 오타가 납니다.</li>
+    </ol>
+    <div class="tip"><b>명령 프롬프트(cmd)와 다릅니다.</b> 검은 창에 <code>C:\Users\내이름&gt;</code> 만 있고 앞에 <code>PS</code>가 없으면 명령 프롬프트입니다. 닫고 PowerShell을 여세요. 이 안내의 명령은 PowerShell용입니다.</div>
+    <div class="tip"><b>Mac</b>에서는 <code>Cmd+스페이스</code>를 누르고 <code>터미널</code>(또는 terminal)을 쳐서 엽니다.</div>
+  </section>
+
+  <section id="install">
+    <h2>2. Claude Code 설치</h2>
+    <p>명령 한 줄입니다. 관리자 권한이 필요 없습니다.</p>
+    <ol class="steps">
+      <li>PowerShell을 열고 아래 줄을 복사해 붙여넣은 뒤 Enter를 누릅니다.
+<pre><code>irm https://claude.ai/install.ps1 | iex</code></pre>
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">irm https://claude.ai/install.ps1 | iex</span>
+Setting up Claude Code...
+
+<span class="ok">✔ Claude Code successfully installed!</span>
+
+  Version:  2.x.x
+  Location: C:\Users\내이름\.local\bin\claude.exe
+
+<span class="p">PS C:\Users\내이름&gt;</span> <span class="t">▌</span></div></div>
+        <p class="cap">1분쯤 걸립니다. 초록색 줄이 나오고 다시 <code>PS …&gt;</code> 가 나오면 끝난 것입니다.</p>
+        <div class="tip"><b>Mac</b>은 터미널에 <code>curl -fsSL https://claude.ai/install.sh | bash</code> 를 넣습니다.</div>
+      </li>
+      <li><b>PowerShell 창을 닫고 새로 엽니다.</b> 그리고 아래를 넣습니다. 숫자가 나오면 설치가 된 것입니다.
+<pre><code>claude --version</code></pre>
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">claude --version</span>
+2.x.x (Claude Code)</div></div>
+      </li>
+    </ol>
+    <details><summary>"claude 용어가 … 인식되지 않습니다"라고 나옵니다</summary><div>
+      <p>창을 새로 열지 않았거나, 설치 폴더가 PATH(명령을 찾는 목록)에 들어가지 않은 것입니다.</p>
+      <ol>
+        <li>PowerShell 창을 모두 닫고 새로 열어 다시 해 봅니다.</li>
+        <li>그래도 안 되면 설치할 때 화면에 <code>… is not in your PATH. Run:</code> 이라는 줄과 그 아래 명령이 나왔는지 봅니다. 나왔으면 그 명령을 복사해 넣습니다.</li>
+        <li>그 줄을 놓쳤으면 아래를 넣고, 창을 새로 엽니다.
+<pre><code>[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path","User") + ";$env:USERPROFILE\.local\bin", "User")</code></pre></li>
+      </ol>
+    </div></details>
+    <details><summary>빨간 글씨로 오류가 나오고 설치가 안 됩니다</summary><div>
+      <p>학교 망이나 보안 프로그램이 내려받기를 막은 경우가 많습니다. 집이나 휴대폰 핫스팟에서 다시 해 보세요. <code>irm</code> 이라는 말을 모른다고 나오면 PowerShell이 아니라 명령 프롬프트에 넣은 것입니다.</p>
     </div></details>
   </section>
 
-  <section id="cool">
-    <h2>쿨메신저 보조도구 실습 (선택)</h2>
-    <p class="sub">써 보고 싶은 분만 준비합니다. 쿨메신저 업무 메시지를 정리하는 도구입니다. <a href="../coolwatch/">설명서 보기</a></p>
-    <ul class="checks">
-      <li><label><input type="checkbox" data-k="cool-messenger"><span><b>쿨메신저에 한 번 로그인해 두기</b><small>로그인한 적이 있어야 쿨메신저 보조도구가 메시지 기록을 찾습니다.</small></span></label></li>
-      <li><label><input type="checkbox" data-k="cool-zip"><span><b>압축 파일 미리 받아 두기</b><small><a href="../downloads/coolwatch.zip" download>coolwatch.zip</a>을 받아 압축을 풀어 둡니다. 설치(<code>설치.bat</code>)는 연수 때 함께 합니다.</small></span></label></li>
-      <li><label><input type="checkbox" data-k="cool-notion"><span><b>(선택) 노션 계정</b><small>정리된 업무를 휴대폰에서도 보고 싶은 분만 준비합니다.</small></span></label></li>
-    </ul>
+  <section id="login">
+    <h2>3. 구독 계정으로 로그인</h2>
+    <p>Claude Code를 내 Claude 구독(Pro 또는 Max)에 잇는 단계입니다. <b>API 키를 따로 발급받지 않습니다.</b> 브라우저에서 한 번 승인하면 끝납니다.</p>
+    <ol class="steps">
+      <li>PowerShell에 <code>claude</code> 라고 넣고 Enter를 누릅니다. 처음이면 글자 색을 고르라고 합니다. 그냥 <b>Enter</b>를 누르면 됩니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">claude</span>
+
+ Welcome to Claude Code
+
+ Let's get started.
+
+ Choose the text style that looks best with your terminal
+ <span class="sel">❯ 1. Dark mode ✔</span>
+   2. Light mode
+   3. Dark mode (colorblind-friendly)
+   …</div></div>
+        <p class="cap"><code>❯</code> 가 지금 고른 줄입니다. 위아래 화살표로 옮기고 Enter로 정합니다. 뒤의 화면도 모두 같은 방식입니다.</p>
+      </li>
+      <li><b>로그인 방법을 고릅니다. 맨 위의 1번 "Claude account with subscription"</b> 입니다. 이미 1번에 <code>❯</code> 가 있으니 Enter를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> Select login method:
+
+ <span class="sel">❯ 1. Claude account with subscription</span> <span class="dim">· Pro, Max, Team, or Enterprise</span>
+   2. Anthropic Console account <span class="dim">· API usage billing</span>
+   3. 3rd-party platform <span class="dim">· …</span></div></div>
+        <p class="cap"><b>2번은 고르지 않습니다.</b> 2번은 쓴 만큼 따로 돈이 나가는 방식입니다. 구독 중이면 1번이 맞습니다.</p>
+      </li>
+      <li>브라우저가 저절로 열립니다. claude.ai에 로그인되어 있지 않으면 먼저 로그인합니다. 그다음 승인 화면에서 <b>승인(Authorize)</b>을 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai/oauth/authorize…</span></div><div class="web">
+          <h4>Claude Code가 내 Claude 계정에 연결하려고 합니다</h4>
+          <p style="margin:0 0 14px;color:var(--sub)">내 구독으로 Claude Code를 쓸 수 있게 됩니다.</p>
+          <span class="go"><span class="n" style="background:#fff;color:var(--ink)">1</span>승인 (Authorize)</span> <span class="go alt">취소</span>
+        </div></div>
+        <p class="cap">학교 계정과 개인 계정이 둘 다 있으면, <b>구독을 결제한 계정</b>으로 로그인했는지 오른쪽 위에서 확인하세요.</p>
+      </li>
+      <li>PowerShell로 돌아오면 <b>Login successful.</b> 이 보입니다. Enter를 누릅니다. 이어서 안내 글(Security notes)이 나오면 한 번 더 Enter를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> <span class="ok">Login successful.</span> Press Enter to continue…
+ <span class="dim">Logged in as 내메일@example.com</span></div></div>
+      </li>
+      <li>마지막으로 <b>이 폴더를 믿느냐</b>고 묻습니다. 내가 만든 폴더나 연수에서 받은 폴더라면 <b>Yes, I trust this folder</b> 에서 Enter를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> Quick safety check: Is this a project you created or one you trust?
+
+ <span class="sel">❯ 1. Yes, I trust this folder</span>
+   2. No, exit</div></div>
+        <p class="cap">이 질문은 폴더마다 처음 한 번 나옵니다. 인터넷에서 받은 모르는 폴더라면 No를 고릅니다.</p>
+      </li>
+      <li>아래처럼 글을 넣는 칸이 나오면 준비가 끝난 것입니다. 한국어로 말을 걸면 됩니다. 끝낼 때는 <code>/exit</code> 을 넣거나 창을 닫습니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="box">&gt; <span class="t">안녕, 한국어로 대답해 줘</span>                         </span>
+<span class="dim">  ? for shortcuts</span></div></div>
+      </li>
+    </ol>
+    <details><summary>브라우저가 열리지 않습니다</summary><div>
+      <p>PowerShell 화면에 <code>Browser didn't open? Use the url below to sign in</code> 과 긴 주소가 나옵니다. 그 주소를 복사해 브라우저 주소창에 붙여넣습니다. 승인하면 브라우저에 <b>코드</b>가 나오는데, 그것을 복사해 PowerShell의 <code>Paste code here if prompted &gt;</code> 뒤에 붙여넣고 Enter를 누릅니다.</p>
+    </div></details>
+    <details><summary>2번(Console)으로 잘못 들어갔습니다 / 계정을 바꾸고 싶습니다</summary><div>
+      <p>Claude Code 안에서 <code>/logout</code> 을 넣어 나간 뒤, <code>/login</code> 으로 다시 들어가 1번을 고릅니다.</p>
+    </div></details>
+    <details><summary>"구독이 필요하다"는 말이 나옵니다</summary><div>
+      <p>무료 계정으로 로그인한 것입니다. <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에서 Pro나 Max를 결제한 계정인지 확인하고, 그 계정으로 다시 로그인합니다.</p>
+    </div></details>
+  </section>
+
+  <section id="kit">
+    <h2>4. VS Code 설치와 본보기 폴더 받기</h2>
+    <p>VS Code는 폴더 안의 파일을 보고 고치는 프로그램입니다. 연수 실습은 VS Code 안에서 합니다. 설치도, 본보기 폴더를 받는 것도 명령으로 합니다.</p>
+    <ol class="steps">
+      <li><b>VS Code 설치.</b> PowerShell에 아래 줄을 붙여넣습니다.
+<pre><code>winget install -e --id Microsoft.VisualStudioCode --accept-package-agreements --accept-source-agreements</code></pre>
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">winget install -e --id Microsoft.VisualStudioCode …</span>
+찾음 Microsoft Visual Studio Code [Microsoft.VisualStudioCode]
+다운로드 중 …
+  ██████████████████████████████  100%
+<span class="ok">설치 성공</span></div></div>
+        <p class="cap">1~2분 걸립니다. “설치 성공”이 나오면 됩니다. 이미 깔려 있으면 그렇다고 알려 줍니다.</p>
+        <div class="tip">명령이 막히면 <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>에서 받아 설치합니다. 옵션은 기본값으로 두고 “다음”만 누릅니다. <b>Mac</b>도 여기서 받아 응용 프로그램 폴더로 옮깁니다.</div>
+      </li>
+      <li><b>PowerShell 창을 닫고 새로 엽니다.</b> 아래 세 줄을 한꺼번에 붙여넣습니다. 본보기 압축 파일을 <b>문서</b> 폴더에 받아 풉니다.
+<pre><code>cd $HOME\Documents
+irm https://guenhee9474-tech.github.io/teacher-kit/downloads/english-writing-kit.zip -OutFile english-writing-kit.zip
+Expand-Archive english-writing-kit.zip -DestinationPath . -Force</code></pre>
+        <p class="cap">아무 글자 없이 다시 <code>PS …\Documents&gt;</code> 가 나오면 된 것입니다. 문서 폴더 안에 <code>english-writing</code> 폴더가 생깁니다.</p>
+        <details><summary>Mac에서는</summary><div>
+<pre><code>cd ~/Documents
+curl -L -O https://guenhee9474-tech.github.io/teacher-kit/downloads/english-writing-kit.zip
+unzip -o english-writing-kit.zip</code></pre>
+        </div></details>
+      </li>
+      <li><b>VS Code로 그 폴더를 엽니다.</b>
+<pre><code>code $HOME\Documents\english-writing</code></pre>
+        VS Code가 열리며 “이 폴더에 있는 파일의 작성자를 신뢰합니까?”라고 묻습니다. <b>예, 작성자를 신뢰합니다</b>를 누릅니다. 왼쪽에 <code>docs</code>, <code>gas</code>, <code>CLAUDE.md</code> 같은 이름이 보이면 준비가 끝난 것입니다.
+        <p class="cap">연수 날에는 이 화면에서 시작합니다. 창은 닫아도 됩니다. 같은 명령으로 다시 열 수 있습니다.</p>
+        <details><summary>Mac에서는 / “code 용어가 인식되지 않습니다”라고 나오면</summary><div>
+          <p>Mac은 아래 줄을 넣습니다.</p>
+<pre><code>open -a "Visual Studio Code" ~/Documents/english-writing</code></pre>
+          <p>Windows에서 <code>code</code> 를 모른다고 하면 PowerShell 창을 새로 열어 다시 해 봅니다. 그래도 안 되면 VS Code를 직접 열고 위쪽 메뉴의 <b>파일 → 폴더 열기</b>에서 <b>문서 → english-writing</b> 폴더를 고릅니다.</p>
+        </div></details>
+      </li>
+    </ol>
+  </section>
+
+  <section id="stuck">
+    <h2>막힐 때</h2>
+    <table>
+      <tr><th>무엇을 넣어야 할지 모르겠다</th><td>화면의 글자를 그대로 복사해 Claude에게 붙여넣고 "이게 무슨 뜻이야, 뭘 누르면 돼?"라고 묻습니다. claude.ai 채팅에 물어도 됩니다.</td></tr>
+      <tr><th>빨간 글씨가 나왔다</th><td>빨간 글씨 전체를 복사해 Claude에게 붙여넣습니다. 대부분은 창을 새로 열면 풀립니다.</td></tr>
+      <tr><th>설치 사이트가 열리지 않는다</th><td>학교 망에서 막힌 것입니다. 집이나 휴대폰 핫스팟에서 합니다.</td></tr>
+      <tr><th>아무 반응이 없다</th><td>작업 표시줄에 깜빡이는 창(허용을 묻는 창)이 없는지 봅니다. Claude가 묻고 기다리는 중인지도 봅니다.</td></tr>
+      <tr><th>잘못 눌렀다</th><td>터미널에서 <code>Esc</code> 를 누르면 Claude가 하던 일을 멈춥니다. 창을 닫아도 됩니다. 여기까지의 단계에는 되돌릴 수 없는 것이 없습니다.</td></tr>
+    </table>
+    <p class="sub">준비가 끝났으면 연수 날에는 <a href="../practice/">실습: Claude Code 첫걸음</a>을 엽니다.</p>
   </section>
 </main>
 
