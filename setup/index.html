@@ -4,8 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>연수 전 준비로 옮겼습니다</title>
-<meta http-equiv="refresh" content="0; url=../prep/">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+// 옛 '가입과 설치 따라 하기'의 주소로 들어오면, 그 내용이 옮겨 간 곳으로 보냅니다.
+var MOVED = { "#ps": "../prep/#ps", "#install": "../prep/#install", "#login": "../prep/#login", "#kit": "../prep/#kit", "#stuck": "../prep/#stuck",
+              "#github": "../writing/#github", "#tools": "../writing/#tools", "#vscode": "../practice/#steps" };
+location.replace(MOVED[location.hash] || "../prep/");
+</script>
 </head>
-<body><main class="in doc"><div class="head"><h1>연수 전 준비로 옮겼습니다</h1><p class="lead">이 내용은 <a href="../prep/">연수 전 준비</a>에 합쳤습니다.</p></div></main></body>
+<body><main class="in doc"><div class="head"><h1>연수 전 준비로 옮겼습니다</h1>
+<p class="lead">이 내용은 <a href="../prep/">연수 전 준비</a>에 합쳤습니다. GitHub 가입과 도구 설치는 <a href="../writing/#github">수행평가 페이지</a>에 있습니다.</p></div></main></body>
 </html>
