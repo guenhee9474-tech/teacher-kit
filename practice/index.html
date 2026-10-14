@@ -18,40 +18,51 @@
 <main class="in doc">
   <div class="head" style="padding-bottom:0">
     <h1>실습: 수행평가 페이지로 Claude Code 첫걸음</h1>
-    <p class="lead">수행평가 페이지 본보기 폴더를 Claude Code로 열어, 묻고, 고치고, 확인하고, 내 것을 계획해 봅니다. Claude Code를 처음 쓰는 분을 위한 순서입니다.</p>
+    <p class="lead">수행평가 페이지 본보기 폴더를 VS Code로 열고 그 안에서 Claude Code를 켜서, 묻고, 고치고, 확인하고, 내 것을 계획해 봅니다. Claude Code를 처음 쓰는 분을 위한 순서입니다.</p>
     <p class="meta">연수에서 함께 합니다. 20분쯤 걸립니다. 그림은 실제 화면을 본떠 그린 예시이고, 글자는 조금 다를 수 있습니다.</p>
   </div>
 
   <section id="ready">
     <h2>준비 확인</h2>
-    <p>아래 두 가지가 되어 있어야 합니다. 안 되어 있으면 <a href="../setup/">가입과 설치 따라 하기</a>의 1, 3, 4번을 먼저 합니다.</p>
+    <p>아래 두 가지가 되어 있어야 합니다. Claude Code가 안 되어 있으면 <a href="../setup/">가입과 설치 따라 하기</a>의 3, 4번을 먼저 합니다.</p>
     <table>
       <tr><th>Claude Code</th><td>터미널에서 <code>claude</code> 를 켜고 “안녕”이라고 쳤을 때 답이 옵니다.</td></tr>
-      <tr><th>본보기 폴더</th><td><a href="../downloads/english-writing-kit.zip" download>english-writing-kit.zip</a>을 받아 압축을 풀어 두었습니다. 안에 <code>english-writing</code> 폴더가 있습니다.</td></tr>
+      <tr><th>VS Code</th><td>설치되어 있습니다.</td></tr>
+      <tr><th>본보기 폴더</th><td><b>문서</b> 폴더 안에 <code>english-writing</code> 폴더가 있습니다.</td></tr>
     </table>
+    <p>하나라도 없으면 PowerShell에 아래를 차례로 넣습니다. 자세한 화면은 <a href="../setup/#kit">따라 하기 5번</a>에 있습니다.</p>
+<pre><code>winget install -e --id Microsoft.VisualStudioCode --accept-package-agreements --accept-source-agreements</code></pre>
+<pre><code>cd $HOME\Documents
+irm https://guenhee9474-tech.github.io/teacher-kit/downloads/english-writing-kit.zip -OutFile english-writing-kit.zip
+Expand-Archive english-writing-kit.zip -DestinationPath . -Force</code></pre>
     <div class="tip">준비가 안 된 분은 옆 사람 화면을 같이 보다가, 마지막 <a href="#plan">내 것 계획</a>만 브라우저의 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에서 같이 합니다.</div>
   </section>
 
   <section id="steps">
     <h2>실습</h2>
     <ol class="steps">
-      <li><b>그 폴더에서 Claude Code를 켭니다.</b> 파일 탐색기로 <code>english-writing</code> 폴더를 열고, 위쪽 <b>주소 칸을 눌러</b> <code>powershell</code> 이라고 친 뒤 Enter를 누릅니다. 그 폴더에서 PowerShell이 열립니다. 거기에 <code>claude</code> 를 넣습니다.
-        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">powershell</span></div><div class="web" style="padding:14px 20px">
-          <p style="margin:0;color:var(--sub)"><span class="n">1</span>파일 탐색기의 주소 칸에 <b style="color:var(--ink)">powershell</b> 을 치고 Enter</p>
-        </div></div>
-        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름\Downloads\english-writing&gt;</span> <span class="t">claude</span>
+      <li><b>VS Code로 본보기 폴더를 엽니다.</b> PowerShell에 아래 줄을 넣습니다. 이미 VS Code에 열려 있으면 건너뜁니다.
+<pre><code>code $HOME\Documents\english-writing</code></pre>
+        <p class="cap">Mac은 <code>open -a "Visual Studio Code" ~/Documents/english-writing</code> 입니다. 작성자를 신뢰하느냐고 물으면 “예”를 누릅니다.</p>
+      </li>
+
+      <li><b>VS Code 안의 터미널에서 Claude Code를 켭니다.</b> <code>Ctrl+`</code>(숫자 1 왼쪽의 키)를 눌러 아래쪽에 터미널을 열고, <code>claude</code> 를 넣습니다. 메뉴로는 <b>터미널 → 새 터미널</b>입니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">english-writing — Visual Studio Code</span></div><div class="vsc">
+          <div class="side"><b>탐색기</b>▸ docs<br>▸ gas<br>▸ scripts<br>▸ tests<br>CLAUDE.md<br>README.md</div>
+          <div class="main"><div class="ed">왼쪽에서 파일을 누르면 여기에 내용이 보입니다</div>
+<div class="term"><span class="dim">터미널</span>
+<span class="p">PS C:\Users\내이름\Documents\english-writing&gt;</span> <span class="t">claude</span>
 
  Quick safety check: Is this a project you created or one you trust?
-
  <span class="sel">❯ 1. Yes, I trust this folder</span>
    2. No, exit</div></div>
-        <p class="cap"><b>배우는 것:</b> Claude Code는 “지금 켠 폴더”를 봅니다. 앞머리에 <code>english-writing</code> 이 보이는지 확인하세요. 폴더를 믿느냐고 물으면 Yes에서 Enter를 누릅니다.</p>
-        <div class="tip"><b>Mac</b>은 터미널에 <code>cd </code>(뒤에 한 칸 띄움)를 치고, Finder에서 그 폴더를 터미널 창으로 끌어다 놓은 뒤 Enter를 누릅니다. 그리고 <code>claude</code> 를 넣습니다.</div>
+        </div></div>
+        <p class="cap"><b>배우는 것:</b> Claude Code는 “지금 열린 폴더”를 봅니다. 터미널 앞머리에 <code>english-writing</code> 이 보이는지 확인하세요. 왼쪽은 파일 목록, 가운데는 파일 내용, 아래가 Claude Code입니다. 폴더를 믿느냐고 물으면 Yes에서 Enter를 누릅니다.</p>
       </li>
 
       <li><b>읽게 합니다.</b> 아래 말을 그대로 넣습니다.
 <pre><code>이 폴더가 무엇을 하는 프로젝트인지, CLAUDE.md를 읽고 세 줄로 알려 줘.</code></pre>
-        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell — claude</span></div><div class="term"><span class="box">&gt; <span class="t">이 폴더가 무엇을 하는 프로젝트인지, CLAUDE.md를 읽고 세 줄로 알려 줘.</span></span>
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">VS Code 터미널 — claude</span></div><div class="term"><span class="box">&gt; <span class="t">이 폴더가 무엇을 하는 프로젝트인지, CLAUDE.md를 읽고 세 줄로 알려 줘.</span></span>
 
 <span class="ok">●</span> Read(CLAUDE.md)
 <span class="dim">  ⎿  Read 163 lines</span>
@@ -66,14 +77,16 @@
         <p class="cap"><b>배우는 것:</b> 코드를 직접 읽지 않아도, 구조를 가리키는 말로 물으면 됩니다. 모르는 낱말이 나오면 “그게 뭐야?”라고 이어서 묻습니다. 앞의 대화를 기억합니다.</p>
       </li>
 
-      <li><b>고치기 전에, 지금 모습을 봅니다.</b> 파일 탐색기에서 <code>docs</code> 폴더의 <code>index.html</code> 을 두 번 눌러 브라우저로 엽니다. 학번에 <code>10101</code>, 이름에 아무 이름이나 넣고 시작합니다.
-        <p class="cap">로그인 화면 아래에 “연습 모드”라고 나옵니다. 서버 없이 이 PC에만 저장됩니다. 과제 제목과 남은 시간을 눈여겨봐 두세요.</p>
+      <li><b>고치기 전에, 지금 모습을 봅니다.</b> Claude에게 열어 달라고 합니다.
+<pre><code>docs/index.html을 브라우저로 열어 줘.</code></pre>
+        Claude가 여는 명령을 실행해도 되느냐고 묻습니다. <b>1. Yes</b> 에서 Enter를 누릅니다. 브라우저에 학생 페이지가 열리면 학번에 <code>10101</code>, 이름에 아무 이름이나 넣고 시작합니다.
+        <p class="cap"><b>배우는 것:</b> 파일 열기 같은 일도 말로 시킬 수 있습니다. 명령을 실행하기 전에는 무엇을 하려는지 보여 주고 묻습니다. 로그인 화면 아래에 “연습 모드”라고 나옵니다. 서버 없이 이 PC에만 저장됩니다. 과제 제목과 남은 시간을 눈여겨봐 두세요.</p>
       </li>
 
-      <li><b>고치게 합니다.</b> 터미널로 돌아와 아래 말을 넣습니다. 제목은 원하는 것으로 바꾸세요.
+      <li><b>고치게 합니다.</b> VS Code로 돌아와 아래 말을 넣습니다. 제목은 원하는 것으로 바꾸세요.
 <pre><code>초안 쓰는 시간을 25분으로 바꾸고, 과제 제목을 "우리 학교에 필요한 것"으로 바꿔 줘.</code></pre>
         Claude가 고칠 곳을 찾아, <b>바뀔 부분을 보여 주고 해도 되느냐고 묻습니다.</b> 빨간 줄이 지워질 것, 초록 줄이 새로 들어갈 것입니다. 읽어 보고 <b>1. Yes</b> 에서 Enter를 누릅니다.
-        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell — claude</span></div><div class="term"> <span class="dim">Edit file</span> docs/index.html
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">VS Code 터미널 — claude</span></div><div class="term"> <span class="dim">Edit file</span> docs/index.html
 
 <span style="color:#ff7b72"> -   phases: { research: 15, draft: 20, final: 20 },</span>
 <span class="ok"> +   phases: { research: 15, draft: 25, final: 20 },</span>
@@ -82,7 +95,7 @@
  <span class="sel">❯ 1. Yes</span>
    2. Yes, allow all edits during this session
    3. No, and tell Claude what to do differently (esc)</div></div>
-        <p class="cap"><b>배우는 것:</b> 파일을 고치기 전에는 반드시 보여 주고 묻습니다. 마음에 안 들면 3번을 고르고 어떻게 다르게 할지 말하면 됩니다. 여러 군데를 고치면 여러 번 묻습니다.</p>
+        <p class="cap"><b>배우는 것:</b> 파일을 고치기 전에는 반드시 보여 주고 묻습니다. Yes를 누르면 왼쪽 파일 목록에서 <code>index.html</code> 의 색이 바뀝니다. 눌러 보면 바뀐 내용이 가운데에 보입니다. 마음에 안 들면 3번을 고르고 어떻게 다르게 할지 말하면 됩니다. 여러 군데를 고치면 여러 번 묻습니다.</p>
       </li>
 
       <li><b>내 눈으로 확인합니다.</b> 브라우저로 가서 <code>F5</code>(새로고침)를 누릅니다. 제목이 바뀌었는지 봅니다. 시간은 <b>다른 학번</b>(예: <code>10102</code>)으로 로그인해 초안 단계에 들어가 봅니다.
@@ -137,7 +150,7 @@
       <li>모르면 묻습니다. “방금 한 일을 쉽게 설명해 줘”, “이 화면에서 뭘 눌러야 해?”</li>
       <li>화면의 오류 글자는 그대로 복사해 붙여넣고 “이게 뭐야, 고쳐 줘”라고 합니다.</li>
     </ul>
-    <p class="sub">다음 단계: 이 페이지를 내 계정에 설치해 실제 수업에 쓰려면 <a href="../writing/">수행평가 페이지 안내</a>의 “내 수업에 쓰려면”을 봅니다. 그때 <a href="../setup/">가입과 설치 따라 하기</a>의 2, 5, 6번이 필요합니다.</p>
+    <p class="sub">다음 단계: 이 페이지를 내 계정에 설치해 실제 수업에 쓰려면 <a href="../writing/">수행평가 페이지 안내</a>의 “내 수업에 쓰려면”을 봅니다. 그때 <a href="../setup/">가입과 설치 따라 하기</a>의 2, 6번이 필요합니다.</p>
   </section>
 </main>
 

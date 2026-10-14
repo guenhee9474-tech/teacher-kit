@@ -3,79 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>개발환경</title>
-<meta name="description" content="연수에서 쿨메신저 보조도구를 쓰고 수행평가 페이지를 설치·수정하는 데 필요한 환경과 일하는 방식">
+<title>Claude Code와 일하는 법</title>
+<meta name="description" content="구조를 틀로 Claude Code와 계획하고, 말로 시키고, 확인하는 방법을 정리한 참고 자료">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
 <div class="top"><div class="in">
   <a class="brand" href="../">← 연수 자료<i>.</i></a>
-  <nav><a href="#need">필요한 것</a><a href="#ways">쓰는 방법</a><a href="#install">설치</a><a href="#plan">계획하기</a><a href="#work">일하는 방식</a><a href="#kit">본보기 폴더</a><a href="#data">자료</a><a href="#stuck">막히는 곳</a><a href="#terms">용어</a></nav>
+  <nav><a href="#plan">계획하기</a><a href="#work">일하는 방식</a><a href="#ways">쓰는 방법</a><a href="#need">필요한 것</a><a href="#kit">본보기 폴더</a><a href="#data">자료가 가는 길</a><a href="#terms">용어</a></nav>
 </div></div>
 
 <main class="in doc">
   <div class="head" style="padding-bottom:0">
-    <h1>개발환경</h1>
-    <p class="lead">연수에서 하는 일은 쿨메신저 보조도구를 쓰는 것과, 수행평가 페이지를 내 계정에 설치해 고쳐 쓰는 것입니다. 여기에는 그에 필요한 환경과, Claude Code와 계획하고 대화하는 방법을 적었습니다.</p>
+    <h1>Claude Code와 일하는 법</h1>
+    <p class="lead">연수에서 다룬 내용을 다시 볼 수 있게 모은 참고 자료입니다. 구조를 틀로 계획하고, 말로 시키고, 내가 확인하는 방법입니다.</p>
   </div>
-
-  <section id="need">
-    <h2>무엇을 하려면 무엇이 필요한가</h2>
-    <table>
-      <tr><th>수업 자료 만들기</th><td>브라우저에서 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에 로그인하면 됩니다. 설치할 것이 없습니다.</td></tr>
-      <tr><th>쿨메신저 보조도구 쓰기</th><td>쿨메신저가 깔린 학교 Windows PC에서 <code>설치.bat</code>을 실행합니다. PC에 파이썬이 없으면 설치 파일이 받아 옵니다. Claude 요약을 쓸 때만 Claude Code 설치와 로그인이 필요하고, 처음 설정의 버튼으로 합니다. 노션은 선택입니다. <a href="../coolwatch/">설명서</a></td></tr>
-      <tr><th>수행평가 페이지<br>설치·수정</th><td>노트북(Windows 또는 Mac)에 VS Code, Git, Node.js LTS, Python 3, Claude Code. 그리고 제출물을 받을 구글 계정(학교 계정이 막히면 개인 계정)과 GitHub 계정. <a href="../writing/">안내</a></td></tr>
-      <tr><th>쿨메신저 보조도구 고쳐 쓰기</th><td>그 PC에 Claude Code를 설치하고 쿨메신저 보조도구 폴더를 엽니다.</td></tr>
-    </table>
-    <p class="sub">Claude는 Pro 또는 Max 요금제 계정으로 로그인합니다.</p>
-  </section>
-
-  <section id="ways">
-    <h2>Claude Code를 쓰는 방법</h2>
-    <p>Claude Code는 여러 모양으로 쓸 수 있습니다. 어느 쪽이든 같은 폴더의 <code>CLAUDE.md</code>를 읽고 같은 일을 합니다. 모두 Pro, Max 같은 유료 요금제 계정이 필요합니다.</p>
-    <table>
-      <tr><th>터미널</th><td>터미널에서 <code>claude</code>를 실행해 글로 주고받습니다. 내 PC의 폴더와 명령을 그대로 씁니다. 가장 기본이 되는 방식입니다.</td></tr>
-      <tr><th>VS Code 확장</th><td>VS Code 옆 칸에 대화 창이 생깁니다. 고친 곳을 편집기에서 바로 비교해 볼 수 있습니다. 내 PC에서 돕니다.</td></tr>
-      <tr><th>데스크톱 앱</th><td>Claude 앱의 Code 탭. 터미널 없이 폴더를 골라 시킵니다. 내 PC에서 돌리거나 클라우드에서 돌리는 것을 고를 수 있습니다.</td></tr>
-      <tr><th>웹</th><td><a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>. 설치 없이 브라우저에서 씁니다. 내 PC가 아니라 Anthropic 쪽에서 돌고, GitHub 저장소를 연결해야 합니다.</td></tr>
-      <tr><th>JetBrains 플러그인</th><td>IntelliJ, PyCharm 같은 프로그램을 쓰는 사람용입니다. 연수에서는 다루지 않습니다.</td></tr>
-    </table>
-
-    <h3>연수에서는 왜 VS Code와 터미널인가</h3>
-    <ul>
-      <li><b>내 PC에서 돌아야 합니다.</b> 수행평가 페이지 설치는 구글 로그인 창을 내 브라우저로 열고, GitHub에 올리고, 자동 시험을 돌립니다. 쿨메신저 보조도구는 학교 PC에 있는 쿨메신저 기록을 읽습니다. 웹 방식은 내 PC가 아닌 곳에서 돌아서 이 일을 할 수 없습니다.</li>
-      <li><b>VS Code는 폴더를 눈으로 보게 해 줍니다.</b> 왼쪽에 파일 목록, 가운데에 파일 내용, 아래에 터미널이 한 창에 있습니다. Claude가 무엇을 고쳤는지 따라가기 쉽습니다.</li>
-      <li><b>터미널 방식이 기준입니다.</b> 본보기의 안내 파일과 공식 문서의 명령이 터미널 기준으로 적혀 있습니다. 쿨메신저 보조도구의 Claude 요약도 터미널용 <code>claude</code> 명령을 부르므로, 이 설치가 있어야 합니다.</li>
-      <li><b>어느 PC에서나 같습니다.</b> 노트북에서도 학교 PC에서도 같은 명령 한 줄로 설치하고 같은 방식으로 씁니다.</li>
-    </ul>
-    <p class="sub">VS Code 확장을 함께 깔아도 됩니다. 같은 폴더에서 터미널과 확장을 번갈아 써도 됩니다. 터미널이 낯설면 확장이나 데스크톱 앱으로 시작하고, 설치·배포처럼 명령이 필요한 일만 터미널에서 해도 됩니다.</p>
-
-    <h3>방법별 설치</h3>
-    <table>
-      <tr><th>터미널</th><td>아래 “설치와 확인”의 명령 한 줄. Windows에서는 Git for Windows를 함께 깔아 두는 것을 권합니다. 처음 <code>claude</code>를 실행하면 브라우저가 열려 로그인합니다.</td></tr>
-      <tr><th>VS Code 확장</th><td>VS Code에서 <code>Ctrl+Shift+X</code>(Mac은 <code>Cmd+Shift+X</code>)로 확장 목록을 열고 “Claude Code”를 검색해 Anthropic이 올린 것을 설치합니다. 확장만으로 대화 창은 쓸 수 있지만, 터미널에서 <code>claude</code>를 치려면 터미널용을 따로 설치해야 합니다.</td></tr>
-      <tr><th>데스크톱 앱</th><td><a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>에서 받아 설치하고, 로그인한 뒤 Code 탭을 엽니다. 따로 설치할 것이 없습니다.</td></tr>
-      <tr><th>웹</th><td>설치가 없습니다. <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>에 로그인하고 GitHub를 연결합니다.</td></tr>
-      <tr><th>JetBrains 플러그인</th><td>터미널용을 먼저 설치한 뒤, 프로그램의 Settings → Plugins에서 “Claude Code”를 검색해 설치합니다.</td></tr>
-    </table>
-    <p class="sub">2026년 10월 공식 문서 기준입니다. 설치 방법과 이름은 바뀔 수 있으니 <a href="https://code.claude.com/docs" target="_blank" rel="noopener">공식 문서</a>에서 다시 확인하세요.</p>
-  </section>
-
-  <section id="install">
-    <h2>설치와 확인</h2>
-    <p>화면 순서대로 따라 하려면 <a href="../setup/">가입과 설치 따라 하기</a>를 보세요. 프로그램을 받는 곳과 설치할 때 고를 것은 <a href="../prep/">연수 전 준비</a>에 있습니다. 터미널용 Claude Code는 아래 명령으로 설치합니다. Git, Node.js, Python, VS Code는 Claude Code를 먼저 깔고 나서 “깔려 있는지 확인하고 없는 것만 설치해 줘”라고 시키면 됩니다.</p>
-<pre><code># Windows (PowerShell)
-irm https://claude.ai/install.ps1 | iex
-
-# Mac (터미널)
-curl -fsSL https://claude.ai/install.sh | bash</code></pre>
-    <p>터미널(Windows는 PowerShell)을 새로 열고 한 줄씩 실행합니다. 네 줄 모두 버전 숫자가 나오면 준비가 끝난 것입니다.</p>
-<pre><code>git --version
-node -v
-python --version
-claude --version</code></pre>
-  </section>
 
   <section id="plan">
     <h2>만들기 전에 Claude Code와 계획하기</h2>
@@ -121,7 +64,7 @@ claude --version</code></pre>
 
   <section id="work">
     <h2>일하는 방식</h2>
-    <p>계획이 서면 아래 순서로 만듭니다. 이미 있는 폴더를 고칠 때도 같습니다.</p>
+    <p>계획이 서면 아래 순서로 만듭니다. 이미 있는 폴더를 고칠 때도 같습니다. 직접 해 보는 순서는 <a href="../practice/">실습: Claude Code 첫걸음</a>에 있습니다.</p>
     <ol>
       <li>받은 폴더를 VS Code로 엽니다.</li>
       <li>VS Code의 터미널에서 <code>claude</code>를 실행합니다.</li>
@@ -141,6 +84,40 @@ claude --version</code></pre>
       <tr><th>자동 시험</th><td>고친 것이 다른 곳을 망가뜨리지 않았는지 확인합니다. 지어낸 자료와 가짜 서버로 돌립니다.</td></tr>
       <tr><th>git</th><td>바꾼 내용을 기록으로 남겨, 잘못되면 되돌릴 수 있게 합니다.</td></tr>
     </table>
+  </section>
+
+  <section id="ways">
+    <h2>Claude Code를 쓰는 방법</h2>
+    <p>Claude Code는 여러 모양으로 쓸 수 있습니다. 어느 쪽이든 같은 폴더의 <code>CLAUDE.md</code>를 읽고 같은 일을 합니다. 모두 Pro, Max 같은 유료 요금제 계정이 필요합니다.</p>
+    <table>
+      <tr><th>터미널</th><td>터미널에서 <code>claude</code>를 실행해 글로 주고받습니다. 내 PC의 폴더와 명령을 그대로 씁니다. 가장 기본이 되는 방식입니다.</td></tr>
+      <tr><th>VS Code 확장</th><td>VS Code 옆 칸에 대화 창이 생깁니다. 고친 곳을 편집기에서 바로 비교해 볼 수 있습니다. 내 PC에서 돕니다.</td></tr>
+      <tr><th>데스크톱 앱</th><td>Claude 앱의 Code 탭. 터미널 없이 폴더를 골라 시킵니다. 내 PC에서 돌리거나 클라우드에서 돌리는 것을 고를 수 있습니다.</td></tr>
+      <tr><th>웹</th><td><a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>. 설치 없이 브라우저에서 씁니다. 내 PC가 아니라 Anthropic 쪽에서 돌고, GitHub 저장소를 연결해야 합니다.</td></tr>
+      <tr><th>JetBrains 플러그인</th><td>IntelliJ, PyCharm 같은 프로그램을 쓰는 사람용입니다. 연수에서는 다루지 않습니다.</td></tr>
+    </table>
+
+    <h3>연수에서는 왜 VS Code와 터미널인가</h3>
+    <ul>
+      <li><b>내 PC에서 돌아야 합니다.</b> 수행평가 페이지 설치는 구글 로그인 창을 내 브라우저로 열고, GitHub에 올리고, 자동 시험을 돌립니다. 쿨메신저 보조도구는 학교 PC에 있는 쿨메신저 기록을 읽습니다. 웹 방식은 내 PC가 아닌 곳에서 돌아서 이 일을 할 수 없습니다.</li>
+      <li><b>VS Code는 폴더를 눈으로 보게 해 줍니다.</b> 왼쪽에 파일 목록, 가운데에 파일 내용, 아래에 터미널이 한 창에 있습니다. Claude가 무엇을 고쳤는지 따라가기 쉽습니다.</li>
+      <li><b>터미널 방식이 기준입니다.</b> 본보기의 안내 파일과 공식 문서의 명령이 터미널 기준으로 적혀 있습니다. 쿨메신저 보조도구의 Claude 요약도 터미널용 <code>claude</code> 명령을 부르므로, 이 설치가 있어야 합니다.</li>
+      <li><b>어느 PC에서나 같습니다.</b> 노트북에서도 학교 PC에서도 같은 명령 한 줄로 설치하고 같은 방식으로 씁니다.</li>
+    </ul>
+    <p class="sub">VS Code 확장을 함께 깔아도 됩니다. 같은 폴더에서 터미널과 확장을 번갈아 써도 됩니다. 터미널이 낯설면 확장이나 데스크톱 앱으로 시작하고, 설치·배포처럼 명령이 필요한 일만 터미널에서 해도 됩니다.</p>
+
+    <p class="sub">터미널용 설치와 로그인은 <a href="../setup/">가입과 설치 따라 하기</a> 3, 4번에 있습니다. VS Code 확장은 VS Code의 확장 목록에서 “Claude Code”를 검색해 설치하고, 데스크톱 앱은 <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>에서 받습니다.</p>
+  </section>
+
+  <section id="need">
+    <h2>무엇을 하려면 무엇이 필요한가</h2>
+    <table>
+      <tr><th>수업 자료 만들기</th><td>브라우저에서 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에 로그인하면 됩니다. 설치할 것이 없습니다.</td></tr>
+      <tr><th>쿨메신저 보조도구 쓰기</th><td>쿨메신저가 깔린 학교 Windows PC에서 <code>설치.bat</code>을 실행합니다. PC에 파이썬이 없으면 설치 파일이 받아 옵니다. Claude 요약을 쓸 때만 Claude Code 설치와 로그인이 필요하고, 처음 설정의 버튼으로 합니다. 노션은 선택입니다. <a href="../coolwatch/">설명서</a></td></tr>
+      <tr><th>수행평가 페이지<br>설치·수정</th><td>노트북(Windows 또는 Mac)에 VS Code, Git, Node.js LTS, Python 3, Claude Code. 그리고 제출물을 받을 구글 계정(학교 계정이 막히면 개인 계정)과 GitHub 계정. <a href="../writing/">안내</a></td></tr>
+      <tr><th>쿨메신저 보조도구 고쳐 쓰기</th><td>그 PC에 Claude Code를 설치하고 쿨메신저 보조도구 폴더를 엽니다.</td></tr>
+    </table>
+    <p class="sub">Claude는 Pro 또는 Max 요금제 계정으로 로그인합니다. 설치하는 순서와 명령은 <a href="../setup/">가입과 설치 따라 하기</a>에 있습니다.</p>
   </section>
 
   <section id="kit">
@@ -170,15 +147,6 @@ claude --version</code></pre>
       <tr><th>비밀키</th><td>저장소에 넣지 않습니다. 쿨메신저 보조도구의 노션 키는 학교 PC의 환경변수에 둡니다. 수행평가 페이지의 token과 교사 PIN은 페이지 소스에 보이는 값이라 비밀이 아닙니다.</td></tr>
     </table>
     <p>개발과 시험은 지어낸 자료로 합니다. 학생 정보를 구글 드라이브나 노션에 두기 전에는 학교 개인정보 지침을 먼저 확인하세요.</p>
-  </section>
-
-  <section id="stuck">
-    <h2>자주 막히는 곳</h2>
-    <details><summary>학교 망에서 설치 사이트가 열리지 않습니다</summary><div>claude.ai, github.com, python.org 같은 곳이 막혀 있으면 설치가 멈춥니다. 연수 전에 미리 설치해 오고, 압축 파일은 USB로도 받을 수 있게 준비합니다.</div></details>
-    <details><summary>학교 구글 계정으로 웹 앱이 열리지 않습니다</summary><div>“모든 사용자”에게 웹 앱을 여는 것이 관리자 설정으로 막혀 있을 수 있습니다. 막히면 개인 계정을 씁니다.</div></details>
-    <details><summary>권한 승인 때 “안전하지 않음” 경고가 뜹니다</summary><div>본인 계정에 본인이 올린 스크립트라서 뜨는 것입니다. “고급”을 눌러 계속 진행하고 허용합니다.</div></details>
-    <details><summary>Windows에서 <code>bash scripts/deploy.sh</code>가 실행되지 않습니다</summary><div>Git을 설치할 때 함께 깔리는 Git Bash가 필요합니다.</div></details>
-    <details><summary>배포했는데 학생 화면이 옛 버전입니다</summary><div>GitHub Pages 반영에 최대 10분이 걸립니다. Safari가 옛 화면을 붙들고 있으면 주소 뒤에 <code>?v=숫자</code>를 붙여 엽니다.</div></details>
   </section>
 
   <section id="terms">
