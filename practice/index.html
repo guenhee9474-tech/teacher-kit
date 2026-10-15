@@ -24,26 +24,31 @@
 
   <section id="ready">
     <h2>준비 확인</h2>
-    <p>아래 두 가지가 되어 있어야 합니다. Claude Code가 안 되어 있으면 <a href="../prep/#install">연수 전 준비</a>의 2, 3번을 먼저 합니다.</p>
+    <p>연수 전에 해 온 두 가지입니다. 안 되어 있으면 <a href="../prep/">연수 전 준비</a>를 먼저 합니다.</p>
     <table>
-      <tr><th>Claude Code</th><td>터미널에서 <code>claude</code> 를 켜고 “안녕”이라고 쳤을 때 답이 옵니다.</td></tr>
       <tr><th>VS Code</th><td>설치되어 있습니다.</td></tr>
-      <tr><th>본보기 폴더</th><td><b>문서</b> 폴더 안에 <code>english-writing</code> 폴더가 있습니다.</td></tr>
+      <tr><th>Claude Code</th><td>터미널에서 <code>claude</code> 를 켜고 “안녕”이라고 쳤을 때 답이 옵니다.</td></tr>
     </table>
-    <p>하나라도 없으면 PowerShell에 아래를 차례로 넣습니다. 자세한 화면은 <a href="../prep/#kit">연수 전 준비 4번</a>에 있습니다.</p>
-<pre><code>winget install -e --id Microsoft.VisualStudioCode --accept-package-agreements --accept-source-agreements</code></pre>
-<pre><code>cd $HOME\Documents
-irm https://guenhee9474-tech.github.io/teacher-kit/downloads/english-writing-kit.zip -OutFile english-writing-kit.zip
-Expand-Archive english-writing-kit.zip -DestinationPath . -Force</code></pre>
     <div class="tip">준비가 안 된 분은 옆 사람 화면을 같이 보다가, 마지막 <a href="#plan">내 것 계획</a>만 브라우저의 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에서 같이 합니다.</div>
   </section>
 
   <section id="steps">
     <h2>실습</h2>
     <ol class="steps">
-      <li><b>VS Code로 본보기 폴더를 엽니다.</b> PowerShell에 아래 줄을 넣습니다. 이미 VS Code에 열려 있으면 건너뜁니다.
-<pre><code>code $HOME\Documents\english-writing</code></pre>
-        <p class="cap">Mac은 <code>open -a "Visual Studio Code" ~/Documents/english-writing</code> 입니다. 작성자를 신뢰하느냐고 물으면 “예”를 누릅니다.</p>
+      <li><b>본보기 폴더를 받아 VS Code로 엽니다.</b> PowerShell(Windows 키 → <code>powershell</code>)에 아래 네 줄을 한꺼번에 붙여넣습니다. 수행평가 페이지 본보기를 <b>문서</b> 폴더에 받아 풀고, VS Code로 엽니다.
+<pre><code>cd $HOME\Documents
+irm https://guenhee9474-tech.github.io/teacher-kit/downloads/english-writing-kit.zip -OutFile english-writing-kit.zip
+Expand-Archive english-writing-kit.zip -DestinationPath . -Force
+code english-writing</code></pre>
+        <p class="cap">VS Code가 열리며 작성자를 신뢰하느냐고 물으면 “예”를 누릅니다. 왼쪽에 <code>docs</code>, <code>CLAUDE.md</code> 같은 이름이 보이면 됩니다.</p>
+        <details><summary>Mac에서는 / code 를 모른다고 나오면</summary><div>
+          <p>Mac은 터미널에 아래를 넣습니다.</p>
+<pre><code>cd ~/Documents
+curl -L -O https://guenhee9474-tech.github.io/teacher-kit/downloads/english-writing-kit.zip
+unzip -o english-writing-kit.zip
+open -a "Visual Studio Code" english-writing</code></pre>
+          <p>Windows에서 <code>code</code> 를 모른다고 하면, VS Code를 직접 열고 <b>파일 → 폴더 열기</b>에서 <b>문서 → english-writing</b> 을 고릅니다.</p>
+        </div></details>
       </li>
 
       <li><b>VS Code 안의 터미널에서 Claude Code를 켭니다.</b> <code>Ctrl+`</code>(숫자 1 왼쪽의 키)를 눌러 아래쪽에 터미널을 열고, <code>claude</code> 를 넣습니다. 메뉴로는 <b>터미널 → 새 터미널</b>입니다.
