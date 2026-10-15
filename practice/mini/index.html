@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수행평가 연습</title>
+<style>
+  body { font-family: sans-serif; max-width: 640px; margin: 24px auto; padding: 0 16px; line-height: 1.6; }
+  .bar { display: flex; gap: 12px; padding: 8px 12px; background: #f1f1ee; border-radius: 8px; font-size: 14px; }
+  input, textarea, button { font: inherit; width: 100%; box-sizing: border-box; margin: 6px 0; padding: 8px; }
+  textarea { height: 220px; }
+  button { background: #1a1b1f; color: #fff; border: 0; border-radius: 8px; padding: 12px; }
+</style>
+</head>
+<body>
+<script>
+// ===== 설정: 과목에 맞게 여기만 바꿉니다 =====
+const CONFIG = {
+  title: "수행평가 연습",
+  prompt: "주어진 주제에 대해 자기 생각을 쓰세요.",
+  minutes: 10,
+  scriptUrl: ""   // Apps Script 웹 앱 주소(…/exec)를 여기에 넣습니다
+};
+</script>
+<h1 id="title"></h1>
+<p id="prompt"></p>
+<div class="bar"><span>남은 시간 <b id="left"></b></span><span>이탈 <b id="leaves">0</b>회</span></div>
+<input id="sid" placeholder="학번 (예: 10101)">
+<input id="sname" placeholder="이름">
+<textarea id="text" placeholder="여기에 씁니다. 붙여넣기는 막혀 있습니다."></textarea>
+<button id="send">제출</button>
+<p id="msg"></p>
+<script>
+document.getElementById("title").textContent = CONFIG.title;
+document.getElementById("prompt").textContent = CONFIG.prompt;
+let left = CONFIG.minutes * 60, leaves = 0, sent = false;
+const $ = id => document.getElementById(id);
+function tick() {
+  $("left").textContent = Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0");
+  if (left <= 0 && !sent) { submit(); return; }
+  left--;
+}
+tick(); setInterval(tick, 1000);
+$("text").addEventListener("paste", e => { e.preventDefault(); $("msg").textContent = "붙여넣기는 막혀 있습니다."; });
+document.addEventListener("visibilitychange", () => { if (document.hidden && !sent) $("leaves").textContent = ++leaves; });
+function submit() {
+  if (sent) return;
+  if (!CONFIG.scriptUrl) { $("msg").textContent = "설정의 scriptUrl 이 비어 있습니다."; return; }
+  sent = true; $("send").disabled = true;
+  const data = { id: $("sid").value, name: $("sname").value, text: $("text").value, leaves: leaves };
+  fetch(CONFIG.scriptUrl, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
+    .then(() => { $("msg").textContent = "보냈습니다. 선생님 시트에 줄이 생겼는지 확인하세요."; })
+    .catch(() => { sent = false; $("send").disabled = false; $("msg").textContent = "보내지 못했습니다. 인터넷 연결을 확인하고 다시 누르세요."; });
+}
+$("send").addEventListener("click", submit);
+</script>
+</body>
+</html>
