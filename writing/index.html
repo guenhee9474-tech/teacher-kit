@@ -27,6 +27,7 @@
       <a class="btn primary" href="demo/?r=2&d=5&f=5" target="_blank" rel="noopener">체험해 보기</a>
       <a class="btn" href="../downloads/english-writing-kit.zip" download>압축 파일 받기</a>
     </div>
+    <div class="tip"><b>연수 실습의 본보기입니다.</b> 실습에서는 이 페이지를 ① 학생이 되어 보고, ② 웹 채팅이나 Claude Code로 뜯어보고, ③ 내 과목(지구과학, 일본어, 윤리…) 평가 페이지로 바꿔 봅니다. 순서는 <a href="../practice/">실습</a> 카드에 있습니다.</div>
     <p class="meta">구글 계정 · GitHub 계정 · Claude Code 필요 (설치할 때) · 97KB</p>
   </div>
   <figure class="figure">
@@ -57,33 +58,8 @@
   </section>
 
   <section id="github">
-    <h2>설치 준비 ① GitHub 가입</h2>
-    <p>GitHub는 코드를 올려 두는 곳입니다. 수행평가 페이지의 학생용 주소도 여기서 나옵니다. 무료입니다.</p>
-    <ol class="steps">
-      <li>브라우저에서 <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>을 엽니다.</li>
-      <li>네 가지를 넣고 <b>Create account</b>를 누릅니다.
-        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/signup</span></div><div class="web">
-          <h4>Sign up for GitHub</h4>
-          <div class="f"><span><span class="n">1</span>Email</span><div>내 메일 주소</div></div>
-          <div class="f"><span><span class="n">2</span>Password</span><div>15자 이상, 또는 숫자와 소문자를 섞어 8자 이상</div></div>
-          <div class="f"><span><span class="n">3</span>Username</span><div>영문, 숫자, 하이픈(-)만</div></div>
-          <div class="f"><span><span class="n">4</span>Your Country/Region</span><div>South Korea</div></div>
-          <span class="go">Create account</span>
-        </div></div>
-        <p class="cap"><b>Username이 중요합니다.</b> 학생 페이지 주소가 <code>https://Username.github.io/…</code> 가 됩니다. 학생에게 보여도 괜찮은 이름으로 정하세요. 이미 쓰는 사람이 있으면 빨간 글씨가 나오니 다른 이름을 넣습니다.</p>
-      </li>
-      <li><b>사람인지 확인하는 퍼즐</b>이 나옵니다. 시키는 대로 그림을 고릅니다.</li>
-      <li>넣은 메일 주소로 <b>숫자 코드</b>가 옵니다. 메일함을 열어 그 숫자를 화면에 넣습니다. 메일이 안 보이면 스팸함을 봅니다.
-        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/account_verifications</span></div><div class="web">
-          <h4>Confirm your email address</h4>
-          <p style="margin:0 0 10px;color:var(--sub)">We have sent a code to 내 메일 주소</p>
-          <div class="f"><span>Enter code</span><div style="letter-spacing:.5em;color:var(--ink)">1 2 3 4 5 6 7 8</div></div>
-          <span class="go">Continue</span>
-        </div></div>
-      </li>
-      <li>로그인 화면이 나오면 방금 만든 Username(또는 메일)과 비밀번호로 로그인합니다. 무엇을 할 건지 묻는 화면이 나오면 건너뛰어도 됩니다(Skip). 요금제를 묻는다면 <b>Free</b>를 고릅니다.</li>
-    </ol>
-    <div class="tip">비밀번호는 꼭 적어 두세요. 뒤에서 Claude Code가 GitHub에 올릴 때 브라우저로 한 번 더 로그인합니다.</div>
+    <h2>설치 준비 ① 계정: GitHub, 구글</h2>
+    <p>GitHub 가입, 구글 계정(드라이브, Apps Script) 준비, 그리고 각각이 이 페이지에서 무슨 일을 하는지는 <a href="../prep/#accounts">연수 전 준비의 “계정 세 가지”</a>에 화면과 함께 있습니다.</p>
   </section>
 
   <section id="tools">
@@ -136,10 +112,15 @@ Python 3.12.10
   <section id="install">
     <h2>내 수업에 쓰려면 (설치)</h2>
     <p>제출물을 받으려면 선생님의 구글 계정에 서버(Apps Script)를, GitHub에 학생 페이지를 올려야 합니다. 1시간쯤 걸리고, 대부분 Claude Code가 진행합니다.</p>
+    <table>
+      <tr><th>학생 페이지 (프론트엔드)</th><td>GitHub에 올리고 Pages를 켜면 학생이 여는 주소가 생깁니다.</td></tr>
+      <tr><th>서버 (백엔드)</th><td>구글 Apps Script. 제출을 받아 확인하고, 시트에 쓰고, PDF를 만듭니다.</td></tr>
+      <tr><th>제출물 (데이터)</th><td>구글 시트에 학생별 한 줄, 구글 드라이브에 반별 PDF 폴더.</td></tr>
+    </table>
     <p>설치와 수정은 Claude Code와 말로 진행합니다. 이 페이지가 어떤 구조인지(프론트엔드, 백엔드, 데이터, 배포)를 알고 말하면 훨씬 수월합니다.</p>
     <h3>준비</h3>
     <ul>
-      <li>구글 계정, GitHub 계정 (위의 <a href="#github">설치 준비 ①</a>)</li>
+      <li>구글 계정, GitHub 계정, Apps Script API 켜기 (<a href="../prep/#accounts">연수 전 준비의 계정 세 가지</a>)</li>
       <li>PC에 Claude Code와 VS Code, 본보기 폴더 (<a href="../prep/">연수 전 준비</a>와 <a href="../practice/">실습</a>에서 한 것)</li>
       <li>Git, Node.js LTS, Python 3 (위의 <a href="#tools">설치 준비 ②</a>)</li>
     </ul>
@@ -182,6 +163,15 @@ Python 3.12.10
       <tr><th><code>wordBank</code></th><td>표현과 자동 감지 규칙</td></tr>
     </table>
     <p class="sub">들어 있는 예시 과제(제목, 예시 문단, Word Bank)는 본보기입니다. 본인 수업 내용으로 바꿔 쓰세요.</p>
+    <h3 id="subject">다른 과목으로 바꾸기</h3>
+    <p>틀(단계, 시간, 잠금, 제출)은 그대로 쓰고 <code>CONFIG</code> 의 내용만 바꾸면 다른 과목 평가가 됩니다. 다만 아래는 <b>영어 과제에 맞춘 곳</b>이라 과목에 따라 끄거나 바꿉니다.</p>
+    <table>
+      <tr><th><code>lock.blockHangulSelection</code></th><td>영어 칸에서 한글을 고르면 선택을 풀고 기록합니다(번역 메뉴 차단용). 한글이나 일본어로 쓰는 과목은 <code>false</code> 로 끕니다.</td></tr>
+      <tr><th><code>dictionary</code></th><td>잠금 중에 영어 단어 뜻을 찾는 사전입니다. 필요 없으면 <code>enabled: false</code>.</td></tr>
+      <tr><th><code>wordBank</code></th><td>영어 표현과 자동 감지 규칙입니다. 과목의 핵심 개념어나 문형으로 바꿉니다.</td></tr>
+      <tr><th><code>requiredSentences</code></th><td>필요 문장 수입니다. 과목의 글 길이에 맞춥니다.</td></tr>
+    </table>
+    <p class="sub">과목별 예시와 Claude에게 넣을 말은 <a href="../practice/#mine">실습의 “내 과목 평가 페이지로”</a>에 있습니다.</p>
   </section>
 
   <section id="folder">

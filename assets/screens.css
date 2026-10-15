@@ -1,6 +1,6 @@
 /* 가입·설치·실습 안내에서 쓰는 '예시 화면' 그림과 단계 목록 */
 /* 예시 화면: 실제 화면을 본떠 그린 그림 */
-.shot { margin:16px 0 6px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--card); box-shadow:0 4px 14px rgba(15,16,20,.06); }
+.shot { max-height:none; max-width:none; margin:16px 0 6px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--card); box-shadow:0 4px 14px rgba(15,16,20,.06); }
 .shot .bar { display:flex; align-items:center; gap:8px; padding:8px 12px; background:var(--soft); border-bottom:1px solid var(--line); font-size:13px; color:var(--sub); }
 .shot .bar i { width:10px; height:10px; border-radius:50%; background:var(--line); display:inline-block; }
 .shot .bar .url { flex:1; background:var(--card); border:1px solid var(--line); border-radius:999px; padding:3px 12px; font-size:13px; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -20,6 +20,7 @@
 .web .go { display:inline-block; background:var(--ink); color:var(--bg); border-radius:8px; padding:9px 18px; font-weight:600; margin-top:4px; }
 .web .go.alt { background:none; color:var(--ink); border:1px solid var(--faint); }
 .n { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:var(--accent); color:#fff; font:700 12.5px/1 system-ui, sans-serif; margin-right:6px; vertical-align:2px; }
+.web .f span.n { display:inline-flex; color:#fff; margin-bottom:0; font-size:12.5px; }
 .cap { font-size:13.5px; color:var(--faint); margin:0 0 20px; }
 .dlg { max-width:440px; margin:18px auto; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--card); box-shadow:0 8px 24px rgba(15,16,20,.12); font-size:15px; }
 .dlg .h { background:#2f5fa8; color:#fff; padding:10px 16px; font-size:13.5px; }
