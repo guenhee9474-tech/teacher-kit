@@ -31,7 +31,7 @@
 <main class="in wide">
   <div class="head">
     <h1>연수 자료</h1>
-    <p class="lead">수행평가 페이지를 재료로 Claude Code에 입문하는 연수입니다. 연수 전에는 “연수 전 준비”를, 연수 날에는 “실습”을 엽니다.</p>
+    <p class="lead">영어 쓰기 수행평가 페이지를 본보기로, AI(웹 채팅, Claude Code, Antigravity CLI)와 내 과목 평가 페이지를 만들어 보는 연수입니다. 연수 전에는 “연수 전 준비”를, 연수 날에는 “실습”을 엽니다.</p>
   </div>
   <div class="editbar" id="editbar" hidden>
     <p><b>순서 바꾸기</b> — 카드를 끌어 놓거나 화살표를 눌러 순서를 바꾸세요. 바꾼 순서는 <b>이 기기에서만</b> 보입니다.</p>
@@ -54,13 +54,10 @@
 const CARDS = [
   { id: "prep", title: "연수 전 준비", cat: "연수 전", href: "prep/",
     desc: "연수 전에 해 올 것. 계정 세 가지와, 두 갈래 가운데 하나의 준비",
-    points: ["계정 세 가지: GitHub, Apps Script, 구글 드라이브가 하는 일", "A. 웹 채팅: 대화창 로그인", "B. Claude Code: VS Code와 Claude Code 설치"] },
+    points: ["계정 세 가지: GitHub, Apps Script, 구글 시트·드라이브가 하는 일", "A. 웹 채팅: 대화창 로그인", "B. 코딩 도구: VS Code와 Claude Code 또는 Antigravity CLI"] },
   { id: "practice", title: "실습: 영어 수행평가 페이지를 내 과목으로", cat: "연수 날", href: "practice/",
-    desc: "보기 → 뜯어보기 → 내 과목 평가 페이지 만들기",
-    points: ["1. 영어 수행평가 페이지에서 학생이 되어 보기", "2. 웹 채팅 또는 Claude Code로 뜯어보기", "3. 지구과학, 일본어, 윤리… 내 과목으로 바꾸기"] },
-  { id: "writing", title: "영어 쓰기 수행평가 페이지", cat: "연수 날", href: "writing/",
-    desc: "실습의 본보기. 체험, 다른 과목으로 바꾸기, 내 수업용 설치까지",
-    points: ["설치 없이 체험해 보기", "내 수업용으로 설치: GitHub 가입부터", "과제 바꾸기, 수업 운영, 알아 둘 것"] },
+    desc: "영어 쓰기 수행평가 페이지를 본보기로 보고, 뜯어보고, 내 과목 평가 페이지로 바꾸고, 실제 수업에 올리기까지",
+    points: ["1~3. 연수 날: 체험, 웹 채팅이나 코딩 도구로 뜯어보기, 내 과목으로", "4. 연수 뒤: GitHub, Apps Script, 구글 시트·드라이브에 올리기", "과제 바꾸기, 수업 운영, 알아 둘 것"] },
   { id: "coolwatch", title: "쿨메신저 보조도구", cat: "자료", href: "coolwatch/",
     desc: "쿨메신저로 받은 업무 메시지에서 할 일·기한·일정을 뽑아 카드로 정리하는 도구 (선택)",
     points: ["설치.bat 한 번으로 설치", "Claude 요약, 노션 연결은 선택", "첨부 파일은 눌러서 바로 열기"] },
