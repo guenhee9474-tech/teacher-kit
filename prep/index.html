@@ -41,9 +41,9 @@
     <h2>해 올 것 (15분)</h2>
     <p class="sub">두 가지만 설치해 오면 됩니다. 나머지는 연수 때 함께 합니다.</p>
     <ul class="checks">
-      <li><label><input type="checkbox" data-k="vscode"><span><b>VS Code 설치</b><small>실습을 VS Code 안에서 합니다. <a href="#vscode">아래 2번 화면 보기 ↓</a></small></span></label></li>
-      <li><label><input type="checkbox" data-k="dev-claude"><span><b>Claude Code 설치</b><small><a href="#install">아래 3번 화면 보기 ↓</a></small></span></label></li>
-      <li><label><input type="checkbox" data-k="claude-code-login"><span><b>Claude Code에 구독 계정(Pro 또는 Max)으로 로그인</b><small>API 키는 필요 없습니다. 브라우저에서 승인만 하면 됩니다. <a href="#login">아래 4번 화면 보기 ↓</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="vscode"><span><b>VS Code 설치</b><small>실습을 VS Code 안에서 합니다. <a href="#vscode">아래 1번 화면 보기 ↓</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="dev-claude"><span><b>Claude Code 설치</b><small><a href="#install">아래 2번 화면 보기 ↓</a></small></span></label></li>
+      <li><label><input type="checkbox" data-k="claude-code-login"><span><b>Claude Code에 구독 계정(Pro 또는 Max)으로 로그인</b><small>API 키는 필요 없습니다. 브라우저에서 승인만 하면 됩니다. <a href="#login">아래 3번 화면 보기 ↓</a></small></span></label></li>
     </ul>
     <h3 id="cmd">붙여넣을 명령 (Windows)</h3>
     <p>Windows 키를 누르고 <code>powershell</code> 을 쳐서 PowerShell을 엽니다. 아래를 한 덩어리씩 붙여넣고, <b>덩어리마다 PowerShell 창을 닫고 새로 엽니다.</b></p>
@@ -69,7 +69,7 @@ claude</code></pre>
   </section>
 
   <section id="ps">
-    <h2>1. 터미널 열기</h2>
+    <h2>먼저: 터미널 열기</h2>
     <p>터미널은 글자로 명령을 넣는 창입니다. Windows에서는 <b>PowerShell</b>을 씁니다. 뒤의 모든 단계에서 이 창을 씁니다.</p>
     <ol class="steps">
       <li>키보드의 <b>Windows 키</b>를 누르고 <code>powershell</code>이라고 칩니다. 맨 위에 <b>Windows PowerShell</b>이 나오면 Enter를 누릅니다.
@@ -94,7 +94,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.</span>
   </section>
 
   <section id="vscode">
-    <h2>2. VS Code 설치</h2>
+    <h2>1. VS Code 설치</h2>
     <p>VS Code는 폴더 안의 파일을 보고 고치는 프로그램입니다. 연수 실습은 VS Code 안에서 합니다.</p>
     <ol class="steps">
       <li>PowerShell에 아래 줄을 붙여넣습니다.
@@ -111,7 +111,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.</span>
   </section>
 
   <section id="install">
-    <h2>3. Claude Code 설치</h2>
+    <h2>2. Claude Code 설치</h2>
     <p>명령 한 줄입니다. 관리자 권한이 필요 없습니다.</p>
     <ol class="steps">
       <li>PowerShell을 열고 아래 줄을 복사해 붙여넣은 뒤 Enter를 누릅니다.
@@ -149,7 +149,7 @@ Setting up Claude Code...
   </section>
 
   <section id="login">
-    <h2>4. 구독 계정으로 로그인</h2>
+    <h2>3. 구독 계정으로 로그인</h2>
     <p>Claude Code를 내 Claude 구독(Pro 또는 Max)에 잇는 단계입니다. <b>API 키를 따로 발급받지 않습니다.</b> 브라우저에서 한 번 승인하면 끝납니다.</p>
     <ol class="steps">
       <li>PowerShell에 <code>claude</code> 라고 넣고 Enter를 누릅니다. 처음이면 글자 색을 고르라고 합니다. 그냥 <b>Enter</b>를 누르면 됩니다.
