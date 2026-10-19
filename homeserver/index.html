@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>집 PC를 서버로</title>
+<meta name="description" content="쓰지 않는 집 PC를 늘 켜 두고, 학교나 휴대폰에서 들어가 Claude Code에게 일을 맡기는 작업실로 만드는 방법">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+  <nav>
+    <a href="#why">무엇이 달라지나</a><a href="#part1">1부</a><a href="#part2">2부</a><a href="#demo">시연</a><a href="#help">문제 해결</a>
+  </nav>
+</div></div>
+
+<main class="in doc">
+  <div class="head">
+    <h1>집 PC를 서버로</h1>
+    <p class="lead">쓰지 않는 집 PC를 늘 켜 두고, 학교나 휴대폰에서 들어가 Claude Code에게 일을 맡기는 작업실로 만듭니다. 공유기 설정은 바꾸지 않고, 학생 정보는 두지 않는 방식입니다.</p>
+    <p class="meta">Windows 10·11 · 1부 30분, 2부 1시간 (선택) · 드는 돈: 전기료</p>
+  </div>
+
+  <div class="note">
+    <h3>먼저 읽어 주세요</h3>
+    <ul>
+      <li><b>학생 개인정보(성적, 상담, 출결, 연락처)는 집 PC에 두지 않습니다.</b> 학생 제출은 연수에서 만든 대로 학교 구글 계정의 시트에 쌓습니다.</li>
+      <li><b>공유기에서 포트를 열지 않습니다</b>(포트 포워딩 금지). 밖에서 들어오는 길은 내 계정으로 로그인한 내 기기끼리만 이어 주는 방법(원격 화면, Tailscale)만 씁니다.</li>
+      <li>학교·교육청 지침이 개인 장비 사용을 막는다면 그 지침이 먼저입니다.</li>
+      <li>비밀번호와 API 키는 파일에 적어 두지 않고, 대화창이나 화면 공유에 붙여 넣지 않습니다.</li>
+    </ul>
+  </div>
+
+  <section id="why">
+    <h2>무엇이 달라지나</h2>
+    <p>실습에서 채운 네 층 가운데 바뀌는 것은 <b>백엔드 한 층</b>입니다. 학생이 여는 페이지와 학생 데이터는 그대로 둡니다.</p>
+    <table>
+      <tr><th>층</th><td><b>연수에서</b></td><td><b>집 서버를 쓰면</b></td></tr>
+      <tr><th>프론트엔드</th><td>index.html</td><td>그대로</td></tr>
+      <tr><th>배포</th><td>GitHub Pages</td><td>그대로. 학생이 여는 주소는 계속 여기</td></tr>
+      <tr><th>백엔드</th><td>Apps Script</td><td>오래 걸리는 일, 정해진 시각에 도는 일을 집 PC가 더 맡음</td></tr>
+      <tr><th>데이터</th><td>구글 시트</td><td>그대로. 학생 데이터는 학교 계정에</td></tr>
+    </table>
+    <h3>맞는 일과 맞지 않는 일</h3>
+    <table>
+      <tr><th>맞는 일</th><td>
+        <ul>
+          <li>Claude Code에게 긴 일을 맡겨 두고 퇴근하기. 창을 닫아도 계속 돕니다.</li>
+          <li>매일 정해진 시각에 도는 일. 예: 아침마다 내 메모에서 오늘 할 일 정리, 수업 자료 링크가 살아 있는지 점검</li>
+          <li>학교 PC에 설치할 수 없는 프로그램(파이썬, 데이터 분석 도구)</li>
+        </ul>
+      </td></tr>
+      <tr><th>맞지 않는 일</th><td>
+        <ul>
+          <li>학생이 여는 페이지 → GitHub Pages가 낫습니다. 집 PC가 꺼져도 열립니다.</li>
+          <li>학생 제출 받기 → Apps Script와 시트</li>
+          <li>학생 개인정보 보관 → 학교 시스템</li>
+        </ul>
+      </td></tr>
+    </table>
+    <h3>준비물</h3>
+    <table>
+      <tr><th>PC</th><td>메모리 8GB 이상을 권합니다(4GB도 돌아가지만 느립니다). SSD면 좋습니다. 노트북도 됩니다.</td></tr>
+      <tr><th>인터넷</th><td>공유기에 랜선으로 꽂는 것을 권합니다. 와이파이도 됩니다.</td></tr>
+      <tr><th>계정</th><td>개인 구글 계정(원격 화면), Claude 구독. 2부는 Tailscale도(구글 계정으로 가입, 개인 무료)</td></tr>
+      <tr><th>전기료 (대략)</th><td>쉬고 있는 데스크톱이 보통 20~50W라면 한 달 15~35kWh 안팎으로, 가정용 요금 구간에 따라 한 달 수천 원 수준입니다. PC마다 다르니 멀티탭 전력계로 재 보면 정확합니다.</td></tr>
+    </table>
+  </section>
+
+  <section id="part1">
+    <h2>1부: 원격 화면으로 (30분)</h2>
+    <p>집 PC 화면을 학교 PC나 휴대폰에서 그대로 보고 조작합니다. 여기까지만 해도 서버로 쓸 수 있습니다.</p>
+
+    <h3>1. 꺼지지 않게 하기</h3>
+    <ol>
+      <li><b>설정 → 시스템 → 전원</b>에서 화면 끄기는 그대로 두고, <b>절전 모드</b>만 “안 함”으로 바꿉니다. PowerShell에 아래를 넣어도 같습니다.
+<pre><code>powercfg /change standby-timeout-ac 0
+powercfg /change hibernate-timeout-ac 0</code></pre></li>
+      <li>노트북이면 <b>제어판 → 전원 옵션 → 덮개를 닫으면</b> → “아무 것도 안 함”(전원 연결 시)으로 바꿉니다.</li>
+      <li><b>설정 → Windows 업데이트 → 고급 옵션 → 사용 시간</b>을 맞춰, 일을 맡겨 둔 시간에 재시작하지 않게 합니다.</li>
+      <li>(선택) 정전 뒤 저절로 켜지게: PC를 켤 때 BIOS에 들어가 <b>Restore on AC Power Loss</b>를 “Power On”으로. 메뉴 이름은 제조사마다 다르고, 없으면 넘어갑니다.</li>
+    </ol>
+
+    <h3>2. 원격 화면 켜기 (Chrome 원격 데스크톱)</h3>
+    <ol>
+      <li>집 PC의 Chrome에서 <a href="https://remotedesktop.google.com/access" target="_blank" rel="noopener">remotedesktop.google.com/access</a>를 열고 <b>원격 액세스 설정</b> → 설치를 누릅니다.</li>
+      <li>PC 이름을 정하고 <b>PIN</b>을 6자리 이상으로 정합니다. 생일이나 학번처럼 짐작되는 숫자는 피합니다.</li>
+      <li>학교 PC에서는 같은 주소를, 휴대폰에서는 <b>Chrome 원격 데스크톱</b> 앱을 열고 같은 구글 계정으로 로그인해 PIN을 넣습니다.</li>
+    </ol>
+    <p class="sub">학교 구글 계정은 관리자가 막아 두었을 수 있어 개인 계정을 씁니다. 학교 망에서 막히면 휴대폰 데이터로 먼저 시험해 보고, 안 되면 2부의 터미널 길을 씁니다.</p>
+
+    <h3>3. Claude Code에게 일 맡기기</h3>
+    <p>Claude Code는 <a href="../prep/#install">연수 전 준비</a>대로 설치합니다. 원격 화면에서 PowerShell을 열고 작업 폴더로 가서 <code>claude</code>를 실행한 뒤 일을 맡깁니다. <b>PowerShell 창은 열어 둔 채 원격 연결만 끊으면</b> 일은 계속됩니다.</p>
+<pre><code>notes 폴더의 이번 주 수업 메모를 읽고,
+다음 주 수업 계획 초안을 plan.md로 만들어 줘.
+학생 이름이 나오면 지우고 써 줘. 다 하면 한 줄로 알려 줘.</code></pre>
+    <p class="sub">돌아와서 창을 보면 결과가 있습니다. 권한을 묻는 질문에서 멈춰 기다리고 있을 수도 있으니, 길게 맡길 때는 맡기기 전에 무엇을 허락할지 정해 둡니다.</p>
+  </section>
+
+  <section id="part2">
+    <h2>2부: 터미널 서버로 (1시간, 선택)</h2>
+    <p>화면 없이 글자 창(터미널)으로 들어갑니다. 가볍고 휴대폰에서도 빠르며, 창을 닫아도 일이 계속되고 정해진 시각에 일을 돌릴 수 있습니다. 1부를 마친 뒤 합니다.</p>
+
+    <h3>4. 우분투 설치 (WSL)</h3>
+    <ol>
+      <li>시작 메뉴에서 PowerShell을 <b>관리자 권한으로</b> 열고 <code>wsl --install</code>을 넣은 뒤 재시작합니다.</li>
+      <li>재시작하면 우분투 창이 뜹니다. 사용자 이름과 비밀번호를 정합니다(이 비밀번호는 <code>sudo</code>를 쓸 때 묻습니다).</li>
+      <li>우분투 안에 Claude Code를 설치합니다.
+<pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre></li>
+      <li>우분투가 계속 켜져 있게 합니다. 우분투는 열린 창이 없으면 잠시 뒤 저절로 멈추므로, <b>작업 스케줄러 → 작업 만들기</b>에서 트리거 “로그온할 때”, 동작 “프로그램 시작”으로 프로그램 <code>wsl.exe</code>, 인수 <code>-d Ubuntu --exec sleep infinity</code>를 넣습니다. 로그온하면 검은 창이 하나 뜨는데, 닫지 말고 최소화합니다.</li>
+      <li>확인: 재시작하고 로그온한 뒤 PowerShell에서 <code>wsl -l -v</code>를 넣어 Ubuntu가 <b>Running</b>이면 됩니다.</li>
+    </ol>
+
+    <h3>5. 밖에서 터미널로 들어가기 (Tailscale)</h3>
+    <p>Tailscale은 같은 계정으로 로그인한 내 기기끼리만 이어 주는 사설 통로입니다. 공유기 설정을 건드리지 않습니다.</p>
+    <ol>
+      <li>우분투 창에서:
+<pre><code>curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up --ssh</code></pre>
+        나온 주소를 열어 구글 계정으로 로그인합니다.</li>
+      <li>학교 PC와 휴대폰에도 Tailscale 앱을 깔고 같은 계정으로 로그인합니다. 학교 PC에 설치가 막혀 있으면 휴대폰만 씁니다.</li>
+      <li><a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener">관리 화면</a>에서 집 PC의 이름을 확인하고 접속합니다. 휴대폰은 Termius 같은 SSH 앱을 씁니다.
+<pre><code>ssh 우분투사용자이름@집PC이름</code></pre>
+        처음에는 브라우저에서 한 번 더 확인하라는 창이 뜰 수 있습니다.</li>
+    </ol>
+
+    <h3>6. 창을 닫아도 계속 (tmux)</h3>
+    <p>tmux는 터미널 안에 “방”을 만들어, 접속을 끊어도 그 방의 일이 계속되게 합니다.</p>
+    <table>
+      <tr><th>처음 한 번</th><td><code>sudo apt install -y tmux</code></td></tr>
+      <tr><th>방 만들기</th><td><code>tmux new -s work</code> 를 넣고, 그 안에서 <code>claude</code> 를 실행해 일을 맡깁니다.</td></tr>
+      <tr><th>빠져나오기</th><td><b>Ctrl+b</b>를 누르고 손을 뗀 뒤 <b>d</b>. 방과 일은 그대로 남습니다. 이제 접속을 끊어도 됩니다.</td></tr>
+      <tr><th>다시 들어가기</th><td>다음에 접속해서 <code>tmux attach -t work</code></td></tr>
+    </table>
+
+    <h3>7. 정해진 시각에 돌리기 (cron)</h3>
+    <p>cron은 “매주 평일 아침 7시”처럼 정한 시각에 명령을 돌립니다. 줄은 직접 쓰기보다 Claude Code에게 맡기는 편이 쉽습니다.</p>
+<pre><code>매주 월~금 아침 7시에, ~/class/notes 폴더의 어제 메모를 읽고
+오늘 할 일을 다섯 줄로 정리해 ~/class/today.md 에 쓰는 작업을 cron으로 걸어 줘.
+claude -p 를 쓰고, 실행 기록은 ~/class/log.txt 에 남겨 줘.
+걸기 전에 crontab에 넣을 줄을 먼저 보여 줘.</code></pre>
+    <p class="sub">다음 날 아침 <code>today.md</code>와 <code>log.txt</code>를 열어 정말 돌았는지 확인합니다. 걸어 둔 작업은 <code>crontab -l</code>로 봅니다.</p>
+
+    <h3>8. 점검과 백업 (한 달에 한 번)</h3>
+    <ul>
+      <li>Windows 업데이트, 우분투는 <code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></li>
+      <li>남기고 싶은 파일은 GitHub 비공개 저장소나 구글 드라이브에 올려 둡니다. 학생 정보가 없는 파일만입니다.</li>
+      <li>Claude Code에게 점검을 맡깁니다.
+<pre><code>이 PC에 바깥에서 들어올 수 있는 길(열린 포트, 원격 접속 프로그램)을 점검해서
+목록으로 보고해 줘. 고치지는 말고 보고만.</code></pre></li>
+    </ul>
+  </section>
+
+  <section id="demo">
+    <h2>시연: 내 서버에 페이지 하나 띄우기</h2>
+    <p>발표의 “요청이 서버에 닿고 답이 돌아온다”를 내 눈으로 보는 5분 실험입니다. 2부를 마쳤으면 됩니다. Tailscale로 이어진 <b>내 기기에서만</b> 보입니다.</p>
+    <ol>
+      <li>우분투에서 아무 폴더에 <code>index.html</code>을 하나 두고(실습에서 만든 파일도 됩니다), 그 폴더에서:
+<pre><code>python3 -m http.server 8000</code></pre></li>
+      <li>Tailscale을 켠 휴대폰 브라우저에서 <code>http://집PC이름:8000</code>을 엽니다.</li>
+      <li>우분투 창에 <code>"GET / HTTP/1.1" 200</code> 같은 줄이 찍힙니다. 이 한 줄이 <b>요청</b>이고, 휴대폰에 뜬 페이지가 <b>응답</b>입니다.</li>
+      <li>끝나면 <b>Ctrl+C</b>로 끕니다. 늘 열어 둘 페이지는 GitHub Pages에 올립니다.</li>
+    </ol>
+  </section>
+
+  <section id="help">
+    <h2>문제 해결</h2>
+    <details><summary>학교에서 원격 화면이 안 열립니다</summary><div>학교 망이 원격 접속을 막았을 수 있습니다. 휴대폰 데이터로 열어 보고, 그래도 안 되면 집 PC가 켜져 있는지부터 확인합니다. 학교 망 사용 지침이 있으면 그에 따릅니다.</div></details>
+    <details><summary>ssh 접속이 안 됩니다</summary><div>원격 화면으로 집 PC에 들어가 PowerShell에서 <code>wsl -l -v</code>(Ubuntu가 Running인지), 우분투에서 <code>tailscale status</code>(로그인되어 있는지)를 봅니다. 휴대폰 Tailscale 앱이 꺼져 있지 않은지도 봅니다.</div></details>
+    <details><summary>재시작한 뒤 우분투가 안 켜집니다</summary><div>4단계의 작업은 Windows에 로그온해야 돕니다. 원격 화면으로 들어가 로그온하면 켜집니다.</div></details>
+    <details><summary>맡긴 일이 멈춰 있습니다</summary><div>Claude Code가 권한을 묻고 기다리는 중일 수 있습니다. <code>tmux attach -t work</code>로 들어가 질문을 확인하고 답합니다.</div></details>
+    <details><summary>정전 뒤 PC가 안 켜집니다</summary><div>1단계의 BIOS 설정(Restore on AC Power Loss)을 확인합니다. 메뉴가 없는 PC는 직접 켜야 합니다.</div></details>
+    <details><summary>Windows를 지우고 우분투만 깔면 안 되나요?</summary><div>더 가볍고 안정적이지만 PC를 지워야 하고 원격 화면이 어려워집니다. 2부에 익숙해진 뒤에 고려합니다.</div></details>
+  </section>
+</main>
+
+<footer><div class="in"><span>집 PC를 서버로</span><a href="../">연수 자료로</a></div></footer>
+</body>
+</html>
