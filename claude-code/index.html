@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 설치와 로그인</title>
+<meta name="description" content="Claude 구독(Pro·Max)으로 쓰는 코딩 도구 Claude Code의 설치와 로그인">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/screens.css">
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+</div></div>
+
+<main class="in doc">
+  <div class="head" style="padding-bottom:0">
+    <h1>Claude Code 설치와 로그인</h1>
+    <p class="lead">Claude 유료 구독(Pro 또는 Max)으로 쓰는 코딩 도구입니다. API 키는 필요 없습니다. 10분이면 됩니다.</p>
+  </div>
+
+  <section id="quick">
+    <h2>한 번에 하기</h2>
+    <p>익숙하다면 아래 둘이면 끝입니다. <a href="../terminal/">PowerShell</a>에 한 덩어리씩 붙여넣고, <b>덩어리마다 창을 닫고 새로 엽니다.</b> 처음이라면 아래 화면 순서를 따라 합니다.</p>
+<pre><code># 1) 설치
+irm https://claude.ai/install.ps1 | iex</code></pre>
+<pre><code># 2) 로그인: 아래를 넣고, 로그인 방법 1번을 고르고, 브라우저에서 승인
+claude</code></pre>
+    <details><summary>Mac에서는</summary><div>
+<pre><code>curl -fsSL https://claude.ai/install.sh | bash
+claude</code></pre>
+    </div></details>
+    <p><code>claude</code>를 켜고 “안녕”이라고 쳤을 때 답이 오면 끝입니다. <code>/exit</code> 로 닫습니다.</p>
+    <p class="sub">학교 망에서는 설치가 막힐 수 있어 집에서 하는 것을 권합니다. 계속 안 되면 <a href="../webchat/">웹 채팅</a>으로 먼저 해 봅니다.</p>
+  </section>
+
+  <section id="install">
+    <h2>1. 설치</h2>
+    <p>명령 한 줄입니다. 관리자 권한이 필요 없습니다.</p>
+    <ol class="steps">
+      <li>PowerShell을 열고 아래 줄을 복사해 붙여넣은 뒤 Enter를 누릅니다.
+<pre><code>irm https://claude.ai/install.ps1 | iex</code></pre>
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">irm https://claude.ai/install.ps1 | iex</span>
+Setting up Claude Code...
+
+<span class="ok">✔ Claude Code successfully installed!</span>
+
+  Version:  2.x.x
+  Location: C:\Users\내이름\.local\bin\claude.exe
+
+<span class="p">PS C:\Users\내이름&gt;</span> <span class="t">▌</span></div></div>
+        <p class="cap">보통 1~3분, 망이 느리면 더 걸립니다. <b>내려받는 동안에는 아무것도 표시되지 않아 멈춘 것처럼 보이는 것이 정상</b>입니다. 초록색 줄이 나오고 다시 <code>PS …&gt;</code> 가 나오면 끝난 것입니다. 기다리는 동안 <b>창 안을 마우스로 누르지 마세요</b>(아래 “멈춘 것 같습니다” 2번).</p>
+        <div class="tip"><b>Mac</b>은 터미널에 <code>curl -fsSL https://claude.ai/install.sh | bash</code> 를 넣습니다.</div>
+      </li>
+      <li><b>PowerShell 창을 닫고 새로 엽니다.</b> 그리고 아래를 넣습니다. 숫자가 나오면 설치가 된 것입니다.
+<pre><code>claude --version</code></pre>
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">claude --version</span>
+2.x.x (Claude Code)</div></div>
+      </li>
+    </ol>
+    <details><summary>"claude 용어가 … 인식되지 않습니다"라고 나옵니다</summary><div>
+      <p>창을 새로 열지 않았거나, 설치 폴더가 PATH(명령을 찾는 목록)에 들어가지 않은 것입니다.</p>
+      <ol>
+        <li>PowerShell 창을 모두 닫고 새로 열어 다시 해 봅니다.</li>
+        <li>그래도 안 되면 설치할 때 화면에 <code>… is not in your PATH. Run:</code> 이라는 줄과 그 아래 명령이 나왔는지 봅니다. 나왔으면 그 명령을 복사해 넣습니다.</li>
+        <li>그 줄을 놓쳤으면 아래를 넣고, 창을 새로 엽니다.
+<pre><code>[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path","User") + ";$env:USERPROFILE\.local\bin", "User")</code></pre></li>
+      </ol>
+    </div></details>
+    <details id="hang" open><summary>설치 명령을 넣었는데 멈춘 것 같습니다</summary><div>
+      <p>위에서부터 하나씩 확인합니다. 대부분 1~2번에서 풀립니다.</p>
+      <ol>
+        <li><b>정말 멈췄는지 기다려 봅니다.</b> 설치 명령은 프로그램을 내려받는 동안 진행 표시를 하지 않습니다. 파일이 커서 학교나 느린 망에서는 몇 분 걸립니다. <b>10분까지는</b> 창을 그대로 둡니다. 10분이 넘으면 보통 오류 글자가 나옵니다.</li>
+        <li><b>창 제목 앞에 “선택”이 붙어 있는지 봅니다.</b> 기다리는 동안 창 안을 마우스 왼쪽 단추로 누르면, Windows가 글자를 고르는 상태로 바꾸면서 <b>실행을 일시정지</b>합니다. 창 제목이 <code>선택 Windows PowerShell</code>처럼 바뀌어 있으면 이 경우입니다. 키보드의 <b>Esc</b>(또는 Enter)를 한 번 누르면 이어서 진행합니다. 붙여넣을 때는 오른쪽 단추만 쓰고, 그 뒤로는 창을 누르지 않습니다.</li>
+        <li><b>백신이 검사 중일 수 있습니다.</b> 학교 PC의 백신(V3, 알약, Windows 보안 등)이 내려받은 파일을 검사하는 동안 멈춰 보입니다. 몇 분 더 기다립니다. <code>The process cannot access the file … being used by another process</code> 가 나오면 다른 PowerShell 창을 모두 닫고, 아래 두 줄을 넣어 처음부터 다시 합니다.
+<pre><code>Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\downloads"
+irm https://claude.ai/install.ps1 | iex</code></pre></li>
+        <li><b>망에서 막혔는지 확인합니다.</b> 멈춘 창은 <b>Ctrl+C</b>로 끄고 닫은 뒤, 새 PowerShell 창에 아래를 넣습니다.
+<pre><code>curl.exe -sI https://downloads.claude.ai/claude-code-releases/latest</code></pre>
+          첫 줄이 <code>HTTP/1.1 200 OK</code>면 망은 괜찮습니다. 다른 숫자가 나오거나 한참 아무 답이 없으면 학교 망이 내려받기를 막은 것입니다. <b>휴대폰 핫스팟이나 집에서</b> 설치 명령을 다시 넣습니다.</li>
+        <li><b>“SSL/TLS 보안 채널을 만들 수 없습니다”</b>(<code>Could not create SSL/TLS secure channel</code>)가 나오면, 오래된 PowerShell이 옛날 보안 방식을 쓰는 것입니다. 아래 줄을 먼저 넣고 같은 창에서 설치 명령을 다시 넣습니다.
+<pre><code>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</code></pre></li>
+        <li><b>그래도 안 되면 다른 설치 방법</b>을 씁니다. Windows에 들어 있는 winget으로 설치합니다.
+<pre><code>winget install Anthropic.ClaudeCode</code></pre>
+          이 방법은 저절로 업데이트되지 않으므로, 가끔 <code>winget upgrade Anthropic.ClaudeCode</code> 를 넣습니다.</li>
+      </ol>
+      <p>어느 방법으로 설치했든 <b>PowerShell 창을 닫고 새로 연 뒤</b> <code>claude --version</code> 으로 숫자가 나오는지 확인합니다. 설치 상태를 자세히 보려면 <code>claude doctor</code> 를 넣습니다.</p>
+    </div></details>
+    <details><summary>빨간 글씨로 오류가 나오고 설치가 안 됩니다</summary><div>
+      <p>학교 망이나 보안 프로그램이 내려받기를 막은 경우가 많습니다. 집이나 휴대폰 핫스팟에서 다시 해 보세요. <code>irm</code> 이라는 말을 모른다고 나오면 PowerShell이 아니라 명령 프롬프트에 넣은 것입니다.</p>
+    </div></details>
+  </section>
+
+  <section id="login">
+    <h2>2. 구독 계정으로 로그인</h2>
+    <p>Claude Code를 내 Claude 구독(Pro 또는 Max)에 잇는 단계입니다. <b>API 키를 따로 발급받지 않습니다.</b> 브라우저에서 한 번 승인하면 끝납니다.</p>
+    <ol class="steps">
+      <li>PowerShell에 <code>claude</code> 라고 넣고 Enter를 누릅니다. 처음이면 글자 색을 고르라고 합니다. 그냥 <b>Enter</b>를 누르면 됩니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">claude</span>
+
+ Welcome to Claude Code
+
+ Let's get started.
+
+ Choose the text style that looks best with your terminal
+ <span class="sel">❯ 1. Dark mode ✔</span>
+   2. Light mode
+   3. Dark mode (colorblind-friendly)
+   …</div></div>
+        <p class="cap"><code>❯</code> 가 지금 고른 줄입니다. 위아래 화살표로 옮기고 Enter로 정합니다. 뒤의 화면도 모두 같은 방식입니다.</p>
+      </li>
+      <li><b>로그인 방법을 고릅니다. 맨 위의 1번 "Claude account with subscription"</b> 입니다. 이미 1번에 <code>❯</code> 가 있으니 Enter를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> Select login method:
+
+ <span class="sel">❯ 1. Claude account with subscription</span> <span class="dim">· Pro, Max, Team, or Enterprise</span>
+   2. Anthropic Console account <span class="dim">· API usage billing</span>
+   3. 3rd-party platform <span class="dim">· …</span></div></div>
+        <p class="cap"><b>2번은 고르지 않습니다.</b> 2번은 쓴 만큼 따로 돈이 나가는 방식입니다. 구독 중이면 1번이 맞습니다.</p>
+      </li>
+      <li>브라우저가 저절로 열립니다. claude.ai에 로그인되어 있지 않으면 먼저 로그인합니다. 그다음 승인 화면에서 <b>승인(Authorize)</b>을 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai/oauth/authorize…</span></div><div class="web">
+          <h4>Claude Code가 내 Claude 계정에 연결하려고 합니다</h4>
+          <p style="margin:0 0 14px;color:var(--sub)">내 구독으로 Claude Code를 쓸 수 있게 됩니다.</p>
+          <span class="go"><span class="n" style="background:#fff;color:var(--ink)">1</span>승인 (Authorize)</span> <span class="go alt">취소</span>
+        </div></div>
+        <p class="cap">학교 계정과 개인 계정이 둘 다 있으면, <b>구독을 결제한 계정</b>으로 로그인했는지 오른쪽 위에서 확인하세요.</p>
+      </li>
+      <li>PowerShell로 돌아오면 <b>Login successful.</b> 이 보입니다. Enter를 누릅니다. 이어서 안내 글(Security notes)이 나오면 한 번 더 Enter를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> <span class="ok">Login successful.</span> Press Enter to continue…
+ <span class="dim">Logged in as 내메일@example.com</span></div></div>
+      </li>
+      <li>마지막으로 <b>이 폴더를 믿느냐</b>고 묻습니다. 내가 만든 폴더나 이 사이트에서 받은 폴더라면 <b>Yes, I trust this folder</b> 에서 Enter를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> Quick safety check: Is this a project you created or one you trust?
+
+ <span class="sel">❯ 1. Yes, I trust this folder</span>
+   2. No, exit</div></div>
+        <p class="cap">이 질문은 폴더마다 처음 한 번 나옵니다. 인터넷에서 받은 모르는 폴더라면 No를 고릅니다.</p>
+      </li>
+      <li>아래처럼 글을 넣는 칸이 나오면 준비가 끝난 것입니다. 한국어로 말을 걸면 됩니다. 끝낼 때는 <code>/exit</code> 을 넣거나 창을 닫습니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="box">&gt; <span class="t">안녕, 한국어로 대답해 줘</span>                         </span>
+<span class="dim">  ? for shortcuts</span></div></div>
+      </li>
+    </ol>
+    <details><summary>브라우저가 열리지 않습니다</summary><div>
+      <p>PowerShell 화면에 <code>Browser didn't open? Use the url below to sign in</code> 과 긴 주소가 나옵니다. 그 주소를 복사해 브라우저 주소창에 붙여넣습니다. 승인하면 브라우저에 <b>코드</b>가 나오는데, 그것을 복사해 PowerShell의 <code>Paste code here if prompted &gt;</code> 뒤에 붙여넣고 Enter를 누릅니다.</p>
+    </div></details>
+    <details><summary>2번(Console)으로 잘못 들어갔습니다 / 계정을 바꾸고 싶습니다</summary><div>
+      <p>Claude Code 안에서 <code>/logout</code> 을 넣어 나간 뒤, <code>/login</code> 으로 다시 들어가 1번을 고릅니다.</p>
+    </div></details>
+    <details><summary>"구독이 필요하다"는 말이 나옵니다</summary><div>
+      <p>무료 계정으로 로그인한 것입니다. <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>에서 Pro나 Max를 결제한 계정인지 확인하고, 그 계정으로 다시 로그인합니다.</p>
+    </div></details>
+  </section>
+
+  <section>
+    <h2>다음</h2>
+    <ul>
+      <li><a href="../practice/">실습: 영어 수행평가 페이지를 내 과목으로</a> — 2-B. 코딩 도구로 뜯어보기부터</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="in"><span>Claude Code 설치와 로그인</span><a href="../">연수 자료로</a></div></footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VS Code 설치</title>
+<meta name="description" content="폴더 안의 파일을 보고 고치는 프로그램 VS Code를 명령 한 줄로 설치">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/screens.css">
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+</div></div>
+
+<main class="in doc">
+  <div class="head" style="padding-bottom:0">
+    <h1>VS Code 설치</h1>
+    <p class="lead">명령 한 줄, 1~2분입니다.</p>
+  </div>
+
+  <section id="vscode">
+    <h2>설치</h2>
+    <p>VS Code는 폴더 안의 파일을 보고 고치는 프로그램입니다. 코딩 도구 갈래의 실습은 VS Code 안에서 합니다.</p>
+    <ol class="steps">
+      <li><a href="../terminal/">PowerShell</a>에 아래 줄을 붙여넣습니다.
+<pre><code>winget install -e --id Microsoft.VisualStudioCode --accept-package-agreements --accept-source-agreements</code></pre>
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">winget install -e --id Microsoft.VisualStudioCode …</span>
+찾음 Microsoft Visual Studio Code [Microsoft.VisualStudioCode]
+다운로드 중 …
+  ██████████████████████████████  100%
+<span class="ok">설치 성공</span></div></div>
+        <p class="cap">1~2분 걸립니다. “설치 성공”이 나오면 됩니다. 이미 깔려 있으면 그렇다고 알려 줍니다.</p>
+        <div class="tip">명령이 막히면 <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>에서 받아 설치합니다. 옵션은 기본값으로 두고 “다음”만 누릅니다. <b>Mac</b>도 여기서 받아 응용 프로그램 폴더로 옮깁니다.</div>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>다음</h2>
+    <ul>
+      <li><a href="../claude-code/">Claude Code 설치와 로그인</a> — Claude 구독이 있으면</li>
+      <li><a href="../antigravity/">Antigravity CLI 설치와 로그인</a> — 구글 계정으로 하려면</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="in"><span>VS Code 설치</span><a href="../">연수 자료로</a></div></footer>
+</body>
+</html>

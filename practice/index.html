@@ -104,7 +104,7 @@
     <table>
       <tr><th></th><td><b>A. 웹 채팅</b></td><td><b>B. 코딩 도구</b></td></tr>
       <tr><th>도구</th><td>Gemini(Canvas) 또는 claude.ai</td><td>VS Code 안에서 Claude Code 또는 Antigravity CLI(Gemini 쪽)</td></tr>
-      <tr><th>필요한 것</th><td>브라우저와 계정 하나. 무료로 됩니다</td><td>연수 전에 설치와 로그인. Claude Code는 Claude 유료 구독, Antigravity CLI는 구글 계정(무료 한도 있음, Google AI Pro는 넉넉)</td></tr>
+      <tr><th>필요한 것</th><td>브라우저와 계정 하나. 무료로 됩니다</td><td>미리 설치와 로그인. Claude Code는 Claude 유료 구독, Antigravity CLI는 구글 계정(무료 한도 있음, Google AI Pro는 넉넉)</td></tr>
       <tr><th>뜯어보기</th><td>영어 수행평가 학생 화면을 작게 새로 만들어 봅니다</td><td>영어 수행평가 본보기 폴더를 열어 묻고 고칩니다</td></tr>
       <tr><th>내 과목으로</th><td>내 과목 평가 화면을 대화창에서 새로 만듭니다</td><td>본보기를 복사해 내 과목으로 고칩니다</td></tr>
       <tr><th>잘하는 것</th><td>한 파일짜리 화면을 바로 만들고 그 자리에서 봅니다</td><td>내 PC의 폴더를 직접 읽고 고칩니다. 시험과 배포까지 시킬 수 있습니다</td></tr>
@@ -172,7 +172,7 @@
   <section id="steps">
     <h2>2-B. 코딩 도구로 뜯어보기</h2>
 <div class="todo"><div class="todo-h"><b>B 갈래 체크리스트 · 4분</b><span class="todo-n" data-for="cli"></span></div><ul><li><label><input type="checkbox" data-k="cli0"><span>PowerShell에 네 줄 붙여넣기 → VS Code가 열림</span></label></li><li><label><input type="checkbox" data-k="cli1"><span><code>Ctrl+`</code> → <code>claude</code> (또는 <code>agy</code>) → 폴더 믿기 <b>Yes</b></span></label></li><li><label><input type="checkbox" data-k="cli2"><span>읽게 하기 → 구조 묻기</span></label></li><li><label><input type="checkbox" data-k="cli3"><span>브라우저로 열기 → 고치게 하기 → <b>Yes</b>로 승인</span></label></li><li><label><input type="checkbox" data-k="cli4"><span><code>F5</code>로 확인(새 학번) → 되돌리기</span></label></li></ul></div>
-    <p>방금 본 영어 수행평가 페이지의 본보기 폴더를 VS Code로 열고, 그 안에서 코딩 도구를 켜서 묻고 고칩니다. 연수 전에 <a href="../prep/#all">연수 전 준비의 B 갈래</a>를 해 온 분이 합니다.</p>
+    <p>방금 본 영어 수행평가 페이지의 본보기 폴더를 VS Code로 열고, 그 안에서 코딩 도구를 켜서 묻고 고칩니다. <a href="../choose/#b">코딩 도구 갈래의 준비</a>(터미널, VS Code, 코딩 도구 설치)를 마친 뒤 합니다.</p>
     <table>
       <tr><th></th><td><b>Claude Code</b></td><td><b>Antigravity CLI</b> (Gemini 쪽)</td></tr>
       <tr><th>켜는 명령</th><td><code>claude</code></td><td><code>agy</code></td></tr>
@@ -325,7 +325,7 @@ open -a "Visual Studio Code" english-writing</code></pre>
   <section id="deploy">
     <h2>4. 올리기: 작은 네 층 완성</h2>
 <div class="todo"><div class="todo-h"><b>이 단계 체크리스트 · 9분</b><span class="todo-n" data-for="dep"></span></div><ul><li><label><input type="checkbox" data-k="dep0"><span>AI에게 <b>index.html</b>과 <b>Code.gs</b> 두 파일 받기 (안 되면 본보기)</span></label></li><li><label><input type="checkbox" data-k="dep1"><span><span class="path"><span>sheets.new</span></span> → <span class="path"><span>확장 프로그램</span><i>›</i><span>Apps Script</span></span> → Code.gs 붙여넣기 → <code>Ctrl+S</code></span></label></li><li><label><input type="checkbox" data-k="dep2"><span><span class="path"><span>배포</span><i>›</i><span>새 배포</span><i>›</i><span>웹 앱</span></span> · 액세스 <b>모든 사용자</b> → <b>/exec</b> 주소 복사</span></label></li><li><label><input type="checkbox" data-k="dep3"><span>그 주소를 <code>scriptUrl</code>에 넣기</span></label></li><li><label><input type="checkbox" data-k="dep4"><span><span class="path"><span>github.com/new</span></span> → <span class="path"><span>creating a new file</span></span> → index.html 붙여넣기 → <span class="path"><span>Commit changes</span></span></span></label></li><li><label><input type="checkbox" data-k="dep5"><span><span class="path"><span>Settings</span><i>›</i><span>Pages</span></span> → main · / (root) → <b>Save</b> → 1~2분 뒤 주소 열기</span></label></li><li><label><input type="checkbox" data-k="dep6"><span>지어낸 학번으로 제출 → <b>내 시트에 줄이 생겼나</b></span></label></li></ul></div>
-    <p>3단계의 내 과목 페이지를 작은 판으로 만들어 <b>진짜 인터넷 주소</b>에 올리고, 학생이 제출하면 <b>내 구글 시트</b>에 한 줄씩 쌓이게 합니다. 발표에서 본 네 층을 직접 채워 보는 단계입니다. <a href="../prep/#accounts">계정 세 가지</a>(구글, GitHub)가 필요합니다.</p>
+    <p>3단계의 내 과목 페이지를 작은 판으로 만들어 <b>진짜 인터넷 주소</b>에 올리고, 학생이 제출하면 <b>내 구글 시트</b>에 한 줄씩 쌓이게 합니다. 발표에서 본 네 층을 직접 채워 보는 단계입니다. <a href="../accounts/">계정 세 가지</a>(구글, GitHub)가 필요합니다.</p>
     <table>
       <tr><th>프론트엔드</th><td><code>index.html</code> 한 파일. 학생 화면</td></tr>
       <tr><th>배포</th><td><b>GitHub Pages</b>. 그 파일에 학생이 여는 주소를 붙임</td></tr>
@@ -491,7 +491,7 @@ function doPost(e) {
       <tr><th>백엔드</th><td><b>구글 Apps Script</b></td><td>구글 계정 안에서 도는 작은 프로그램. 제출을 받아 확인하고, 시트에 쓰고, PDF를 만듦</td><td><code>gas/Code.gs</code></td></tr>
       <tr><th>데이터</th><td><b>구글 시트, 드라이브</b></td><td>시트에 학생별 한 줄과 오류 기록, 드라이브에 반별 제출 PDF</td><td>설치 때 Apps Script가 내 드라이브에 만듦</td></tr>
     </table></div>
-    <p class="sub">세 곳의 계정 만들기는 <a href="../prep/#accounts">연수 전 준비의 계정 세 가지</a>에 화면과 함께 있습니다. 모두 무료입니다.</p>
+    <p class="sub">세 곳의 계정 만들기는 <a href="../accounts/">계정 세 가지</a>에 화면과 함께 있습니다. 모두 무료입니다.</p>
 <pre><code>english-writing/
 ├── docs/index.html     학생 페이지 (GitHub Pages가 이 폴더를 보여 줌)
 ├── docs/teacher.html   교사 현황 화면
@@ -552,8 +552,8 @@ Python 3.12.10
     <p>본보기 폴더(영어 그대로든, 내 과목으로 고친 것이든)를 위 표의 세 곳에 올립니다. 대부분 코딩 도구가 진행하고, 브라우저에서 눌러야 하는 것만 묻습니다.</p>
         <h3>준비</h3>
     <ul>
-      <li>구글 계정, GitHub 계정, Apps Script API 켜기 (<a href="../prep/#accounts">연수 전 준비의 계정 세 가지</a>)</li>
-      <li>PC에 VS Code와 코딩 도구(Claude Code 또는 Antigravity CLI), 본보기 폴더 (<a href="../prep/#all">연수 전 준비</a>와 <a href="#steps">2-B</a>에서 한 것)</li>
+      <li>구글 계정, GitHub 계정, Apps Script API 켜기 (<a href="../accounts/">계정 세 가지</a>)</li>
+      <li>PC에 VS Code와 코딩 도구(Claude Code 또는 Antigravity CLI), 본보기 폴더 (<a href="../choose/#b">코딩 도구 준비</a>와 <a href="#steps">2-B</a>에서 한 것)</li>
       <li>Git, Node.js LTS, Python 3 (위의 <a href="#tools">도구 준비</a>)</li>
     </ul>
     <h3>순서</h3>

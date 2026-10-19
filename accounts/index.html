@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>계정 세 가지: GitHub · Apps Script · 구글 시트</title>
+<meta name="description" content="평가 페이지를 인터넷에 올리고 제출을 시트에 쌓는 데 쓰는 세 곳의 계정 준비">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/screens.css">
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+</div></div>
+
+<main class="in doc">
+  <div class="head" style="padding-bottom:0">
+    <h1>계정 세 가지: GitHub · Apps Script · 구글 시트</h1>
+    <p class="lead">학생이 여는 페이지(GitHub), 제출을 받는 프로그램(Apps Script), 제출이 쌓이는 표(구글 시트·드라이브)를 준비합니다. 10분이면 됩니다.</p>
+  </div>
+
+  <section id="accounts">
+    <h2>세 곳이 하는 일</h2>
+    <p>실습의 마지막 단계에서 <b>내 과목 평가 페이지를 실제 인터넷에 올리고, 제출이 내 시트에 쌓이게</b> 합니다. 그때 아래 세 곳을 씁니다. 각각 웹 서비스의 네 층 가운데 하나를 맡습니다. <b>웹 채팅과 코딩 도구 두 갈래 모두 필요합니다.</b></p>
+    <table>
+      <tr><th>서비스</th><td><b>하는 일</b></td><td><b>네 층</b></td><td><b>영어 수행평가 페이지에서</b></td></tr>
+      <tr><th>GitHub</th><td>코드를 올려 두는 곳. Pages를 켜면 그 파일에 누구나 여는 주소가 생김</td><td>배포, 프론트엔드</td><td>학생이 여는 페이지 주소 <code>아이디.github.io/…</code></td></tr>
+      <tr><th>구글 Apps Script</th><td>구글 계정 안에서 도는 작은 프로그램. 서버를 따로 빌리지 않음</td><td>백엔드</td><td>제출을 받아 확인하고, 시트에 쓰고, PDF를 만듦</td></tr>
+      <tr><th>구글 시트, 드라이브</th><td>표와 파일을 두는 곳. 교사가 직접 열어 볼 수 있음</td><td>데이터</td><td>학생별 한 줄(시트), 반별 제출 PDF(드라이브)</td></tr>
+    </table>
+    <p class="sub">모두 무료입니다. <a href="../practice/#deploy">실습 4단계</a>에서 셋 모두에 직접 올려 봅니다.</p>
+    <h3>1. 구글 계정 정하기</h3>
+    <p><b>개인 구글 계정</b>을 권합니다. 학교 계정은 관리자 설정 때문에 “모든 사용자”에게 웹 앱을 여는 것이 막혀 있을 수 있습니다. 그러면 학생이 제출할 수 없습니다.</p>
+    <h3>2. 드라이브와 Apps Script 열어 보기</h3>
+    <ol class="steps">
+      <li><a href="https://drive.google.com" target="_blank" rel="noopener">drive.google.com</a> 에 그 계정으로 들어가 내 드라이브가 열리는지 봅니다. 제출물 폴더와 시트가 나중에 여기에 생깁니다.</li>
+      <li><a href="https://script.google.com" target="_blank" rel="noopener">script.google.com</a> 에 들어가 왼쪽 위 <b>새 프로젝트</b>를 누릅니다. 코드 편집기가 열리면 됩니다. 만든 프로젝트는 지워도 됩니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">script.google.com</span></div><div class="web">
+          <h4>제목 없는 프로젝트</h4>
+          <div class="f"><span>Code.gs</span><div>function myFunction() { }</div></div>
+          <span class="go">▷ 실행</span>
+        </div></div>
+      </li>
+      <li><b>코딩 도구로 본보기 전체를 올릴 때 필요:</b> <a href="https://script.google.com/home/usersettings" target="_blank" rel="noopener">script.google.com/home/usersettings</a> 에서 <b>Google Apps Script API</b> 를 <b>사용</b>으로 켭니다. Claude Code가 내 PC의 코드를 Apps Script로 올릴 때 필요합니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">script.google.com/home/usersettings</span></div><div class="web">
+          <h4>설정</h4>
+          <div class="f"><span>Google Apps Script API</span><div>사용 ●</div></div>
+        </div></div>
+      </li>
+    </ol>
+    <h3>3. GitHub 가입</h3>
+    <p>GitHub는 코드를 올려 두는 곳이고, 학생용 페이지 주소도 여기서 나옵니다.</p>
+    <ol class="steps">
+      <li>브라우저에서 <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>을 엽니다.</li>
+      <li>네 가지를 넣고 <b>Create account</b>를 누릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/signup</span></div><div class="web">
+          <h4>Sign up for GitHub</h4>
+          <div class="f"><span><span class="n">1</span>Email</span><div>내 메일 주소</div></div>
+          <div class="f"><span><span class="n">2</span>Password</span><div>15자 이상, 또는 숫자와 소문자를 섞어 8자 이상</div></div>
+          <div class="f"><span><span class="n">3</span>Username</span><div>영문, 숫자, 하이픈(-)만</div></div>
+          <div class="f"><span><span class="n">4</span>Your Country/Region</span><div>South Korea</div></div>
+          <span class="go">Create account</span>
+        </div></div>
+        <p class="cap"><b>Username이 중요합니다.</b> 학생 페이지 주소가 <code>https://Username.github.io/…</code> 가 됩니다. 학생에게 보여도 괜찮은 이름으로 정하세요. 이미 쓰는 사람이 있으면 빨간 글씨가 나오니 다른 이름을 넣습니다.</p>
+      </li>
+      <li><b>사람인지 확인하는 퍼즐</b>이 나옵니다. 시키는 대로 그림을 고릅니다.</li>
+      <li>넣은 메일 주소로 <b>숫자 코드</b>가 옵니다. 메일함을 열어 그 숫자를 화면에 넣습니다. 메일이 안 보이면 스팸함을 봅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/account_verifications</span></div><div class="web">
+          <h4>Confirm your email address</h4>
+          <p style="margin:0 0 10px;color:var(--sub)">We have sent a code to 내 메일 주소</p>
+          <div class="f"><span>Enter code</span><div style="letter-spacing:.5em;color:var(--ink)">1 2 3 4 5 6 7 8</div></div>
+          <span class="go">Continue</span>
+        </div></div>
+      </li>
+      <li>로그인 화면이 나오면 방금 만든 Username(또는 메일)과 비밀번호로 로그인합니다. 무엇을 할 건지 묻는 화면이 나오면 건너뛰어도 됩니다(Skip). 요금제를 묻는다면 <b>Free</b>를 고릅니다.</li>
+    </ol>
+    <div class="tip">GitHub 비밀번호는 꼭 적어 두세요. 나중에 올릴 때 브라우저로 한 번 더 로그인합니다.</div>
+  </section>
+
+  <section>
+    <h2>다음</h2>
+    <ul>
+      <li><a href="../webchat/">웹 채팅 준비</a> — A. 웹 채팅 갈래</li>
+      <li><a href="../terminal/">터미널 열기</a> — B. 코딩 도구 갈래</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="in"><span>계정 세 가지: GitHub · Apps Script · 구글 시트</span><a href="../">연수 자료로</a></div></footer>
+</body>
+</html>

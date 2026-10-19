@@ -31,7 +31,7 @@
 <main class="in wide">
   <div class="head">
     <h1>연수 자료</h1>
-    <p class="lead">영어 쓰기 수행평가 페이지를 본보기로, AI(웹 채팅, Claude Code, Antigravity CLI)와 내 과목 평가 페이지를 만들어 보는 연수입니다. 연수 전에는 “연수 전 준비”를, 연수 날에는 “실습”을 엽니다.</p>
+    <p class="lead">영어 쓰기 수행평가 페이지를 본보기로, AI(웹 채팅, Claude Code, Antigravity CLI)와 내 과목 평가 페이지를 만들어 보는 연수의 자료입니다. 처음이면 “어떤 AI 도구로 시작할까”부터, 준비가 끝났으면 “실습”을 엽니다.</p>
   </div>
   <div class="editbar" id="editbar" hidden>
     <p><b>순서 바꾸기</b> — 카드를 끌어 놓거나 화살표를 눌러 순서를 바꾸세요. 바꾼 순서는 <b>이 기기에서만</b> 보입니다.</p>
@@ -52,12 +52,33 @@
    href   눌렀을 때 갈 곳 (비워 두면 '준비 중' 카드)
    모든 사람에게 보이는 기본 순서는 이 목록의 순서입니다.                              */
 const CARDS = [
-  { id: "prep", title: "연수 전 준비", cat: "연수 전", href: "prep/",
-    desc: "연수 전에 해 올 것. 계정 세 가지와, 두 갈래 가운데 하나의 준비",
-    points: ["계정 세 가지: GitHub, Apps Script, 구글 시트·드라이브가 하는 일", "A. 웹 채팅: 대화창 로그인", "B. 코딩 도구: VS Code와 Claude Code 또는 Antigravity CLI"] },
-  { id: "practice", title: "실습: 영어 수행평가 페이지를 내 과목으로", cat: "연수 날", href: "practice/",
+  { id: "choose", title: "어떤 AI 도구로 시작할까", cat: "시작하기", href: "choose/",
+    desc: "웹 채팅과 코딩 도구(Claude Code, Antigravity CLI)를 견주고, 갈래마다 밟을 카드 순서",
+    points: ["설치 없이: 웹 채팅(Gemini, claude.ai)", "내 PC 폴더를 직접: Claude Code 또는 Antigravity CLI", "갈래마다 밟을 순서"] },
+  { id: "accounts", title: "계정 세 가지: GitHub · Apps Script · 구글 시트", cat: "시작하기", href: "accounts/",
+    desc: "평가 페이지를 인터넷에 올리고 제출을 시트에 쌓는 데 쓰는 세 곳 (10분)",
+    points: ["개인 구글 계정을 권하는 까닭", "드라이브·Apps Script 열어 보기, Apps Script API 켜기", "GitHub 가입 화면 따라 하기"] },
+  { id: "webchat", title: "웹 채팅 준비: Gemini · claude.ai", cat: "시작하기", href: "webchat/",
+    desc: "설치 없이 브라우저의 대화창으로 시작하기 (5분)",
+    points: ["Gemini Canvas 또는 claude.ai 로그인", "학교 계정에서 막힐 때"] },
+  { id: "terminal", title: "터미널(PowerShell) 열기", cat: "시작하기", href: "terminal/",
+    desc: "코딩 도구를 쓰기 전에, 글자로 명령을 넣는 창을 여는 법 (Windows·Mac)",
+    points: ["PowerShell 찾기와 붙여넣기", "명령 프롬프트(cmd)와 구별하기", "창을 누르면 멈추는 까닭"] },
+  { id: "vscode", title: "VS Code 설치", cat: "시작하기", href: "vscode/",
+    desc: "폴더 안의 파일을 보고 고치는 프로그램 (명령 한 줄)",
+    points: ["winget 한 줄 설치", "막히면 내려받아 설치, Mac"] },
+  { id: "claude-code", title: "Claude Code 설치와 로그인", cat: "시작하기", href: "claude-code/",
+    desc: "Claude 구독(Pro·Max)으로 쓰는 코딩 도구. API 키 없이 브라우저 승인으로 로그인 (10분)",
+    points: ["설치 명령 한 줄, PATH 문제 풀기", "설치가 멈춘 것 같을 때 여섯 가지 대처", "로그인부터 폴더 신뢰까지 화면 따라 하기"] },
+  { id: "antigravity", title: "Antigravity CLI 설치와 로그인", cat: "시작하기", href: "antigravity/",
+    desc: "개인 구글 계정으로 쓰는 Google의 코딩 도구 (Claude Code 대신)",
+    points: ["설치와 Google OAuth 로그인", "예전 Gemini CLI에서 옮겨 온 도구"] },
+  { id: "stuck", title: "막힐 때", cat: "시작하기", href: "stuck/",
+    desc: "빨간 글씨, 반응 없음, 설치가 막힘. 대부분 이렇게 풀립니다",
+    points: ["화면 글자를 AI에게 그대로 묻기", "학교 망 차단, 창 새로 열기", "Esc로 멈추기"] },
+  { id: "practice", title: "실습: 영어 수행평가 페이지를 내 과목으로", cat: "실습", href: "practice/",
     desc: "영어 쓰기 수행평가 페이지를 본보기로 보고, 뜯어보고, 내 과목 평가 페이지로 바꾸고, 실제 수업에 올리기까지",
-    points: ["연수 날: 체험 → 뜯어보기 → 내 과목으로", "연수 날: GitHub Pages와 Apps Script에 올려 제출이 시트에 쌓이게", "연수 뒤: 본보기 전체를 올려 실제 평가에"] },
+    points: ["체험 → 뜯어보기 → 내 과목으로", "GitHub Pages와 Apps Script에 올려 제출이 시트에 쌓이게", "본보기 전체를 올려 실제 평가에"] },
   { id: "coolwatch", title: "쿨메신저 보조도구", cat: "자료", href: "coolwatch/",
     desc: "쿨메신저로 받은 업무 메시지에서 할 일·기한·일정을 뽑아 카드로 정리하는 도구 (선택)",
     points: ["두 갈래: Claude로 정리(빠름) / 이 PC의 AI로 정리(글이 밖으로 안 나감)", "갈래마다 설치 파일 하나로 설치", "첨부 파일은 눌러서 바로 열기, 노션 연결은 선택"] },
@@ -65,8 +86,8 @@ const CARDS = [
     desc: "쓰지 않는 집 PC를 늘 켜 두고, 학교·휴대폰에서 들어가 Claude Code에게 일을 맡기는 작업실로 (선택)",
     points: ["1부: 꺼지지 않게 + 원격 화면 (30분)", "2부: 우분투·Tailscale·tmux·예약 작업 (선택)", "AI와 같이 하는 핸드오프 파일(HANDOFF.md) 포함"] },
   { id: "cloudserver", title: "클라우드 서버 만들기", cat: "자료", href: "cloudserver/",
-    desc: "월 1만 원 안팎의 AWS Lightsail 서울 서버를 24시간 켜 두고, 내가 로그인한 기기에서만 들어가 Claude Code에게 일을 맡기기",
-    points: ["가입·MFA·예산 알림부터 차근차근 8단계", "바깥 문은 모두 닫고 Tailscale로만 접속", "Oracle·Google 무료와 비교, 핸드오프 파일 포함"] },
+    desc: "AWS 무료 플랜(최대 6개월 $0)으로 Lightsail 서울 서버를 24시간 켜 두고, 내가 로그인한 기기에서만 들어가 Claude Code에게 일을 맡기기",
+    points: ["가입·MFA·달력 알림부터 차근차근 10단계", "바깥 문은 모두 닫고 Tailscale로만 접속", "6개월 뒤 세 가지 길, 핸드오프 파일 포함"] },
 ];
 /* ─────────────────────────────────────────────────────────────────────────────── */
 

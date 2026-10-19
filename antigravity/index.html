@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antigravity CLI 설치와 로그인</title>
+<meta name="description" content="개인 구글 계정으로 쓰는 Google의 코딩 도구 Antigravity CLI의 설치와 로그인">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/screens.css">
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="../">← 연수 자료<i>.</i></a>
+</div></div>
+
+<main class="in doc">
+  <div class="head" style="padding-bottom:0">
+    <h1>Antigravity CLI 설치와 로그인</h1>
+    <p class="lead">Gemini를 만든 Google의 코딩 도구입니다. 개인 구글 계정으로 로그인하며, 무료 계정은 주간 한도 안에서, Google AI Pro는 넉넉히 씁니다.</p>
+  </div>
+
+  <p class="sub" style="margin-top:16px">예전의 Gemini CLI(<code>gemini</code> 명령)는 2026년 6월 18일부터 무료와 Google AI Pro 계정에서 멈추고 Antigravity CLI로 옮겨 갔습니다. 새로 설치한다면 Antigravity CLI를 씁니다.</p>
+
+  <section id="agy">
+    <h2>설치와 로그인</h2>
+    <p>Gemini를 만든 Google의 코딩 도구입니다. Claude Code와 같은 일을 하고, 개인 구글 계정으로 로그인합니다. Claude Code를 설치했다면 이 페이지는 건너뜁니다.</p>
+    <ol class="steps">
+      <li><a href="../terminal/">PowerShell</a>에 아래 줄을 붙여넣고 Enter를 누릅니다. 관리자 권한은 필요 없습니다.
+<pre><code>irm https://antigravity.google/cli/install.ps1 | iex</code></pre>
+        <p class="cap">Mac은 터미널에 <code>curl -fsSL https://antigravity.google/cli/install.sh | bash</code> 를 넣습니다.</p>
+      </li>
+      <li><b>PowerShell 창을 닫고 새로 엽니다.</b> 아래를 넣어 숫자가 나오면 설치된 것입니다.
+<pre><code>agy --version</code></pre>
+      </li>
+      <li><code>agy</code> 를 넣습니다. 처음이면 로그인 방법을 묻습니다. <b>1. Google OAuth</b> 를 고릅니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell — agy</span></div><div class="term"><span class="p">PS C:\Users\내이름&gt;</span> <span class="t">agy</span>
+
+ Welcome to the Antigravity CLI. You are currently not signed in.
+
+ <span class="sel">❯ 1. Google OAuth</span>
+   2. Use a Google Cloud project</div></div>
+      </li>
+      <li>브라우저가 열리면 <b>개인 구글 계정</b>으로 로그인합니다. 브라우저에 코드가 나오면 복사해 PowerShell에 붙여넣고 Enter를 누릅니다. 이어서 글자 색을 고르고 이용 약관에 동의합니다.</li>
+      <li>폴더를 믿느냐고 물으면 <b>Yes, I trust this folder</b> 에서 Enter를 누릅니다. 글을 넣는 칸이 나오면 준비가 끝난 것입니다. 끝낼 때는 <code>/quit</code> 를 넣습니다.
+        <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell — agy</span></div><div class="term"> Do you trust the contents of this project?
+
+ <span class="sel">❯ Yes, I trust this folder</span>
+   No, exit</div></div>
+      </li>
+    </ol>
+    <div class="tip">이 화면은 Google의 안내 문서를 보고 그렸고, 직접 설치해 보지는 못했습니다. 글자가 조금 다를 수 있습니다. 학교 구글 계정(Workspace)은 관리자 설정으로 막혀 있을 수 있으니 개인 계정을 씁니다.</div>
+    <details><summary>"agy 용어가 … 인식되지 않습니다"라고 나옵니다</summary><div>
+      <p>창을 새로 열었는지 먼저 봅니다. 그래도 안 되면 설치 폴더 <code>C:\Users\내이름\AppData\Local\agy\bin</code> 이 PATH에 들어갔는지 확인해야 합니다. 화면의 오류 글자를 웹 채팅(Gemini나 claude.ai)에 붙여넣고 물어보세요.</p>
+    </div></details>
+  </section>
+
+  <section>
+    <h2>다음</h2>
+    <ul>
+      <li><a href="../practice/">실습: 영어 수행평가 페이지를 내 과목으로</a> — 2-B. 코딩 도구로 뜯어보기부터</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="in"><span>Antigravity CLI 설치와 로그인</span><a href="../">연수 자료로</a></div></footer>
+</body>
+</html>
