@@ -8,12 +8,42 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../assets/style.css">
 <link rel="stylesheet" href="../assets/screens.css">
-<style>.figure{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:28px;background:var(--card)} .figure figcaption{font-size:14px;color:var(--faint);padding:10px 16px;border-top:1px solid var(--line)} figure{margin:0} .wide{overflow-x:auto;max-width:100%}</style>
+<style>
+  .glance { display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:12px; margin-top:20px; }
+  .glance a { display:block; border:1px solid var(--line); border-radius:14px; background:var(--card); padding:16px 18px; text-decoration:none; color:inherit; }
+  .glance a:hover { border-color:var(--ink); }
+  .glance .gl-n { display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--faint); font-weight:650; }
+  .glance .gl-t { font-size:13px; font-weight:700; color:var(--accent); background:color-mix(in srgb, var(--accent) 10%, transparent); border-radius:999px; padding:2px 10px; }
+  .glance h3 { font-size:17px; margin:8px 0 8px; }
+  .glance ul { margin:0; padding-left:18px; font-size:14.5px; color:var(--sub); line-height:1.55; }
+  .glance .later { border-style:dashed; }
+  .todo { border:1.5px solid var(--ink); border-radius:14px; background:var(--card); padding:14px 18px 10px; margin:18px 0 24px; }
+  .todo-h { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+  .todo-h b { font-size:15px; }
+  .todo-n { font-size:13.5px; color:var(--faint); white-space:nowrap; }
+  .todo ul { list-style:none; padding:0; margin:8px 0 0; }
+  .todo li { margin:0; border-top:1px solid var(--line); }
+  .todo label { display:flex; gap:10px; align-items:flex-start; padding:9px 0; cursor:pointer; font-size:15.5px; line-height:1.5; }
+  .todo input { width:18px; height:18px; margin-top:3px; flex:none; accent-color:var(--accent); }
+  .todo input:checked + span { color:var(--faint); text-decoration:line-through; }
+  .path { display:inline-flex; flex-wrap:wrap; align-items:center; gap:4px; vertical-align:middle; }
+  .path span { border:1px solid var(--line); background:var(--soft); color:var(--ink); border-radius:7px; padding:1px 8px; font-size:14.5px; font-weight:600; white-space:nowrap; }
+  .path i { font-style:normal; color:var(--faint); }
+  .steps > li > b:first-child { font-size:17.5px; }
+  details.learn { border:0; margin:2px 0 18px; }
+  details.learn summary { padding:2px 0; font-size:13.5px; font-weight:600; color:var(--faint); }
+  details.learn > p { font-size:14px; color:var(--sub); margin:4px 0 0; }
+  .sublist { margin:10px 0; padding-left:22px; }
+  .sublist > li { margin:6px 0; }
+  pre { position:relative; }
+  .copy { position:absolute; top:8px; right:8px; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:7px; padding:3px 10px; font:inherit; font-size:13px; font-weight:600; cursor:pointer; }
+  .copy:hover { border-color:var(--ink); }
+.figure{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:28px;background:var(--card)} .figure figcaption{font-size:14px;color:var(--faint);padding:10px 16px;border-top:1px solid var(--line)} figure{margin:0} .wide{overflow-x:auto;max-width:100%}</style>
 </head>
 <body>
 <div class="top"><div class="in">
   <a class="brand" href="../">← 연수 자료<i>.</i></a>
-  <nav><a href="#flow">흐름</a><a href="#see">1 보기</a><a href="#choose">2 뜯어보기</a><a href="#mine">3 내 과목으로</a><a href="#deploy">4 올리기</a><a href="#real">5 실제 수업에</a><a href="#ref">참고</a><a href="#keys">요령</a></nav>
+  <nav><a href="#flow">한눈에</a><a href="#see">1 보기</a><a href="#choose">2 뜯어보기</a><a href="#mine">3 내 과목으로</a><a href="#deploy">4 올리기</a><a href="#real">5 실제 수업에</a><a href="#ref">참고</a><a href="#keys">요령</a></nav>
 </div></div>
 
 <main class="in doc">
@@ -32,18 +62,20 @@
   </figure>
 
   <section id="flow">
-    <h2>흐름</h2>
-    <table>
-      <tr><th>1. 보기 (시연과 함께 3분)</th><td>영어 수행평가 체험 페이지에서 학생이 되어 봅니다.</td></tr>
-      <tr><th>2. 뜯어보기 (4분)</th><td>같은 페이지를 AI와 뜯어봅니다. <a href="#web">A. 웹 채팅</a>은 작게 새로 만들어 보고, <a href="#steps">B. 코딩 도구</a>는 본보기 폴더를 열어 고쳐 봅니다.</td></tr>
-      <tr><th>3. 내 과목으로 (4분)</th><td>그 틀로 내 과목 평가 페이지를 계획하고 만들어 봅니다. <b>가장 중요한 부분입니다.</b></td></tr>
-      <tr><th>4. 올리기 (9분)</th><td>내 과목 페이지의 작은 판을 <b>GitHub Pages</b>에 올리고, 제출이 <b>Apps Script</b>를 거쳐 내 <b>구글 시트</b>에 쌓이게 합니다. 네 층을 직접 채웁니다.</td></tr>
-      <tr><th>5. 실제 수업에 (연수 뒤)</th><td>본보기 폴더 전체(자동 저장, PDF, 교사 현황, 잠금 열쇠까지)를 같은 세 곳에 올려 실제 평가에 씁니다.</td></tr>
-    </table>
+    <h2>한눈에 보기</h2>
+    <div class="glance">
+      <a href="#see"><div class="gl-n">1단계 <span class="gl-t">3분</span></div><h3>보기</h3><ul><li>체험 페이지 열기</li><li>학생이 되어 써 보기</li><li>내용·흐름·동작 메모</li></ul></a>
+      <a href="#choose"><div class="gl-n">2단계 <span class="gl-t">4분</span></div><h3>뜯어보기</h3><ul><li>A 웹 채팅 / B 코딩 도구 고르기</li><li>AI에게 구조 묻기</li><li>하나 고치고 되돌리기</li></ul></a>
+      <a href="#mine"><div class="gl-n">3단계 <span class="gl-t">4분</span></div><h3>내 과목으로</h3><ul><li>바꿀 것 정하기</li><li>계획 받기 → 만들기</li><li>옆 사람과 나누기</li></ul></a>
+      <a href="#deploy"><div class="gl-n">4단계 <span class="gl-t">9분</span></div><h3>올리기</h3><ul><li>시트 + Apps Script</li><li>GitHub Pages 주소</li><li>제출 → 시트에 줄 확인</li></ul></a>
+      <a href="#real" class="later"><div class="gl-n">5단계 <span class="gl-t">연수 뒤</span></div><h3>실제 수업에</h3><ul><li>본보기 폴더 전체 올리기</li><li>자동 저장·PDF·교사 현황</li></ul></a>
+    </div>
+    <p class="sub">각 단계 맨 위의 <b>체크리스트</b>를 눌러 가며 따라 하세요. 표시는 이 기기에만 남습니다. 회색 <b>배우는 것</b>은 눌러야 펼쳐집니다.</p>
   </section>
 
   <section id="see">
     <h2>1. 보기: 학생이 되어 보기</h2>
+<div class="todo"><div class="todo-h"><b>이 단계 체크리스트 · 3분</b><span class="todo-n" data-for="see"></span></div><ul><li><label><input type="checkbox" data-k="see0"><span><a href="../writing/demo/?r=2&d=5&f=5" target="_blank" rel="noopener">체험 페이지</a> 열고 학번 <code>10101</code>, 아무 이름으로 시작</span></label></li><li><label><input type="checkbox" data-k="see1"><span>조사 단계에서 <b>초안 쓰기 시작</b></span></label></li><li><label><input type="checkbox" data-k="see2"><span>문장 하나 쓰기 → 붙여넣기 해 보기 → 다른 탭 다녀오기</span></label></li><li><label><input type="checkbox" data-k="see3"><span><b>내용 · 흐름 · 동작</b> 세 칸 메모 (3단계에서 씀)</span></label></li></ul></div>
     <p>본보기 페이지는 학생이 태블릿에서 영어 글쓰기를 두 번에 나눠 치르고, 제출물이 교사의 구글 드라이브에 PDF와 시트로 쌓이는 페이지입니다.</p>
     <table>
       <tr><th>1회차</th><td>예시 문단 분석 → 브레인스토밍(이때는 검색 허용) → <b>초안 쓰기</b>(잠금) → 초안 제출</td></tr>
@@ -81,6 +113,7 @@
 
   <section id="web">
     <h2>2-A. 웹 채팅으로 뜯어보기</h2>
+<div class="todo"><div class="todo-h"><b>A 갈래 체크리스트 · 4분</b><span class="todo-n" data-for="web"></span></div><ul><li><label><input type="checkbox" data-k="web0"><span>Gemini(<b>Canvas</b> 켜기) 또는 claude.ai 열기</span></label></li><li><label><input type="checkbox" data-k="web1"><span>① 계획 받기 말 붙여넣기</span></label></li><li><label><input type="checkbox" data-k="web2"><span>② 만들기 말 붙여넣기 → 오른쪽 미리보기</span></label></li><li><label><input type="checkbox" data-k="web3"><span>써 보기 · 붙여넣기 막히나 · 탭 이동 횟수 오르나</span></label></li><li><label><input type="checkbox" data-k="web4"><span>③ 고치기 말 → 마음에 안 들면 되돌리기</span></label></li></ul></div>
     <p>Gemini나 claude.ai 대화창에서 방금 본 영어 수행평가 학생 화면을 작게 다시 만들어 봅니다. 만들면서 이 페이지가 어떻게 짜여 있는지 알게 됩니다. 설치할 것은 없습니다.</p>
     <ol class="steps">
       <li><b>대화창을 엽니다.</b> 둘 가운데 하나를 고릅니다.
@@ -90,7 +123,7 @@
         </table>
         <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">gemini.google.com</span></div><div class="term"><span class="box">&gt; <span class="dim">Gemini에게 물어보기</span></span>
   <span class="dim">＋  도구</span>   <span class="sel">Canvas</span>   <span class="dim">Deep Research</span></div></div>
-        <p class="cap"><b>배우는 것:</b> 웹 채팅은 대화창 옆에 “미리보기 화면”이 있어서, 만든 웹 페이지를 그 자리에서 눌러 볼 수 있습니다. 학교 구글 계정에서 Gemini가 꺼져 있으면 개인 구글 계정이나 claude.ai를 씁니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>웹 채팅은 대화창 옆에 “미리보기 화면”이 있어서, 만든 웹 페이지를 그 자리에서 눌러 볼 수 있습니다. 학교 구글 계정에서 Gemini가 꺼져 있으면 개인 구글 계정이나 claude.ai를 씁니다.</p></details>
       </li>
 
       <li><b>계획부터 받습니다.</b> 아래 말을 그대로 넣습니다.
@@ -100,7 +133,7 @@
 - 내용: 제목, Word Bank, 시간
 - 흐름: 쓰기 → 제출
 - 동작: 타이머, 붙여넣기 막기, 화면 이탈 기록</code></pre>
-        <p class="cap"><b>배우는 것:</b> 발표에서 본 “내용, 흐름, 동작”으로 나눠 물으면 답도 그렇게 나뉘어 옵니다. 빠진 것이 있으면 “○○도 넣어 줘”라고 이어서 말합니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>발표에서 본 “내용, 흐름, 동작”으로 나눠 물으면 답도 그렇게 나뉘어 옵니다. 빠진 것이 있으면 “○○도 넣어 줘”라고 이어서 말합니다.</p></details>
       </li>
 
       <li><b>만들게 합니다.</b>
@@ -109,7 +142,7 @@
 - 남은 시간 20분 타이머
 - 붙여넣기는 막고, 다른 탭에 다녀오면 이탈 횟수를 화면 윗줄에 보여 줘
 - 제목, 단어, 시간은 코드 맨 위의 설정 한 곳에 모아 줘</code></pre>
-        <p class="cap"><b>배우는 것:</b> 오른쪽에 코드가 써지고 화면이 뜹니다. Gemini에서 코드만 보이면 오른쪽 위의 <b>미리보기</b>를 누릅니다. 설정을 한 곳에 모으게 하면 다음에 내용만 바꾸기 쉽습니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>오른쪽에 코드가 써지고 화면이 뜹니다. Gemini에서 코드만 보이면 오른쪽 위의 <b>미리보기</b>를 누릅니다. 설정을 한 곳에 모으게 하면 다음에 내용만 바꾸기 쉽습니다.</p></details>
       </li>
 
       <li><b>내 눈으로 확인합니다.</b> 미리보기 화면에서 직접 해 봅니다.
@@ -118,13 +151,13 @@
           <li>다른 곳에서 글을 복사해 문장 칸에 붙여넣어 봅니다. 막히는지 봅니다.</li>
           <li>다른 탭에 갔다가 돌아옵니다. 윗줄의 이탈 횟수가 오르는지 봅니다.</li>
         </ul>
-        <p class="cap"><b>배우는 것:</b> AI가 “만들었습니다”라고 해도 확인은 내가 합니다. 안 되는 것은 본 그대로 말합니다. 예: “붙여넣기가 그대로 들어가. 막아 줘.” 미리보기 창 안에서는 일부 동작이 실제와 다를 수 있습니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>AI가 “만들었습니다”라고 해도 확인은 내가 합니다. 안 되는 것은 본 그대로 말합니다. 예: “붙여넣기가 그대로 들어가. 막아 줘.” 미리보기 창 안에서는 일부 동작이 실제와 다를 수 있습니다.</p></details>
       </li>
 
       <li><b>고치고, 되돌려 봅니다.</b>
 <pre><code>시간을 25분으로, 제목을 "Our School in 2035"로 바꿔 줘. 바꾼 곳만 먼저 짧게 알려 줘.</code></pre>
         마음에 안 들면 되돌립니다. 미리보기 위쪽의 이전 버전 단추를 쓰거나, “방금 바꾼 것을 되돌려 줘”라고 합니다.
-        <p class="cap"><b>배우는 것:</b> 웹 채팅은 고칠 때 파일 전체를 새로 쓰기도 합니다. 그래서 바꾸라고 하지 않은 곳이 바뀌지 않았는지 한 번 더 봅니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>웹 채팅은 고칠 때 파일 전체를 새로 쓰기도 합니다. 그래서 바꾸라고 하지 않은 곳이 바뀌지 않았는지 한 번 더 봅니다.</p></details>
       </li>
 
     </ol>
@@ -136,6 +169,7 @@
 
   <section id="steps">
     <h2>2-B. 코딩 도구로 뜯어보기</h2>
+<div class="todo"><div class="todo-h"><b>B 갈래 체크리스트 · 4분</b><span class="todo-n" data-for="cli"></span></div><ul><li><label><input type="checkbox" data-k="cli0"><span>PowerShell에 네 줄 붙여넣기 → VS Code가 열림</span></label></li><li><label><input type="checkbox" data-k="cli1"><span><code>Ctrl+`</code> → <code>claude</code> (또는 <code>agy</code>) → 폴더 믿기 <b>Yes</b></span></label></li><li><label><input type="checkbox" data-k="cli2"><span>읽게 하기 → 구조 묻기</span></label></li><li><label><input type="checkbox" data-k="cli3"><span>브라우저로 열기 → 고치게 하기 → <b>Yes</b>로 승인</span></label></li><li><label><input type="checkbox" data-k="cli4"><span><code>F5</code>로 확인(새 학번) → 되돌리기</span></label></li></ul></div>
     <p>방금 본 영어 수행평가 페이지의 본보기 폴더를 VS Code로 열고, 그 안에서 코딩 도구를 켜서 묻고 고칩니다. 연수 전에 <a href="../prep/#all">연수 전 준비의 B 갈래</a>를 해 온 분이 합니다.</p>
     <table>
       <tr><th></th><td><b>Claude Code</b></td><td><b>Antigravity CLI</b> (Gemini 쪽)</td></tr>
@@ -172,7 +206,7 @@ open -a "Visual Studio Code" english-writing</code></pre>
  <span class="sel">❯ 1. Yes, I trust this folder</span>
    2. No, exit</div></div>
         </div></div>
-        <p class="cap"><b>배우는 것:</b> Claude Code는 “지금 열린 폴더”를 봅니다. 터미널 앞머리에 <code>english-writing</code> 이 보이는지 확인하세요. 왼쪽은 파일 목록, 가운데는 파일 내용, 아래가 Claude Code입니다. 폴더를 믿느냐고 물으면 Yes에서 Enter를 누릅니다. Antigravity CLI도 “Do you trust the contents of this project?”라고 묻습니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>Claude Code는 “지금 열린 폴더”를 봅니다. 터미널 앞머리에 <code>english-writing</code> 이 보이는지 확인하세요. 왼쪽은 파일 목록, 가운데는 파일 내용, 아래가 Claude Code입니다. 폴더를 믿느냐고 물으면 Yes에서 Enter를 누릅니다. Antigravity CLI도 “Do you trust the contents of this project?”라고 묻습니다.</p></details>
       </li>
 
       <li><b>읽게 합니다.</b> 아래 말을 그대로 넣습니다.
@@ -183,19 +217,19 @@ open -a "Visual Studio Code" english-writing</code></pre>
 <span class="dim">  ⎿  Read 163 lines</span>
 
 <span class="ok">●</span> 영어 쓰기 수행평가를 학생 태블릿에서 치르는 웹앱입니다. …</div></div>
-        <p class="cap"><b>배우는 것:</b> Claude는 폴더 안의 파일을 직접 읽고 답합니다. <code>CLAUDE.md</code> 는 이 폴더의 설명서입니다. 파일을 읽는 것은 묻지 않고 합니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>Claude는 폴더 안의 파일을 직접 읽고 답합니다. <code>CLAUDE.md</code> 는 이 폴더의 설명서입니다. 파일을 읽는 것은 묻지 않고 합니다.</p></details>
       </li>
 
       <li><b>구조를 묻습니다.</b> 발표에서 본 네 층을 이 폴더에서 찾아봅니다.
 <pre><code>이 프로젝트의 프론트엔드, 백엔드, 데이터, 배포가 각각 어느 파일인지 표로 정리해 줘.</code></pre>
 <pre><code>학생이 초안 제출을 누르면 어떤 요청이 어디로 가고 무엇이 저장되는지 순서대로 설명해 줘.</code></pre>
-        <p class="cap"><b>배우는 것:</b> 코드를 직접 읽지 않아도, 구조를 가리키는 말로 물으면 됩니다. 모르는 낱말이 나오면 “그게 뭐야?”라고 이어서 묻습니다. 앞의 대화를 기억합니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>코드를 직접 읽지 않아도, 구조를 가리키는 말로 물으면 됩니다. 모르는 낱말이 나오면 “그게 뭐야?”라고 이어서 묻습니다. 앞의 대화를 기억합니다.</p></details>
       </li>
 
       <li><b>고치기 전에, 지금 모습을 봅니다.</b> Claude에게 열어 달라고 합니다.
 <pre><code>docs/index.html을 브라우저로 열어 줘.</code></pre>
         Claude가 여는 명령을 실행해도 되느냐고 묻습니다. <b>1. Yes</b> 에서 Enter를 누릅니다. 브라우저에 학생 페이지가 열리면 학번에 <code>10101</code>, 이름에 아무 이름이나 넣고 시작합니다.
-        <p class="cap"><b>배우는 것:</b> 파일 열기 같은 일도 말로 시킬 수 있습니다. 명령을 실행하기 전에는 무엇을 하려는지 보여 주고 묻습니다. 로그인 화면 아래에 “연습 모드”라고 나옵니다. 서버 없이 이 PC에만 저장됩니다. 과제 제목과 남은 시간을 눈여겨봐 두세요.</p>
+        <details class="learn"><summary>배우는 것</summary><p>파일 열기 같은 일도 말로 시킬 수 있습니다. 명령을 실행하기 전에는 무엇을 하려는지 보여 주고 묻습니다. 로그인 화면 아래에 “연습 모드”라고 나옵니다. 서버 없이 이 PC에만 저장됩니다. 과제 제목과 남은 시간을 눈여겨봐 두세요.</p></details>
       </li>
 
       <li><b>고치게 합니다.</b> VS Code로 돌아와 아래 말을 넣습니다. 제목은 원하는 것으로 바꾸세요.
@@ -210,22 +244,23 @@ open -a "Visual Studio Code" english-writing</code></pre>
  <span class="sel">❯ 1. Yes</span>
    2. Yes, allow all edits during this session
    3. No, and tell Claude what to do differently (esc)</div></div>
-        <p class="cap"><b>배우는 것:</b> 파일을 고치기 전에는 보여 주고 묻습니다(두 도구 모두 처음 설정이 “묻고 하기”입니다). Yes를 누르면 왼쪽 파일 목록에서 <code>index.html</code> 의 색이 바뀝니다. 눌러 보면 바뀐 내용이 가운데에 보입니다. 마음에 안 들면 3번을 고르고 어떻게 다르게 할지 말하면 됩니다. 여러 군데를 고치면 여러 번 묻습니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>파일을 고치기 전에는 보여 주고 묻습니다(두 도구 모두 처음 설정이 “묻고 하기”입니다). Yes를 누르면 왼쪽 파일 목록에서 <code>index.html</code> 의 색이 바뀝니다. 눌러 보면 바뀐 내용이 가운데에 보입니다. 마음에 안 들면 3번을 고르고 어떻게 다르게 할지 말하면 됩니다. 여러 군데를 고치면 여러 번 묻습니다.</p></details>
       </li>
 
       <li><b>내 눈으로 확인합니다.</b> 브라우저로 가서 <code>F5</code>(새로고침)를 누릅니다. 제목이 바뀌었는지 봅니다. 시간은 <b>다른 학번</b>(예: <code>10102</code>)으로 로그인해 초안 단계에 들어가 봅니다.
-        <p class="cap"><b>배우는 것:</b> Claude가 “했습니다”라고 해도 확인은 내가 합니다. 아까 쓰던 학번은 이미 시작한 시각이 이 PC에 남아 있어서, 새 학번으로 봐야 바뀐 시간이 보입니다. 발표에서 본 “상태는 기기에 남는다”가 이것입니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>Claude가 “했습니다”라고 해도 확인은 내가 합니다. 아까 쓰던 학번은 이미 시작한 시각이 이 PC에 남아 있어서, 새 학번으로 봐야 바뀐 시간이 보입니다. 발표에서 본 “상태는 기기에 남는다”가 이것입니다.</p></details>
       </li>
 
       <li><b>되돌려 봅니다.</b>
 <pre><code>방금 바꾼 두 가지를 원래대로 되돌려 줘.</code></pre>
-        <p class="cap"><b>배우는 것:</b> 잘못되면 말로 되돌릴 수 있습니다. 그래서 겁내지 않고 시켜 봐도 됩니다. 오래 작업할 때는 git이 이 역할을 더 확실히 합니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>잘못되면 말로 되돌릴 수 있습니다. 그래서 겁내지 않고 시켜 봐도 됩니다. 오래 작업할 때는 git이 이 역할을 더 확실히 합니다.</p></details>
       </li>
     </ol>
   </section>
 
   <section id="mine">
     <h2>3. 내 과목 평가 페이지로</h2>
+<div class="todo"><div class="todo-h"><b>이 단계 체크리스트 · 4분</b><span class="todo-n" data-for="mine"></span></div><ul><li><label><input type="checkbox" data-k="mine0"><span>예시 표를 보고 내 과목의 <b>평가 장면</b> 정하기</span></label></li><li><label><input type="checkbox" data-k="mine1"><span>A: <b>새 대화</b> / B: <code>/clear</code> 하고 계획 말 붙여넣기 (<code>○○</code> 바꾸기)</span></label></li><li><label><input type="checkbox" data-k="mine2"><span>되묻는 질문에 답하기</span></label></li><li><label><input type="checkbox" data-k="mine3"><span>만들기 말 붙여넣기 → 새 학번으로 써 보기</span></label></li><li><label><input type="checkbox" data-k="mine4"><span>옆 사람에게 무엇을 바꿨는지 말하기</span></label></li></ul></div>
     <p>오늘 실습에서 가장 중요한 부분입니다. 영어 수행평가 페이지의 틀(단계, 시간, 잠금, 제출)을 빌려 <b>내 과목 평가</b>를 계획하고 만들어 봅니다. 1단계에서 적은 “내용, 흐름, 동작” 메모를 씁니다.</p>
     <ol class="steps">
       <li><b>바꿀 것을 정합니다.</b> 예시를 보고 내 과목 줄을 머릿속으로 채워 봅니다.
@@ -261,14 +296,14 @@ open -a "Visual Studio Code" english-writing</code></pre>
 내 과목에 맞게 고치거나 꺼 줘. 무엇을 바꿨는지 목록으로 알려 줘.</code></pre>
 <pre><code>docs/mine.html을 브라우저로 열어 줘.</code></pre>
         <p>새 학번(예: <code>10103</code>)으로 들어가 봅니다. 영어 본보기는 그대로 남습니다.</p>
-        <p class="cap"><b>배우는 것:</b> 내용을 설정 한 곳에 모아 두었기 때문에 과목이 바뀌어도 틀은 그대로 씁니다. 다만 문장 세기처럼 영어를 전제한 곳은 코드도 고쳐야 합니다. 어디인지는 아래 <a href="#subject">다른 과목으로 바꿀 때</a>에 있습니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>내용을 설정 한 곳에 모아 두었기 때문에 과목이 바뀌어도 틀은 그대로 씁니다. 다만 문장 세기처럼 영어를 전제한 곳은 코드도 고쳐야 합니다. 어디인지는 아래 <a href="#subject">다른 과목으로 바꿀 때</a>에 있습니다.</p></details>
       </li>
       <li><b>실제로 쓰려면 무엇이 더 필요한지 묻습니다.</b>
 <pre><code>우리 반 학생 30명이 이걸로 실제 평가를 보고,
 제출물을 내가 모아 보려면 무엇이 더 필요해?
 프론트엔드, 백엔드, 데이터, 배포로 나눠서
 각각 무엇으로 하면 좋을지 알려 줘.</code></pre>
-        <p class="cap"><b>배우는 것:</b> A 갈래에서 만든 것은 네 층 가운데 <b>프론트엔드 하나</b>입니다. 글은 그 기기에만 남습니다. 나머지 세 층은 바로 다음 <a href="#deploy">4. 올리기</a>에서 직접 채웁니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>A 갈래에서 만든 것은 네 층 가운데 <b>프론트엔드 하나</b>입니다. 글은 그 기기에만 남습니다. 나머지 세 층은 바로 다음 <a href="#deploy">4. 올리기</a>에서 직접 채웁니다.</p></details>
       </li>
       <li><b>나눕니다.</b> 옆 사람에게 화면을 보여 주고, 내용·흐름·동작 가운데 무엇을 바꿨는지, 실제로 쓰려면 무엇이 더 필요한지 말해 봅니다.</li>
     </ol>
@@ -287,6 +322,7 @@ open -a "Visual Studio Code" english-writing</code></pre>
 
   <section id="deploy">
     <h2>4. 올리기: 작은 네 층 완성</h2>
+<div class="todo"><div class="todo-h"><b>이 단계 체크리스트 · 9분</b><span class="todo-n" data-for="dep"></span></div><ul><li><label><input type="checkbox" data-k="dep0"><span>AI에게 <b>index.html</b>과 <b>Code.gs</b> 두 파일 받기 (안 되면 본보기)</span></label></li><li><label><input type="checkbox" data-k="dep1"><span><span class="path"><span>sheets.new</span></span> → <span class="path"><span>확장 프로그램</span><i>›</i><span>Apps Script</span></span> → Code.gs 붙여넣기 → <code>Ctrl+S</code></span></label></li><li><label><input type="checkbox" data-k="dep2"><span><span class="path"><span>배포</span><i>›</i><span>새 배포</span><i>›</i><span>웹 앱</span></span> · 액세스 <b>모든 사용자</b> → <b>/exec</b> 주소 복사</span></label></li><li><label><input type="checkbox" data-k="dep3"><span>그 주소를 <code>scriptUrl</code>에 넣기</span></label></li><li><label><input type="checkbox" data-k="dep4"><span><span class="path"><span>github.com/new</span></span> → <span class="path"><span>creating a new file</span></span> → index.html 붙여넣기 → <span class="path"><span>Commit changes</span></span></span></label></li><li><label><input type="checkbox" data-k="dep5"><span><span class="path"><span>Settings</span><i>›</i><span>Pages</span></span> → main · / (root) → <b>Save</b> → 1~2분 뒤 주소 열기</span></label></li><li><label><input type="checkbox" data-k="dep6"><span>지어낸 학번으로 제출 → <b>내 시트에 줄이 생겼나</b></span></label></li></ul></div>
     <p>3단계의 내 과목 페이지를 작은 판으로 만들어 <b>진짜 인터넷 주소</b>에 올리고, 학생이 제출하면 <b>내 구글 시트</b>에 한 줄씩 쌓이게 합니다. 발표에서 본 네 층을 직접 채워 보는 단계입니다. <a href="../prep/#accounts">계정 세 가지</a>(구글, GitHub)가 필요합니다.</p>
     <table>
       <tr><th>프론트엔드</th><td><code>index.html</code> 한 파일. 학생 화면</td></tr>
@@ -390,10 +426,10 @@ function doPost(e) {
       </li>
 
       <li><b>시트와 Apps Script를 만듭니다.</b> (데이터, 백엔드)
-        <ol>
-          <li>브라우저 주소창에 <code>sheets.new</code> 를 넣으면 새 구글 시트가 열립니다. 제목을 “제출 연습”으로 바꿉니다.</li>
-          <li>시트 메뉴에서 <b>확장 프로그램 → Apps Script</b>. 편집기에 있는 글을 모두 지우고 <code>Code.gs</code> 를 붙여넣은 뒤 <code>Ctrl+S</code> 로 저장합니다.</li>
-          <li>오른쪽 위 <b>배포 → 새 배포</b>. 톱니 모양(유형 선택)에서 <b>웹 앱</b>을 고르고, 아래처럼 정한 뒤 <b>배포</b>를 누릅니다.</li>
+        <ol class="sublist">
+          <li>주소창에 <span class="path"><span>sheets.new</span></span> → 새 구글 시트. 제목을 “제출 연습”으로.</li>
+          <li><span class="path"><span>확장 프로그램</span><i>›</i><span>Apps Script</span></span> → 편집기의 글을 <b>모두 지우고</b> <code>Code.gs</code> 붙여넣기 → <code>Ctrl+S</code></li>
+          <li>오른쪽 위 <span class="path"><span>배포</span><i>›</i><span>새 배포</span></span> → 톱니 모양에서 <span class="path"><span>웹 앱</span></span> → 아래처럼 정하고 <span class="path"><span>배포</span></span></li>
         </ol>
         <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="url">script.google.com · 새 배포</span></div><div class="web">
           <h4>새 배포 · 웹 앱</h4>
@@ -401,26 +437,26 @@ function doPost(e) {
           <div class="f"><span>액세스 권한이 있는 사용자</span><div style="color:var(--ink)"><b>모든 사용자</b></div></div>
           <span class="go">배포</span>
         </div></div>
-        <ol start="4">
-          <li><b>액세스 승인</b> → 내 계정을 고릅니다. “Google에서 확인하지 않은 앱”이 나오면 <b>고급</b> → <b>(프로젝트 이름)(으)로 이동</b> → <b>허용</b>. 내가 만든 스크립트라서 나오는 경고입니다.</li>
-          <li>나온 <b>웹 앱 URL</b>(<code>…/exec</code> 로 끝남)을 복사합니다.</li>
+        <ol start="4" class="sublist">
+          <li><span class="path"><span>액세스 승인</span><i>›</i><span>내 계정</span></span> → “확인하지 않은 앱”이 나오면 <span class="path"><span>고급</span><i>›</i><span>(프로젝트 이름)(으)로 이동</span><i>›</i><span>허용</span></span> <span class="sub">내가 만든 스크립트라 나오는 경고입니다.</span></li>
+          <li><b>웹 앱 URL</b>(<code>…/exec</code> 로 끝남)을 복사합니다.</li>
         </ol>
       </li>
 
       <li><b>주소를 페이지에 넣습니다.</b> AI에게 “scriptUrl을 이 주소로 바꿔 줘: ” 뒤에 복사한 주소를 붙여 넣습니다. 본보기를 쓴다면 <code>scriptUrl: ""</code> 의 따옴표 안에 직접 붙여 넣습니다.</li>
 
       <li><b>GitHub에 올립니다.</b> (배포)
-        <ol>
-          <li><a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> 에서 Repository name에 영문 이름(예: <code>my-test</code>)을 넣고 <b>Public</b> 을 고른 뒤 <b>Create repository</b>.</li>
-          <li>다음 화면의 <b>creating a new file</b> 링크를 누릅니다. 파일 이름 칸에 <code>index.html</code>, 아래 큰 칸에 HTML 전체를 붙여넣습니다. A 갈래는 코드 창의 복사 단추로, B 갈래는 VS Code에서 <code>mini/index.html</code> 을 열고 <code>Ctrl+A</code>, <code>Ctrl+C</code> 로 복사합니다.</li>
-          <li><b>Commit changes…</b> → 한 번 더 <b>Commit changes</b>.</li>
-          <li><b>Settings → Pages</b>. Branch를 <code>main</code>, 폴더를 <code>/ (root)</code> 로 정하고 <b>Save</b>.</li>
-          <li>1~2분 뒤 새로 고치면 위에 <b>Your site is live at</b> <code>https://아이디.github.io/my-test/</code> 가 나옵니다. <b>Visit site</b>.</li>
+        <ol class="sublist">
+          <li><a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> → Repository name <code>my-test</code> → <span class="path"><span>Public</span></span> → <span class="path"><span>Create repository</span></span></li>
+          <li><span class="path"><span>creating a new file</span></span> → 파일 이름 <code>index.html</code> → 큰 칸에 HTML 전체 붙여넣기<br><span class="sub">A: 코드 창의 복사 단추 / B: VS Code에서 <code>mini/index.html</code> 열고 <code>Ctrl+A</code>, <code>Ctrl+C</code></span></li>
+          <li><span class="path"><span>Commit changes…</span><i>›</i><span>Commit changes</span></span></li>
+          <li><span class="path"><span>Settings</span><i>›</i><span>Pages</span></span> → Branch <code>main</code>, 폴더 <code>/ (root)</code> → <span class="path"><span>Save</span></span></li>
+          <li>1~2분 뒤 새로 고침 → <b>Your site is live at</b> <code>https://아이디.github.io/my-test/</code> → <span class="path"><span>Visit site</span></span></li>
         </ol>
       </li>
 
       <li><b>확인합니다.</b> 그 주소를 휴대폰이나 옆 사람 기기로 열어 지어낸 학번과 글로 제출합니다. 그리고 내 시트를 봅니다. <b>줄이 생겼으면 네 층이 다 이어진 것입니다.</b>
-        <p class="cap"><b>배우는 것:</b> 학생 화면(프론트엔드)이 요청을 보내고, Apps Script(백엔드)가 받아 시트(데이터)에 쓰고, 그 화면은 GitHub(배포)가 주소를 붙여 보여 줍니다. 안 되면 발표의 “층으로 좁혀 말하기” 그대로, 화면이 뜨는지 → 제출이 눌리는지 → 시트에 줄이 생기는지 차례로 봅니다.</p>
+        <details class="learn"><summary>배우는 것</summary><p>학생 화면(프론트엔드)이 요청을 보내고, Apps Script(백엔드)가 받아 시트(데이터)에 쓰고, 그 화면은 GitHub(배포)가 주소를 붙여 보여 줍니다. 안 되면 발표의 “층으로 좁혀 말하기” 그대로, 화면이 뜨는지 → 제출이 눌리는지 → 시트에 줄이 생기는지 차례로 봅니다.</p></details>
       </li>
     </ol>
     <details><summary>제출했는데 시트에 줄이 안 생깁니다</summary><div>
@@ -635,5 +671,32 @@ Python 3.12.10
 </main>
 
 <footer><div class="in"><span>실습: 영어 수행평가 페이지를 내 과목으로 · 2026년 10월 기준</span><a href="../">연수 자료로</a></div></footer>
+<script>
+(() => {
+  const KEY = "practice-todo-v1";
+  let st = {};
+  try { st = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+  const boxes = [...document.querySelectorAll(".todo input[data-k]")];
+  const count = () => document.querySelectorAll(".todo-n").forEach(n => {
+    const mine = boxes.filter(b => b.dataset.k.startsWith(n.dataset.for) && /\d+$/.test(b.dataset.k.slice(n.dataset.for.length)));
+    n.textContent = `${mine.filter(b => b.checked).length} / ${mine.length}`;
+  });
+  boxes.forEach(b => {
+    b.checked = !!st[b.dataset.k];
+    b.addEventListener("change", () => { st[b.dataset.k] = b.checked; try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} count(); });
+  });
+  count();
+})();
+document.querySelectorAll("pre").forEach(pre => {   // 넣을 말은 단추 하나로 복사
+  const b = document.createElement("button");
+  b.className = "copy"; b.type = "button"; b.textContent = "복사";
+  b.onclick = async () => {
+    try { await navigator.clipboard.writeText(pre.querySelector("code")?.innerText ?? pre.innerText); b.textContent = "복사됨"; }
+    catch (e) { b.textContent = "직접 복사하세요"; }
+    setTimeout(() => b.textContent = "복사", 1500);
+  };
+  pre.appendChild(b);
+});
+</script>
 </body>
 </html>
