@@ -1,7 +1,7 @@
 /* 방문 기록: 시각·페이지·기기 종류만 선생님 구글 시트로 보냅니다(이름·IP는 보내지 않음).
-   ENDPOINT 가 비어 있으면 아무것도 하지 않습니다. */
+   받는 곳: 연수자료 방문기록 시트의 Apps Script 웹 앱. */
 (function () {
-  var ENDPOINT = "";
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbwbNRlvcY7sXiKqrw3qORi6LIVDKQmy-rXNBjXWjeOjhlKo4-1ApyCGMIw-_OlE_mg4/exec";
   if (!ENDPOINT || location.protocol === "file:" || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
   var id = "-";
   try {
