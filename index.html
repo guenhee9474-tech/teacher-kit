@@ -43,7 +43,7 @@
   <div class="wall" id="wall"></div>
 </main>
 
-<footer><div class="in wide"><span>연수 자료</span><button class="linkbtn" id="startEdit">카드 순서 바꾸기</button></div></footer>
+<footer><div class="in wide"><span>연수 자료 · 방문 시각과 기기 종류만 이름 없이 기록합니다</span><button class="linkbtn" id="startEdit">카드 순서 바꾸기</button></div></footer>
 
 <script>
 /* ───────── 카드 목록: 자료를 올릴 때는 여기에 한 덩어리만 추가하면 됩니다 ─────────
@@ -158,5 +158,6 @@ wall.addEventListener("dragover", e => { const c = e.target.closest(".card"); if
 wall.addEventListener("drop", e => { const c = e.target.closest(".card"); if (!editing || !dragId || !c) return; e.preventDefault(); move(dragId, ordered().map(x => x.id).indexOf(c.dataset.id)); });
 draw();
 </script>
+<script src="assets/track.js" defer></script>
 </body>
 </html>
