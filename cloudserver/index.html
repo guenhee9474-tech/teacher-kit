@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>클라우드 서버 만들기</title>
-<meta name="description" content="AWS 무료 플랜(6개월)으로 Lightsail 서울 서버를 24시간 켜 두고, 내가 로그인한 기기에서만 들어가 Claude Code에게 일을 맡기는 방법">
+<meta name="description" content="AWS 무료 플랜(최대 6개월)으로 EC2 서울 서버를 24시간 켜 두고, 내가 로그인한 기기에서만 들어가 Claude Code에게 일을 맡기는 방법">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2316171a'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23e4003a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../assets/style.css">
 <link rel="stylesheet" href="../assets/screens.css">
@@ -21,12 +21,12 @@
 <main class="in doc">
   <div class="head">
     <h1>클라우드 서버 만들기</h1>
-    <p class="lead">AWS <b>무료 플랜</b>으로 Lightsail 서울에 작은 서버를 빌려 24시간 켜 두고, 학교 PC·집 PC·휴대폰 가운데 <b>내가 로그인한 기기에서만</b> 들어가 Claude Code에게 일을 맡깁니다. 최대 6개월 동안 돈이 들지 않고, 그 뒤에 계속 쓸지 정합니다.</p>
+    <p class="lead">AWS <b>무료 플랜</b>으로 서울에 작은 서버(EC2)를 빌려 24시간 켜 두고, 학교 PC·집 PC·휴대폰 가운데 <b>내가 로그인한 기기에서만</b> 들어가 Claude Code에게 일을 맡깁니다. 최대 6개월 동안 돈이 들지 않고, 그 뒤에 계속 쓸지 정합니다.</p>
     <div class="actions">
       <a class="btn primary" href="../downloads/cloudserver-HANDOFF.md" download="HANDOFF.md">AI에게 줄 핸드오프 파일 받기</a>
       <a class="btn" href="#steps">만드는 순서</a>
     </div>
-    <p class="meta">처음 설정 1시간 · 무료 플랜 최대 6개월 $0 · 계속 쓰면 월 $7(부가세 별도, 대략 1만 원)</p>
+    <p class="meta">처음 설정 1시간 · 무료 플랜 최대 6개월 $0 · 계속 쓰면 월 약 $20, 더 싼 곳으로 옮기면 월 $12 (부가세 별도)</p>
   </div>
 
   <div class="note">
@@ -34,22 +34,22 @@
     <ul>
       <li><b>학생 개인정보(성적, 상담, 출결, 연락처)는 서버에 두지 않습니다.</b> AWS 약관도 무료 플랜 계정을 민감한 자료 처리에 쓰지 말라고 합니다. 학교·교육청 지침이 먼저입니다.</li>
       <li>가입할 때 카드를 등록하지만, <b>무료 플랜 동안에는 요금이 청구되지 않습니다.</b> 유료로 바꾸는 순간부터 청구됩니다.</li>
-      <li>무료 플랜은 <b>가입 6개월 뒤 또는 크레딧을 다 쓰면</b> 끝나고, 그때 계정이 정지되어 <b>서버가 멈춥니다.</b> 계속 쓰려면 그 전에 유료로 바꿉니다(<a href="#after">6개월 뒤</a>).</li>
-      <li>서버의 문(포트)은 모두 닫고, 들어가는 길은 Tailscale(내 계정으로 로그인한 기기끼리만 이어 주는 통로) 하나만 둡니다.</li>
+      <li>무료 플랜은 <b>가입 6개월 뒤 또는 크레딧을 다 쓰면</b> 끝나고, 그때 계정이 닫혀 <b>서버가 멈춥니다.</b> 이 서버는 크레딧을 한 달에 약 $20씩 쓰므로, <b>4단계의 크레딧 활동 두 가지를 꼭 해야</b> 6개월을 채웁니다.</li>
+      <li>서버의 문(포트)은 AWS 콘솔의 브라우저 연결 하나만 남기고 모두 닫습니다. 평소에 들어가는 길은 Tailscale(내 계정으로 로그인한 기기끼리만 이어 주는 통로)입니다.</li>
     </ul>
   </div>
 
   <section id="pros">
     <h2>장점과 단점</h2>
-    <p><b>여러 기기에서 늘 같은 작업실에 들어가야 할 때, 6개월 동안 돈 없이 써 볼 수 있는 가장 쉬운 길입니다.</b> 계속 쓰려면 그 뒤 월 1만 원 안팎이 듭니다. 돈을 전혀 쓰지 않으려면 <a href="../homeserver/">집 PC를 서버로</a>를 봅니다.</p>
+    <p><b>여러 기기에서 늘 같은 작업실에 들어가야 할 때, 6개월 동안 돈 없이 써 볼 수 있는 길입니다.</b> 계속 쓰려면 그 뒤 월 $12~20이 듭니다. 돈을 전혀 쓰지 않으려면 <a href="../homeserver/">집 PC를 서버로</a>를 봅니다.</p>
     <table>
       <tr><th></th><td><b>장점</b></td><td><b>단점</b></td></tr>
-      <tr><th>비용</th><td>무료 플랜 6개월 동안 $0. 서버 값($7×6 = $42)이 가입 크레딧($100) 안에 들어갑니다.</td><td>6개월 뒤 계속 쓰려면 월 $7이 나갑니다. 유료로 바꾼 뒤 지우는 것을 잊으면 계속 나갑니다.</td></tr>
+      <tr><th>비용</th><td>무료 플랜 동안 $0. 6개월 서버 값(약 $122)이 크레딧($100 + 활동 $40) 안에 들어갑니다.</td><td>크레딧 활동을 빠뜨리면 5개월쯤에 크레딧이 떨어져 멈춥니다. 6개월 뒤 계속 쓰면 월 $12~20이 나갑니다.</td></tr>
       <tr><th>상시 가동</th><td>정전, 업데이트 재시작, 집 인터넷과 상관없이 늘 켜져 있습니다.</td><td>무료 플랜이 끝날 때 유료로 바꾸지 않으면 멈춥니다.</td></tr>
-      <tr><th>성능</th><td>Claude Code는 대부분 답을 기다리는 일이라 작은 서버로 충분합니다.</td><td>메모리 1GB라 무거운 프로그램(큰 빌드, 데이터 분석)은 느립니다.</td></tr>
-      <tr><th>보안</th><td>문을 다 닫아도 Tailscale로 들어갑니다. 집 네트워크와 분리됩니다.</td><td>AWS 계정을 빼앗기면 위험하므로 2단계 인증(MFA)이 필수입니다.</td></tr>
+      <tr><th>성능</th><td>Claude Code는 대부분 답을 기다리는 일이라 작은 서버로 돌아갑니다.</td><td>메모리 2GB로, Claude Code 공식 권장(4GB 이상)보다 작습니다. 한 번에 하나씩 맡기는 것이 기본이고, 큰 빌드나 데이터 분석은 느립니다.</td></tr>
+      <tr><th>보안</th><td>바깥 문을 닫아도 Tailscale로 들어갑니다. 집 네트워크와 분리됩니다.</td><td>AWS 계정을 빼앗기면 위험하므로 2단계 인증(MFA)이 필수입니다.</td></tr>
       <tr><th>접속</th><td>어느 기기든 Tailscale만 깔면 같은 작업실로 이어집니다.</td><td>화면(GUI)이 없는 글자 창 서버라 터미널에 익숙해져야 합니다.</td></tr>
-      <tr><th>배움</th><td>클라우드, 방화벽, 원격 접속을 직접 다루며 이해합니다.</td><td>처음 가입과 설정에 1시간쯤 듭니다.</td></tr>
+      <tr><th>배움</th><td>클라우드, 방화벽, 원격 접속을 직접 다루며 이해합니다.</td><td>처음 가입과 설정에 1시간쯤 듭니다. 콘솔 화면이 복잡합니다.</td></tr>
     </table>
   </section>
 
@@ -57,36 +57,50 @@
     <h2>무료 플랜이 어떻게 돌아가나</h2>
     <p>2025년 7월 15일 이후 새로 만든 AWS 계정이 고를 수 있는 플랜입니다. 2026년 10월에 AWS 공식 문서로 확인한 내용입니다.</p>
     <table>
-      <tr><th>받는 것</th><td>가입 크레딧 <b>$100</b>, 정해진 활동(예산 만들기 등)을 하면 최대 <b>$100</b> 더. Lightsail도 이 크레딧으로 씁니다.</td></tr>
-      <tr><th>기간</th><td>가입 <b>6개월 뒤</b> 또는 <b>크레딧을 다 쓴 때</b> 가운데 먼저 오는 날까지. 이 서버만 쓰면 크레딧이 남으므로 6개월이 기준입니다.</td></tr>
-      <tr><th>요금</th><td>무료 플랜 동안에는 청구되지 않습니다.</td></tr>
-      <tr><th>남은 날 확인</th><td>AWS 콘솔 첫 화면의 <b>비용 및 사용량</b> 위젯에 크레딧 잔액과 남은 날이 나옵니다. 끝날 무렵에는 AWS가 이메일로도 알립니다.</td></tr>
-      <tr><th>끝나면</th><td>계정이 정지되고 서버가 멈춥니다. <b>만료 통보 뒤 90일 안에</b> 유료로 바꾸면 그대로 복구되고, 90일이 지나면 계정과 자료가 영구 삭제됩니다.</td></tr>
+      <tr><th>받는 것</th><td>가입 크레딧 <b>$100</b>. 정해진 활동(예산 만들기, AI 놀이터 써 보기 등)을 하나 할 때마다 크레딧이 더 쌓여 최대 <b>$100</b>까지 늘어납니다.</td></tr>
+      <tr><th>쓸 수 있는 것</th><td><b>일부 서비스만</b> 됩니다. 서버는 <b>EC2</b>가 되고, 그중에서도 “프리 티어 사용 가능” 표시가 붙은 크기(t3.micro, t3.small, t4g.micro, t4g.small 등)만 고를 수 있습니다. 더 쉬운 서버 서비스인 Lightsail은 무료 플랜에서 막혀 있습니다.</td></tr>
+      <tr><th>기간</th><td>가입 <b>6개월 뒤</b> 또는 <b>크레딧을 다 쓴 때</b> 가운데 먼저 오는 날까지.</td></tr>
+      <tr><th>요금</th><td>무료 플랜 동안에는 청구되지 않습니다. 서버를 쓰는 만큼 크레딧이 줄어듭니다.</td></tr>
+      <tr><th>남은 크레딧 확인</th><td>AWS 콘솔 첫 화면의 <b>비용 및 사용량</b> 위젯에 크레딧 잔액과 남은 날이 나옵니다. 끝날 무렵에는 AWS가 이메일로도 알립니다.</td></tr>
+      <tr><th>끝나면</th><td>계정이 닫히고 서버가 멈춥니다. AWS는 <b>90일 동안</b> 자료를 보관하고, 그 안에 유료로 바꾸면 그대로 돌아옵니다. 90일이 지나면 계정과 자료가 영구 삭제됩니다.</td></tr>
       <tr><th>유료 전환</th><td>같은 계정 그대로 <b>언제든</b> 바꿀 수 있고, 남은 크레딧은 이어서 쓰입니다.</td></tr>
     </table>
+    <h3>크레딧 계산 (서울, 24시간 켜 둘 때)</h3>
+    <table>
+      <tr><th>서버 t4g.small</th><td>시간당 $0.0208 → 월 약 $15.2 (2 vCPU, 메모리 2GB)</td></tr>
+      <tr><th>디스크 16GB</th><td>월 약 $1.5</td></tr>
+      <tr><th>공인 IPv4 주소</th><td>시간당 $0.005 → 월 약 $3.7 (서버가 인터넷에 나가는 데 씀)</td></tr>
+      <tr><th>합계</th><td><b>월 약 $20, 6개월 약 $122</b></td></tr>
+      <tr><th>크레딧</th><td>가입 $100 + 4단계 활동 두 가지 $40 = <b>$140</b> → 6개월 뒤 약 $18이 남습니다. 활동을 빠뜨리면 $100이 4.9개월쯤에 떨어집니다.</td></tr>
+    </table>
+    <p class="sub">2026년 10월 서울 리전 정가 기준입니다. 한 달에 $20 안팎씩 줄면 정상이고, 그보다 빨리 줄면 <a href="#help">문제 해결</a>을 봅니다.</p>
     <h3>날짜별로 할 일</h3>
     <table>
-      <tr><th>가입한 날</th><td>아래 1~10단계. 휴대폰 달력에 5개월 뒤 알림을 겁니다(3단계).</td></tr>
-      <tr><th>5개월 뒤</th><td>계속 쓸지 정합니다: 유료로 바꾸기, 그만두기, 집 PC로 옮기기(<a href="#after">6개월 뒤</a>).</td></tr>
+      <tr><th>가입한 날</th><td>아래 1~10단계. 휴대폰 달력에 매달 확인 알림과 4개월 뒤 알림을 겁니다(3단계).</td></tr>
+      <tr><th>매달</th><td>크레딧 잔액을 봅니다. 위 계산보다 많이 줄었으면 원인을 찾습니다.</td></tr>
+      <tr><th>4개월 뒤</th><td>계속 쓸지 정합니다: 유료로 바꾸기, 더 싼 곳으로 옮기기, 그만두기, 집 PC로 옮기기(<a href="#after">6개월 뒤</a>).</td></tr>
       <tr><th>6개월 뒤</th><td>바꾸지 않았다면 서버가 멈춥니다. 90일 안에는 복구할 수 있습니다.</td></tr>
     </table>
   </section>
 
   <section id="choose">
-    <h2>왜 Lightsail인가</h2>
-    <p>교사 한 명이 쓰기에 <b>쉽고, 요금이 예측되고, 서울에 있는</b> 것을 골랐습니다. 2026년 10월 각 회사 공식 페이지 기준입니다.</p>
+    <h2>왜 EC2 t4g.small인가</h2>
+    <p>교사 한 명이 <b>무료 플랜으로 6개월을 채울 수 있고, 서울에 있는</b> 것을 골랐습니다. 2026년 10월 각 회사 공식 페이지 기준입니다.</p>
     <table>
       <tr><th>선택지</th><td><b>요금</b></td><td><b>판단</b></td></tr>
-      <tr><th>AWS Lightsail 서울 (추천)</th><td>무료 플랜 6개월 $0, 그 뒤 월 $7: 메모리 1GB, 2 vCPU, SSD 40GB, 전송 2TB, IPv4 포함</td><td>화면이 단순하고 월정액입니다. AWS 문서에 무료 티어 크레딧으로 시작할 수 있다고 되어 있습니다.</td></tr>
-      <tr><th>AWS EC2</th><td>같은 크레딧으로 씀</td><td>되지만 보안 그룹, 키, 공인 IP 요금 등 챙길 것이 많습니다. 같은 일이면 Lightsail이 쉽습니다.</td></tr>
-      <tr><th>Oracle Cloud 무료</th><td>계속 무료: Arm 2코어, 메모리 12GB</td><td>사양은 가장 좋지만, 서울은 자리가 없어 만들기 실패가 잦다는 보고가 많고, 7일 동안 거의 놀면 회수될 수 있습니다(Claude Code 상주는 대부분 노는 시간). 가입과 화면도 어렵습니다.</td></tr>
+      <tr><th>EC2 t4g.small 서울 (추천)</th><td>무료 플랜에서 월 약 $20어치 크레딧</td><td>무료 플랜에서 고를 수 있는 2GB 서버 가운데 가장 쌉니다. Arm 칩이지만 Ubuntu, Claude Code, Tailscale 모두 지원합니다.</td></tr>
+      <tr><th>EC2 t3.small</th><td>월 약 $24어치</td><td>사양은 같고 값이 더 비싸, 6개월을 채우려면 크레딧 활동을 더 해야 합니다.</td></tr>
+      <tr><th>EC2 t4g.micro</th><td>월 약 $13어치</td><td>크레딧 걱정은 없지만 메모리가 1GB라 Claude Code에는 빠듯합니다.</td></tr>
+      <tr><th>EC2 c7i-flex.large</th><td>월 약 $75어치</td><td>메모리 4GB로 권장 사양을 채우지만, 크레딧이 두 달 만에 떨어집니다.</td></tr>
+      <tr><th>AWS Lightsail</th><td>월 $7(1GB)·$12(2GB) 월정액</td><td>더 쉽고 싸지만 <b>무료 플랜에서는 막혀 있습니다.</b> 유료로 바꾼 뒤 옮겨 갈 곳으로 좋습니다(<a href="#after">6개월 뒤</a>).</td></tr>
+      <tr><th>Oracle Cloud 무료</th><td>계속 무료: Arm 2코어, 메모리 12GB</td><td>사양은 가장 좋지만, 춘천 리전에는 이 서버가 없고 서울은 자리가 없어 만들기 실패가 잦다는 보고가 많습니다. 7일 동안 거의 놀면 회수될 수 있습니다(Claude Code 상주는 대부분 노는 시간). 가입과 화면도 어렵습니다.</td></tr>
       <tr><th>Google Cloud 무료</th><td>계속 무료: e2-micro 1대</td><td>미국 리전만 되고, 밖으로 나가는 전송이 월 1GB뿐이라 맞지 않습니다.</td></tr>
     </table>
   </section>
 
   <section id="steps">
     <h2>만드는 순서</h2>
-    <p>열 단계입니다. 각 단계 끝의 <b>확인</b>이 되면 다음으로 갑니다. 콘솔 화면의 글자와 순서는 AWS가 바꿀 수 있으니, 다르면 비슷한 이름을 찾거나 <a href="#ai">핸드오프 파일</a>을 AI에게 주고 화면을 설명해 함께 찾습니다.</p>
+    <p>열 단계입니다. 각 단계 끝의 <b>확인</b>이 되면 다음으로 갑니다. 콘솔 화면의 글자와 순서는 AWS가 바꿀 수 있으니, 다르면 비슷한 이름을 찾거나 <a href="#ai">핸드오프 파일</a>을 AI에게 주고 화면에 보이는 글자를 알려 함께 찾습니다.</p>
 
     <h3>1. AWS 가입 (무료 플랜)</h3>
     <ol class="steps">
@@ -98,7 +112,7 @@
       <li><b>결제 정보</b>에 개인 카드를 넣습니다. 본인 확인용으로 소액 승인이 잡혔다가 취소될 수 있습니다. 무료 플랜 동안에는 청구되지 않습니다.</li>
       <li><b>전화 인증</b>: 문자나 음성으로 온 숫자를 넣습니다.</li>
       <li>지원 플랜을 묻는다면 <b>기본 지원 - 무료</b>(Basic)를 고르고 가입을 마칩니다.</li>
-      <li><b>루트 사용자</b>로 콘솔에 로그인합니다. 오른쪽 위 언어를 <b>한국어</b>로 바꿔도 됩니다.</li>
+      <li><b>루트 사용자</b>로 콘솔에 로그인합니다. 오른쪽 위 톱니바퀴(설정)에서 언어를 <b>한국어</b>로 바꿔도 됩니다.</li>
     </ol>
     <p class="sub">확인: 콘솔 첫 화면이 열리고, <b>비용 및 사용량</b> 위젯(또는 결제 화면)에 크레딧 $100과 남은 날이 보입니다. 화면 순서는 바뀔 수 있습니다.</p>
 
@@ -112,49 +126,68 @@
     </ol>
     <p class="sub">확인: 로그아웃했다가 다시 로그인하면 비밀번호 다음에 6자리 숫자를 묻습니다.</p>
 
-    <h3>3. 남은 날 확인과 달력 알림</h3>
+    <h3>3. 크레딧 확인과 달력 알림</h3>
     <ol class="steps">
       <li>콘솔 첫 화면의 <b>비용 및 사용량</b> 위젯에서 크레딧 잔액과 무료 플랜 남은 날을 봅니다. 위젯이 안 보이면 위 검색창에 <b>Billing</b>을 넣어 결제 화면에서 봅니다.</li>
-      <li>휴대폰 달력에 <b>가입일 + 5개월</b> 날짜로 “AWS 계속 쓸지 정하기” 알림을 겁니다. 서버가 멈추기 한 달 전에 정할 시간을 줍니다.</li>
+      <li>휴대폰 달력에 두 가지 알림을 겁니다.
+        <table>
+          <tr><th>매달 가입한 날</th><td>“AWS 크레딧 확인”: 한 달에 $20 안팎씩 줄고 있는지</td></tr>
+          <tr><th>가입일 + 4개월</th><td>“AWS 계속 쓸지 정하기”: 크레딧 활동이 빠져 일찍 떨어지는 경우에도 정할 시간이 남습니다.</td></tr>
+        </table>
+      </li>
     </ol>
 
-    <h3>4. 예산 알림 만들기 (크레딧 $20 추가)</h3>
-    <p>무료 플랜 동안에는 청구가 없지만, 나중에 유료로 바꾼 뒤를 위한 안전장치입니다. AWS 크레딧 활동 가운데 하나라서, 만들면 크레딧이 더 쌓입니다.</p>
+    <h3>4. 크레딧 활동 두 가지 (+$40)</h3>
+    <p>이 서버로 6개월을 채우려면 꼭 해야 합니다. 콘솔 첫 화면의 <b>Explore AWS</b> 위젯에서 필터를 <b>Earn AWS credits</b>로 바꾸면 활동 목록이 나옵니다. 둘 다 몇 분이면 끝납니다.</p>
     <ol class="steps">
-      <li>콘솔 위 검색창에 <b>Budgets</b> → <b>예산 생성</b></li>
-      <li>템플릿 <b>월별 비용 예산</b>(Monthly cost budget)</li>
-      <li>예산 이름(예: monthly-15), 금액 <b>$15</b>, 알림 받을 이메일 → <b>예산 생성</b></li>
+      <li><b>예산 만들기</b>(AWS Budgets): 콘솔 위 검색창에 <b>Budgets</b> → <b>예산 생성</b> → 템플릿 <b>월별 비용 예산</b>(Monthly cost budget) → 이름(예: monthly-25), 금액 <b>$25</b>, 알림 받을 이메일 → <b>예산 생성</b>. 무료 플랜 동안에는 청구가 없지만, 나중에 유료로 바꾼 뒤를 위한 안전장치가 됩니다.</li>
+      <li><b>AI 놀이터 써 보기</b>(Amazon Bedrock playground): 검색창에 <b>Bedrock</b> → 왼쪽 메뉴 <b>플레이그라운드</b>(Playground)의 채팅 → 모델 고르기에서 <b>Amazon</b>의 <b>Nova</b> 모델(예: Nova Micro) → “안녕”이라고 넣고 실행. 답이 오면 끝입니다. 쓴 만큼(1센트 안팎) 크레딧에서 빠집니다. 다른 회사 모델은 사용 신청서를 먼저 내라고 할 수 있어 Amazon 모델을 씁니다.</li>
     </ol>
-    <p class="sub">확인: Budgets 목록에 예산이 하나 보입니다. 며칠 안에 크레딧이 늘었는지 3단계 위젯에서 봅니다. 콘솔 첫 화면에 다른 크레딧 활동도 안내되지만, 이 서버에는 필요 없습니다.</p>
+    <p class="sub">확인: Explore AWS 위젯에서 두 활동에 완료 표시가 나오고, 며칠 안에 크레딧이 $140이 됩니다. <b>EC2 활동은 이 서버로 하지 않습니다.</b> 그 안내는 끝에 서버를 지우는 데까지 갑니다. 다른 활동(Lambda, RDS)은 하지 않아도 됩니다.</p>
 
     <h3>5. 서버(인스턴스) 만들기</h3>
     <ol class="steps">
-      <li><a href="https://lightsail.aws.amazon.com/" target="_blank" rel="noopener">lightsail.aws.amazon.com</a>을 엽니다(콘솔 검색창에 Lightsail). 처음이면 언어와 안내 화면이 나오니 넘깁니다.</li>
-      <li><b>인스턴스 생성</b>(Create instance)</li>
-      <li>인스턴스 위치: <b>서울, 영역 A</b>(ap-northeast-2a). 다른 리전이 골라져 있으면 <b>AWS 리전 변경</b>으로 바꿉니다.</li>
-      <li>플랫폼 <b>Linux/Unix</b> → 블루프린트 <b>OS 전용</b> → <b>Ubuntu</b>(숫자가 가장 큰 LTS)</li>
-      <li>SSH 키 쌍, 자동 스냅샷 등 <b>선택 항목은 기본값 그대로</b> 둡니다.</li>
-      <li>네트워크 유형: <b>듀얼 스택</b>(IPv4 포함). IPv6 전용은 싸지만 학교·집 망에 따라 접속이 안 될 수 있습니다.</li>
-      <li>인스턴스 플랜: <b>$7 USD</b>(메모리 1GB, 2 vCPU, SSD 40GB)</li>
-      <li>이름: 알아보기 쉽게(예: <code>class-server</code>). 영어 소문자와 하이픈만 씁니다. → <b>인스턴스 생성</b></li>
+      <li>콘솔 위 검색창에 <b>EC2</b>. 오른쪽 위 리전이 <b>아시아 태평양(서울) ap-northeast-2</b>인지 보고, 아니면 바꿉니다.</li>
+      <li><b>인스턴스 시작</b>(Launch instance)을 누릅니다.</li>
+      <li><b>이름</b>: <code>class-server</code></li>
+      <li><b>애플리케이션 및 OS 이미지</b>: 빠른 시작 → <b>Ubuntu</b> → <b>Ubuntu Server 24.04 LTS</b>(“프리 티어 사용 가능” 표시) → 아키텍처 <b>64비트(Arm)</b></li>
+      <li><b>인스턴스 유형</b>: <b>t4g.small</b>(“프리 티어 사용 가능” 표시). 목록에서 안 보이면 4번의 아키텍처가 Arm인지 봅니다.</li>
+      <li><b>키 페어</b>: <b>새 키 페어 생성</b> → 이름 <code>class-key</code>, 유형 RSA, 형식 <code>.pem</code> → 생성. 받은 파일은 비상용입니다. 내 PC의 문서 폴더에 두고, 저장소에 올리거나 남에게 보내지 않습니다.</li>
+      <li><b>네트워크 설정</b> → <b>편집</b>:
+        <table>
+          <tr><th>퍼블릭 IP 자동 할당</th><td><b>활성화</b>(기본값). 서버가 인터넷으로 나가는 데 필요합니다.</td></tr>
+          <tr><th>방화벽(보안 그룹)</th><td><b>보안 그룹 생성</b>, 이름 <code>class-server-sg</code></td></tr>
+          <tr><th>인바운드 규칙 (SSH)</th><td>소스 유형 <b>사용자 지정</b> → 소스 칸에 <code>instance-connect</code>를 넣고 <code>com.amazonaws.ap-northeast-2.ec2-instance-connect</code>를 고릅니다. AWS 콘솔의 브라우저 연결만 들어오게 하는 설정입니다. 목록이 안 나오면 일단 <b>내 IP</b>로 두고 9단계에서 고칩니다. <b>위치 무관</b>(0.0.0.0/0)으로 두지 않습니다.</td></tr>
+          <tr><th>HTTP, HTTPS 허용</th><td>켜지 않습니다.</td></tr>
+        </table>
+      </li>
+      <li><b>스토리지 구성</b>: <b>16</b> GiB, <b>gp3</b></li>
+      <li><b>고급 세부 정보</b>를 펼칩니다.
+        <table>
+          <tr><th>종료 방지</th><td><b>활성화</b>. 실수로 서버를 지우지 않게 막습니다.</td></tr>
+          <tr><th>크레딧 사양</th><td><b>표준</b>(Standard). 무제한(Unlimited)으로 두면 계산이 오래 몰릴 때 크레딧이 더 빠집니다.</td></tr>
+        </table>
+        나머지는 기본값 그대로 둡니다.</li>
+      <li>오른쪽 요약에서 인스턴스 수 <b>1</b>을 보고 <b>인스턴스 시작</b>.</li>
     </ol>
-    <p class="sub">확인: 1~2분 뒤 인스턴스 카드의 상태가 <b>실행 중</b>(Running)이 됩니다. <b>인스턴스는 “중지”해도 크레딧(요금)이 나갑니다.</b> 쓰지 않을 때는 지워야 멈춥니다.</p>
+    <p class="sub">확인: <b>인스턴스</b> 목록에서 <code>class-server</code>의 상태가 <b>실행 중</b>, 상태 검사가 모두 통과(예: <b>3/3개 검사 통과</b>)가 됩니다(2~3분). 무료 플랜이라 “프리 티어 사용 가능” 표시가 없는 크기를 고르면 막힙니다. <b>탄력적 IP</b>(Elastic IP)는 만들지 않습니다. 서버에 붙이지 않고 두면 그것만으로 크레딧이 빠집니다.</p>
 
     <h3>6. 처음 들어가서 기본 설정</h3>
-    <p>인스턴스 카드의 <b>터미널 모양 아이콘</b>(또는 이름을 누르고 <b>SSH를 사용하여 연결</b>)을 누르면 브라우저에 글자 창이 열립니다. 아래 상자를 하나씩 붙여 넣고 Enter를 누릅니다. 붙여넣기가 안 되면 <b>Ctrl+Shift+V</b>나 마우스 오른쪽 단추를 씁니다.</p>
-    <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Lightsail 브라우저 SSH</span></div><div class="term"><span class="p">ubuntu@ip-172-26-0-10:~$</span> <span class="t">▌</span></div></div>
+    <p>인스턴스 목록에서 <code>class-server</code>를 고르고 위의 <b>연결</b> → <b>EC2 인스턴스 연결</b>(EC2 Instance Connect) 탭 → 사용자 이름 <code>ubuntu</code> → <b>연결</b>. 브라우저 새 탭에 글자 창이 열립니다. 아래 상자를 하나씩 붙여 넣고 Enter를 누릅니다. 붙여넣기가 안 되면 <b>Ctrl+Shift+V</b>나 마우스 오른쪽 단추를 씁니다.</p>
+    <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">EC2 Instance Connect</span></div><div class="term"><span class="p">ubuntu@ip-172-31-0-10:~$</span> <span class="t">▌</span></div></div>
     <p class="cap"><code>ubuntu@…:~$</code> 가 명령을 넣는 자리입니다. 사용자 이름은 <code>ubuntu</code>입니다.</p>
 <pre><code># ① 프로그램을 최신으로 (3~5분, 보라색 화면이 나오면 Enter)
 sudo apt update && sudo apt upgrade -y</code></pre>
-<pre><code># ② 시계를 한국 시간으로
-sudo timedatectl set-timezone Asia/Seoul</code></pre>
+<pre><code># ② 시계를 한국 시간으로, 서버 이름을 class-server로
+sudo timedatectl set-timezone Asia/Seoul
+sudo hostnamectl set-hostname class-server</code></pre>
 <pre><code># ③ 메모리가 모자랄 때 쓸 예비 공간(스왑) 2GB
 sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile
 sudo mkswap /swapfile && sudo swapon /swapfile
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab</code></pre>
 <pre><code># ④ 창을 닫아도 일이 계속되게 하는 tmux
 sudo apt install -y tmux</code></pre>
-    <p class="sub">확인: <code>date</code>에 KST가, <code>free -h</code>의 Swap 줄에 2.0Gi가 보입니다. <code>#</code>으로 시작하는 줄은 설명이라 같이 붙여도 됩니다.</p>
+    <p class="sub">확인: <code>date</code>에 KST가, <code>free -h</code>의 Swap 줄에 2.0Gi가, <code>hostname</code>에 class-server가 보입니다. <code>#</code>으로 시작하는 줄은 설명이라 같이 붙여도 됩니다. ①이 끝나고 “재시작이 필요하다”(restart required)는 글이 보이면 <code>sudo reboot</code> 뒤 1분 기다려 다시 연결합니다.</p>
 
     <h3>7. Claude Code 설치와 로그인</h3>
 <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
@@ -166,92 +199,99 @@ sudo apt install -y tmux</code></pre>
       <li>브라우저에 나온 <b>코드</b>를 복사해 서버 창의 <code>Paste code here</code> 뒤에 붙여 넣고 Enter. <b>Login successful</b>이 나오면 됩니다.</li>
       <li>폴더를 믿느냐고 물으면 <b>Yes</b>. “안녕”이라고 쳐서 답이 오면 <code>/exit</code>로 닫습니다.</li>
     </ol>
-    <p class="sub">로그인 화면은 <a href="../claude-code/#login">Claude Code 설치와 로그인</a>의 그림과 같습니다.</p>
+    <p class="sub">로그인 화면은 <a href="../claude-code/#login">Claude Code 설치와 로그인</a>의 그림과 같습니다. Claude 구독(Pro 또는 Max)이 있어야 합니다.</p>
 
     <h3>8. Tailscale 연결</h3>
 <pre><code>curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up --ssh</code></pre>
     <ol class="steps">
       <li>두 번째 줄을 넣으면 <code>To authenticate, visit:</code> 뒤에 주소가 나옵니다. 내 PC 브라우저에서 열어 로그인합니다(구글 계정 등). Tailscale이 처음이면 이때 계정이 만들어집니다. 개인용은 무료입니다.</li>
-      <li>서버 창에 <code>Success.</code>가 나오면 서버 쪽은 끝입니다.</li>
+      <li>서버 창에 <code>Success.</code>가 나오면 서버 쪽은 끝입니다. 서버가 다시 켜져도 Tailscale은 저절로 이어집니다.</li>
       <li>내가 쓸 기기마다 <a href="https://tailscale.com/download" target="_blank" rel="noopener">Tailscale 앱</a>을 깔고 <b>같은 계정</b>으로 로그인합니다.
         <table>
           <tr><th>Windows·Mac</th><td>앱 설치 → 작업 표시줄(메뉴 막대)의 Tailscale 아이콘 → 로그인</td></tr>
           <tr><th>아이폰·안드로이드</th><td>앱 설치 → 로그인 → VPN 구성 허용. SSH 앱은 <b>Termius</b> 등을 따로 깝니다.</td></tr>
         </table>
       </li>
-      <li><a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener">관리 화면</a>에서 서버 이름(예: <code>class-server</code>)을 확인합니다.</li>
-      <li>PC의 PowerShell(또는 터미널)에서 접속합니다. 처음이면 브라우저에서 한 번 더 확인하라는 창이 뜰 수 있습니다. 지문(fingerprint)을 믿느냐고 물으면 <code>yes</code>.
+      <li><a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener">관리 화면</a>에서 서버 이름 <code>class-server</code>가 보이는지 확인합니다.</li>
+      <li>PC의 PowerShell(또는 터미널)에서 접속합니다. 처음이면 브라우저에서 한 번 더 확인하라는 주소가 뜰 수 있습니다. 지문(fingerprint)을 믿느냐고 물으면 <code>yes</code>.
 <pre><code>ssh ubuntu@class-server</code></pre></li>
-      <li>휴대폰 Termius: 새 호스트 → 주소에 서버 이름(안 되면 관리 화면의 <code>100.</code>으로 시작하는 주소), 사용자 이름 <code>ubuntu</code> → 저장 → 연결.</li>
+      <li>휴대폰 Termius: 새 호스트 → 주소에 <code>class-server</code>(안 되면 관리 화면의 <code>100.</code>으로 시작하는 주소), 사용자 이름 <code>ubuntu</code> → 저장 → 연결.</li>
     </ol>
-    <p class="sub">확인: 내 PC에서 <code>ssh ubuntu@서버이름</code>으로 들어가 <code>hostname</code>이 보입니다. <b>이 확인이 끝나야 9단계로 갑니다.</b> 9단계에서 바깥 문을 닫으면 Tailscale이 유일한 길이 되기 때문입니다.</p>
+    <p class="sub">확인: 내 PC에서 <code>ssh ubuntu@class-server</code>로 들어가 <code>hostname</code>이 보입니다. <b>이 확인이 끝나야 9단계로 갑니다.</b></p>
 
-    <h3>9. 바깥 문 닫기</h3>
-    <p>Lightsail은 처음에 SSH(22)와 HTTP(80) 문을 <b>모든 주소에</b> 열어 둡니다. Tailscale로 들어가게 됐으니 닫습니다. Tailscale은 서버가 밖으로 나가는 연결만 쓰므로 문을 닫아도 됩니다.</p>
+    <h3>9. 바깥 문 점검</h3>
+    <p>Tailscale은 서버가 밖으로 나가는 연결만 쓰므로, 들어오는 문은 없어도 됩니다. 남겨 둘 문은 AWS 콘솔의 브라우저 연결(6단계) 하나뿐입니다. 이 문은 AWS 콘솔에 로그인(비밀번호 + MFA)해야만 쓸 수 있습니다.</p>
     <ol class="steps">
-      <li>인스턴스 이름 → <b>네트워킹</b> 탭 → <b>IPv4 방화벽</b></li>
-      <li><b>HTTP(80)</b> 줄 끝의 휴지통을 눌러 지웁니다.</li>
-      <li><b>SSH(22)</b> 줄의 연필(편집) → <b>IP 주소로 제한</b>을 켜고 <b>Lightsail 브라우저 SSH/RDP 허용</b>만 남깁니다 → 저장. 이 선택지가 보이지 않으면 SSH 줄도 지웁니다(브라우저 연결이 필요할 때 잠깐 다시 추가하면 됩니다).</li>
-      <li>아래 <b>IPv6 방화벽</b>에서도 똑같이 합니다. 두 방화벽은 따로 움직입니다.</li>
+      <li>인스턴스 목록에서 <code>class-server</code> → 아래 <b>보안</b> 탭 → 보안 그룹 이름(<code>class-server-sg</code>)을 누릅니다.</li>
+      <li><b>인바운드 규칙</b> 탭에 규칙이 <b>SSH 하나</b>이고, 소스가 <code>pl-</code>로 시작하는 것(EC2 Instance Connect 목록)인지 봅니다.</li>
+      <li>소스가 <code>0.0.0.0/0</code>, <code>::/0</code> 또는 내 IP라면 <b>인바운드 규칙 편집</b> → 그 줄의 소스를 지우고 <code>instance-connect</code>를 넣어 <code>com.amazonaws.ap-northeast-2.ec2-instance-connect</code>로 바꿉니다 → <b>규칙 저장</b>. 다른 규칙(HTTP 등)이 있으면 <b>삭제</b>합니다.</li>
+      <li>더 엄격하게 하려면 SSH 규칙까지 지워 들어오는 문을 0개로 둡니다. 그러면 콘솔 브라우저 연결은 안 되고, 필요할 때 위 규칙을 잠깐 다시 추가합니다.</li>
     </ol>
-    <p class="sub">확인: 내 PC에서 <code>ssh ubuntu@서버이름</code>(Tailscale)이 여전히 됩니다. 두 방화벽 어디에도 “모든 IP 주소”(Any IPv4/IPv6 address)인 줄이 남아 있지 않습니다. 같은 문에 규칙이 여럿이면 가장 넓은 규칙이 이기므로 하나라도 남으면 열린 것입니다.</p>
+    <p class="sub">확인: 내 PC에서 <code>ssh ubuntu@class-server</code>(Tailscale)가 여전히 되고, 인바운드 규칙에 <code>0.0.0.0/0</code>이나 <code>::/0</code>인 줄이 없습니다. <b>아웃바운드 규칙</b>은 그대로 둡니다. 서버가 밖으로 나가는 길이라 지우면 Tailscale도 끊깁니다.</p>
 
     <h3>10. 백업 (선택)</h3>
-    <p>인스턴스 이름 → <b>스냅샷</b> 탭 → <b>자동 스냅샷</b>을 켜면 매일 서버 전체를 저장합니다. 쓰는 용량 GB당 월 $0.05가 크레딧에서 빠집니다(대략 월 $1 안팎). 중요한 파일만 GitHub 비공개 저장소에 올려 두는 방법도 있습니다.</p>
+    <p>중요한 파일은 GitHub 비공개 저장소에 올려 두는 것이 가장 쉽습니다(<a href="#use">쓰기</a>). 서버 전체를 저장하려면 인스턴스 → <b>스토리지</b> 탭 → 볼륨 ID → <b>작업</b> → <b>스냅샷 생성</b>. 스냅샷은 GB당 월 $0.05가 크레딧에서 빠지므로(16GB면 많아야 월 $0.8), 큰 작업 전에 하나 만들고 오래된 것은 지웁니다.</p>
   </section>
 
   <section id="use">
     <h2>쓰기</h2>
     <h3>어느 기기에서든 같은 작업실로</h3>
     <table>
-      <tr><th>들어가기</th><td><code>ssh ubuntu@서버이름</code></td></tr>
+      <tr><th>들어가기</th><td><code>ssh ubuntu@class-server</code></td></tr>
       <tr><th>방 만들기</th><td><code>tmux new -s work</code> → 그 안에서 <code>claude</code> → 일을 맡깁니다.</td></tr>
       <tr><th>빠져나오기</th><td><b>Ctrl+b</b>를 누르고 손을 뗀 뒤 <b>d</b>. 접속을 끊어도 일은 계속됩니다.</td></tr>
-      <tr><th>다른 기기에서 이어서</th><td><code>ssh ubuntu@서버이름</code> → <code>tmux attach -t work</code>. 학교에서 맡긴 일을 집이나 휴대폰에서 그대로 봅니다.</td></tr>
+      <tr><th>다른 기기에서 이어서</th><td><code>ssh ubuntu@class-server</code> → <code>tmux attach -t work</code>. 학교에서 맡긴 일을 집이나 휴대폰에서 그대로 봅니다.</td></tr>
       <tr><th>방 목록</th><td><code>tmux ls</code></td></tr>
     </table>
+    <p class="sub">메모리가 2GB라 Claude Code는 한 번에 하나씩 돌리는 것이 기본입니다. 길게 맡길 때는 권한 질문에서 멈춰 기다릴 수 있으니, 무엇을 허락할지 미리 정해 둡니다.</p>
     <h3>파일 주고받기</h3>
-    <p>서버의 작업 폴더를 GitHub 저장소로 만들어 두고, 서버와 내 PC에서 각각 가져오고 올리는 것이 가장 쉽습니다. Claude Code에게 “이 폴더를 내 GitHub 비공개 저장소로 올려 줘”라고 맡기면 됩니다. 한두 파일이면 내 PC에서 <code>scp ubuntu@서버이름:~/폴더/파일 .</code> 처럼 바로 받아도 됩니다.</p>
+    <p>서버의 작업 폴더를 GitHub 저장소로 만들어 두고, 서버와 내 PC에서 각각 가져오고 올리는 것이 가장 쉽습니다. Claude Code에게 “이 폴더를 내 GitHub 비공개 저장소로 올려 줘”라고 맡기면 됩니다. 한두 파일이면 내 PC에서 <code>scp ubuntu@class-server:~/폴더/파일 .</code> 처럼 바로 받아도 됩니다.</p>
     <h3>기기 관리</h3>
     <ul>
       <li>새 기기는 Tailscale 앱을 깔고 같은 계정으로 로그인하면 끝입니다.</li>
       <li>기기를 잃어버리거나 학교 PC를 바꾸면 <a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener">관리 화면</a>에서 그 기기를 <b>제거</b>합니다. 바로 못 들어오게 됩니다.</li>
       <li>공용 PC에는 Tailscale을 깔지 않습니다. 같은 계정으로 로그인한 기기는 모두 서버에 들어올 수 있기 때문입니다.</li>
     </ul>
+    <h3>쉬게 하기</h3>
+    <p>방학처럼 오래 안 쓸 때는 인스턴스 → <b>인스턴스 상태</b> → <b>인스턴스 중지</b>. 서버 값과 공인 IPv4 값이 멈추고 디스크 값(월 약 $1.5)만 나갑니다. 다시 쓸 때 <b>인스턴스 시작</b>을 누르면 Tailscale이 저절로 이어집니다. 공인 IP 주소는 바뀌지만 Tailscale로 들어가므로 상관없습니다.</p>
     <h3>정해진 시각에 돌리기, 점검</h3>
-    <p>cron과 한 달 점검은 <a href="../homeserver/#part2">집 PC를 서버로</a>의 7·8단계와 같습니다. 우분투의 보안 패치는 저절로 깔리므로, 한 달에 한 번 <code>sudo apt update &amp;&amp; sudo apt upgrade -y</code>를 넣고, 맡긴 일이 없을 때 필요하면 <code>sudo reboot</code>합니다.</p>
+    <p>cron과 한 달 점검은 <a href="../homeserver/#part2">집 PC를 서버로</a>의 7·8단계와 같습니다. 우분투의 보안 패치는 저절로 깔리므로, 한 달에 한 번 <code>sudo apt update &amp;&amp; sudo apt upgrade -y</code>를 넣고, 맡긴 일이 없을 때 필요하면 <code>sudo reboot</code>합니다. 같은 날 크레딧 잔액도 봅니다.</p>
   </section>
 
   <section id="after">
-    <h2>6개월 뒤: 세 가지 길</h2>
-    <p>3단계에서 걸어 둔 달력 알림(5개월 뒤)이 오면 아래 가운데 하나를 고릅니다.</p>
+    <h2>6개월 뒤: 네 가지 길</h2>
+    <p>3단계에서 걸어 둔 달력 알림(4개월 뒤)이 오면 아래 가운데 하나를 고릅니다.</p>
     <table>
-      <tr><th>계속 쓰기</th><td>
+      <tr><th>그대로 계속 쓰기</th><td>
         <ol>
           <li>콘솔에 로그인 → <a href="https://console.aws.amazon.com/billing/home?#/freetier/upgrade" target="_blank" rel="noopener">플랜 업그레이드</a>(콘솔 첫 화면이나 결제 화면에도 버튼이 있습니다)</li>
           <li>얻는 기능을 확인하고 <b>계정 업그레이드</b>를 누릅니다. 계정과 서버는 그대로이고, 남은 크레딧은 이어서 쓰입니다.</li>
-          <li>크레딧이 다 떨어진 달부터 월 $7(부가세 별도)이 카드로 청구됩니다. 4단계의 예산 알림이 이제부터 일합니다.</li>
+          <li>크레딧이 다 떨어진 달부터 월 약 $20(부가세 별도)이 카드로 청구됩니다. 4단계의 예산 알림($25)이 이제부터 일합니다.</li>
         </ol>
       </td></tr>
+      <tr><th>더 싸게 옮기기</th><td>유료로 바꾸면 <b>Lightsail</b>을 쓸 수 있습니다. 2GB 서버가 월 $12 월정액(공인 IPv4 포함)이라 EC2보다 쌉니다. 파일을 GitHub에 올린 뒤, <a href="#ai">핸드오프 파일</a>을 AI에게 주고 “Lightsail 서울 $12 번들로 같은 구성을 새로 만들고 싶다”고 하면 Lightsail 화면에 맞춰 안내합니다. 새 서버가 되면 아래 “그만두기”로 EC2를 지웁니다.</td></tr>
       <tr><th>그만두기</th><td>
         <ol>
           <li>남길 파일을 GitHub이나 내 PC로 옮깁니다.</li>
-          <li>Lightsail에서 <b>인스턴스 삭제</b>, 스냅샷 탭의 스냅샷도 삭제합니다.</li>
-          <li>무료 플랜은 유료로 바꾸지 않는 한 청구되지 않으므로, 이대로 두면 6개월째에 계정이 정지되고 90일 뒤 지워집니다.</li>
+          <li>인스턴스 → <b>작업</b> → <b>인스턴스 설정</b> → <b>종료 방지 변경</b>에서 끕니다.</li>
+          <li><b>인스턴스 상태</b> → <b>인스턴스 종료(삭제)</b>. 디스크도 함께 지워집니다. 만든 스냅샷이 있으면 <b>스냅샷</b> 메뉴에서 지웁니다.</li>
+          <li>무료 플랜은 유료로 바꾸지 않는 한 청구되지 않으므로, 이대로 두면 6개월째에 계정이 닫히고 90일 뒤 지워집니다.</li>
         </ol>
       </td></tr>
       <tr><th>집 PC로 옮기기</th><td>파일을 GitHub으로 옮긴 뒤 <a href="../homeserver/">집 PC를 서버로</a>의 2부를 따라 하고, 위 “그만두기”를 합니다. Tailscale 계정은 그대로 씁니다.</td></tr>
-      <tr><th>놓쳤을 때</th><td>서버가 멈췄다면 <b>만료 통보 뒤 90일 안에</b> 콘솔에 로그인해 유료로 바꾸면 계정과 서버가 돌아옵니다.</td></tr>
+      <tr><th>놓쳤을 때</th><td>서버가 멈췄다면 <b>90일 안에</b> 콘솔에 로그인해 유료로 바꾸면 계정과 서버가 돌아옵니다.</td></tr>
     </table>
   </section>
 
   <section id="help">
     <h2>문제 해결</h2>
-    <details><summary>ssh가 안 됩니다</summary><div>Lightsail 콘솔에서 인스턴스가 <b>실행 중</b>인지, 내 기기의 Tailscale 앱이 켜져 있는지 봅니다. 9단계에서 브라우저 SSH를 남겼다면 터미널 아이콘으로 들어가 <code>tailscale status</code>를 봅니다. SSH 규칙을 지웠다면 SSH 규칙을 잠깐 다시 추가해 브라우저로 들어간 뒤 고치고, 다시 지웁니다.</div></details>
-    <details><summary>Lightsail에서 “무료 플랜에서는 쓸 수 없다”는 안내가 나옵니다</summary><div>AWS 문서에는 Lightsail을 무료 티어 크레딧으로 시작할 수 있다고 되어 있지만, 화면이 업그레이드를 요구하면 그 안내를 따라 유료로 바꿔야 합니다. 바꾸면 남은 크레딧이 먼저 쓰이고, 크레딧이 떨어진 뒤부터 월 $7이 청구됩니다. 바로 바꾸고 싶지 않다면 <a href="../homeserver/">집 PC를 서버로</a>를 먼저 해 봅니다.</div></details>
-    <details><summary>서버가 느리거나 Claude Code가 갑자기 꺼집니다</summary><div>메모리가 모자란 것일 수 있습니다. <code>free -h</code>를 봅니다. 동시에 돌리는 Claude Code 수를 줄이거나, 더 큰 번들로 옮깁니다: <b>스냅샷</b> 탭에서 수동 스냅샷을 만들고 → 그 스냅샷의 메뉴에서 <b>새 인스턴스 생성</b>을 골라 $12(2GB)를 고른 뒤 → 새 서버에서 Tailscale이 되는지 확인하고(8단계 두 번째 줄을 다시 넣어야 할 수 있음) → 예전 인스턴스와 스냅샷을 지웁니다. 서버 값이 두 배가 되어도 6개월 동안은 크레딧 안에 들어갑니다($12×6 = $72).</div></details>
-    <details><summary>크레딧이 예상보다 빨리 줄어듭니다</summary><div>Lightsail에 모르는 인스턴스가 있는지, 지우지 않은 스냅샷이나 다른 리전의 서버가 있는지 봅니다(Lightsail 첫 화면 위의 리전 표시). 모르는 것이 있으면 계정을 빼앗긴 것일 수 있으니 바로 비밀번호를 바꾸고 AWS 지원(Support)에 알립니다.</div></details>
+    <details><summary>ssh가 안 됩니다</summary><div>EC2 콘솔에서 인스턴스가 <b>실행 중</b>인지, 내 기기의 Tailscale 앱이 켜져 있는지 봅니다. 그다음 6단계처럼 콘솔의 <b>EC2 인스턴스 연결</b>로 들어가 <code>tailscale status</code>를 봅니다. 로그아웃되어 있으면 <code>sudo tailscale up --ssh</code>를 다시 넣습니다.</div></details>
+    <details><summary>콘솔의 “EC2 인스턴스 연결”이 실패합니다</summary><div>보안 그룹의 SSH 규칙 소스가 <code>com.amazonaws.ap-northeast-2.ec2-instance-connect</code>인지 봅니다(9단계). 내 IP로 되어 있으면 콘솔 연결은 막힙니다. 9단계에서 SSH 규칙을 지웠다면 그 규칙을 다시 추가합니다. 학교 망이 연결을 막을 수도 있으니 휴대폰 핫스팟으로도 해 봅니다.</div></details>
+    <details><summary>인스턴스 유형 t4g.small이 안 보이거나 시작이 막힙니다</summary><div>5단계 4번의 아키텍처가 <b>64비트(Arm)</b>인지 봅니다. t4g는 Arm용이라 x86 이미지와 같이 고를 수 없습니다. 그래도 막히면 아키텍처를 <b>64비트(x86)</b>로 바꾸고 <b>t3.small</b>을 고릅니다. 월 약 $24어치라 6개월을 채우려면 크레딧 활동을 하나 더(Lambda) 합니다.</div></details>
+    <details><summary>서버가 느리거나 Claude Code가 갑자기 꺼집니다</summary><div>메모리가 모자란 것일 수 있습니다. <code>free -h</code>를 봅니다. 동시에 돌리는 Claude Code를 하나로 줄이고, 쓰지 않는 tmux 방은 닫습니다(<code>tmux kill-session -t 이름</code>). 무료 플랜에서 더 큰 크기(c7i-flex.large, 4GB)로 바꾸면 크레딧이 두 달 만에 떨어지므로 권하지 않습니다.</div></details>
+    <details><summary>크레딧이 예상보다 빨리 줄어듭니다</summary><div>결제 화면의 <b>청구서</b>(Bills)에서 어느 서비스가 크레딧을 썼는지 봅니다. 흔한 원인: 붙이지 않은 탄력적 IP, 지우지 않은 스냅샷, 다른 리전의 서버(콘솔 위 리전을 바꿔 가며 EC2 인스턴스 확인), 크레딧 사양이 무제한인 경우. 모르는 서버가 있으면 계정을 빼앗긴 것일 수 있으니 바로 비밀번호를 바꾸고 AWS 지원(Support)에 알립니다.</div></details>
+    <details><summary>크레딧 활동을 했는데 크레딧이 늘지 않았습니다</summary><div>며칠 걸릴 수 있습니다. 일주일이 지나도 그대로면 Explore AWS 위젯에서 그 활동이 완료로 나오는지 봅니다. 늘지 않은 채라면 크레딧이 4.9개월쯤 떨어지므로, 4개월 알림 때 유료로 바꾸거나 옮길 곳을 정합니다.</div></details>
     <details><summary>재시작한 뒤 맡긴 일이 사라졌습니다</summary><div>재시작하면 tmux 방도 사라집니다. 일을 맡기기 전에 결과를 파일로 남기게 하고, 업데이트 뒤 재시작은 맡긴 일이 없을 때 합니다.</div></details>
     <details><summary>Oracle 무료로 해 보고 싶습니다</summary><div>핸드오프 파일을 AI에게 주고 “Oracle Cloud Always Free로 같은 구성을 만들고 싶다”고 하면, 같은 규칙(문 닫기, Tailscale만)으로 안내합니다. 서울에서 만들기가 실패하면 시간을 두고 다시 시도해야 하고, 놀고 있는 서버는 회수될 수 있다는 점을 알고 시작합니다.</div></details>
   </section>
@@ -262,7 +302,7 @@ sudo tailscale up --ssh</code></pre>
 <pre><code>이 HANDOFF.md를 읽고, 3절의 질문부터 하나씩 물어봐 줘.
 그다음 1단계부터 한 단계씩 같이 하자. 명령은 실행 전에 무엇을 하는지 먼저 설명해 줘.</code></pre>
     <p><a class="btn" href="../downloads/cloudserver-HANDOFF.md" download="HANDOFF.md">핸드오프 파일 받기</a></p>
-    <p class="sub">무료 플랜 조건과 요금은 2026년 10월에 AWS(<a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html" target="_blank" rel="noopener">플랜 고르기</a>, <a href="https://aws.amazon.com/free/terms/" target="_blank" rel="noopener">무료 티어 약관</a>, <a href="https://aws.amazon.com/lightsail/pricing/" target="_blank" rel="noopener">Lightsail 요금</a>), Oracle, Google 공식 페이지에서 확인했습니다. 바뀔 수 있으니 가입 전에 한 번 봅니다.</p>
+    <p class="sub">무료 플랜 조건과 요금은 2026년 10월에 AWS 공식 문서(<a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html" target="_blank" rel="noopener">플랜 고르기</a>, <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans-activities.html" target="_blank" rel="noopener">크레딧 활동</a>, <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-free-tier-usage.html" target="_blank" rel="noopener">EC2 프리 티어</a>, <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-prerequisites.html" target="_blank" rel="noopener">EC2 Instance Connect</a>, <a href="https://aws.amazon.com/free/terms/" target="_blank" rel="noopener">무료 티어 약관</a>)와 서울 리전 정가표, Oracle, Google 공식 페이지에서 확인했습니다. 바뀔 수 있으니 가입 전에 한 번 봅니다.</p>
   </section>
 </main>
 

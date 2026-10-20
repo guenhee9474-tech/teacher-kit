@@ -40,7 +40,7 @@
 
 ## 4. 전체 구조
 
-연수에서 배운 네 층 가운데 집 PC가 맡는 것은 백엔드의 일부뿐입니다.
+연수(실습 페이지)에서 다룬 네 층 가운데 집 PC가 맡는 것은 백엔드의 일부뿐입니다.
 
 | 층 | 연수에서 | 집 서버를 쓰면 |
 |---|---|---|
@@ -82,6 +82,7 @@
 
 ### 4단계. 우분투 설치 (WSL)
 - PowerShell(관리자): `wsl --install` → 재시작 → 우분투 사용자 이름과 비밀번호 정하기.
+- systemd 확인: `systemctl is-system-running` → `running`/`degraded`면 됨. `System has not been booted with systemd`면 `printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf` → PowerShell `wsl --shutdown` → 우분투 다시 열기. (5단계 Tailscale이 systemd를 씀)
 - 우분투 안에 Claude Code: `curl -fsSL https://claude.ai/install.sh | bash`
 - **우분투가 계속 켜져 있게:** WSL은 열린 창이 없으면 잠시 뒤 멈춘다.
   작업 스케줄러 → 작업 만들기 → 트리거 "로그온할 때" → 동작 "프로그램 시작": 프로그램 `wsl.exe`, 인수 `-d Ubuntu --exec sleep infinity`.

@@ -17,7 +17,7 @@
 <main class="in doc">
   <div class="head" style="padding-bottom:0">
     <h1>Claude Code 설치와 로그인</h1>
-    <p class="lead">Claude 유료 구독(Pro 또는 Max)으로 쓰는 코딩 도구입니다. API 키는 필요 없습니다. 10분이면 됩니다.</p>
+    <p class="lead">Claude 유료 구독(Pro 또는 Max)으로 쓰는 코딩 도구입니다. API 키는 필요 없습니다. 보통 10분이면 되고, 학교 망에서는 더 걸릴 수 있습니다.</p>
   </div>
 
   <section id="quick">
@@ -28,8 +28,9 @@ irm https://claude.ai/install.ps1 | iex</code></pre>
 <pre><code># 2) 로그인: 아래를 넣고, 로그인 방법 1번을 고르고, 브라우저에서 승인
 claude</code></pre>
     <details><summary>Mac에서는</summary><div>
-<pre><code>curl -fsSL https://claude.ai/install.sh | bash
-claude</code></pre>
+<p>터미널(응용 프로그램 → 유틸리티 → 터미널)에 아래 줄을 넣습니다. 끝나면 터미널을 닫고 새로 연 뒤 <code>claude --version</code> 으로 숫자가 나오는지 봅니다. <code>command not found: claude</code> 가 나오면 설치 화면 끝에 나온 PATH 안내 줄을 그대로 넣고 터미널을 다시 엽니다.</p>
+<pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+    <p>숫자가 나오면 <code>claude</code> 를 넣고 <a href="#login">2. 구독 계정으로 로그인</a>을 따라 합니다.</p>
     </div></details>
     <p><code>claude</code>를 켜고 “안녕”이라고 쳤을 때 답이 오면 끝입니다. <code>/exit</code> 로 닫습니다.</p>
     <p class="sub">학교 망에서는 설치가 막힐 수 있어 집에서 하는 것을 권합니다. 계속 안 되면 <a href="../webchat/">웹 채팅</a>으로 먼저 해 봅니다.</p>
@@ -88,7 +89,8 @@ irm https://claude.ai/install.ps1 | iex</code></pre></li>
       <p>어느 방법으로 설치했든 <b>PowerShell 창을 닫고 새로 연 뒤</b> <code>claude --version</code> 으로 숫자가 나오는지 확인합니다. 설치 상태를 자세히 보려면 <code>claude doctor</code> 를 넣습니다.</p>
     </div></details>
     <details><summary>빨간 글씨로 오류가 나오고 설치가 안 됩니다</summary><div>
-      <p>학교 망이나 보안 프로그램이 내려받기를 막은 경우가 많습니다. 집이나 휴대폰 핫스팟에서 다시 해 보세요. <code>irm</code> 이라는 말을 모른다고 나오면 PowerShell이 아니라 명령 프롬프트에 넣은 것입니다.</p>
+      <p>학교 망이나 보안 프로그램이 내려받기를 막은 경우가 많습니다. 집이나 휴대폰 핫스팟에서 다시 해 보세요. <code>irm</code> 이라는 말을 모른다고 나오면 PowerShell이 아니라 명령 프롬프트(cmd)에 넣은 것입니다. PowerShell을 새로 열어 다시 넣거나, 명령 프롬프트 그대로 아래 줄을 넣습니다.</p>
+<pre><code>curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</code></pre>
     </div></details>
   </section>
 
@@ -130,7 +132,7 @@ irm https://claude.ai/install.ps1 | iex</code></pre></li>
         <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> <span class="ok">Login successful.</span> Press Enter to continue…
  <span class="dim">Logged in as 내메일@example.com</span></div></div>
       </li>
-      <li>마지막으로 <b>이 폴더를 믿느냐</b>고 묻습니다. 내가 만든 폴더나 이 사이트에서 받은 폴더라면 <b>Yes, I trust this folder</b> 에서 Enter를 누릅니다.
+      <li>마지막으로 <b>이 폴더를 믿느냐</b>고 묻습니다. 지금은 내 사용자 폴더에서 켰으니 <b>Yes, I trust this folder</b> 에서 Enter를 눌러도 됩니다. 나중에는 내가 만든 폴더나 이 사이트에서 받은 폴더에서만 Yes를 고릅니다.
         <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell</span></div><div class="term"> Quick safety check: Is this a project you created or one you trust?
 
  <span class="sel">❯ 1. Yes, I trust this folder</span>

@@ -24,7 +24,7 @@
 
   <section id="agy">
     <h2>설치와 로그인</h2>
-    <p>Gemini를 만든 Google의 코딩 도구입니다. Claude Code와 같은 일을 하고, 개인 구글 계정으로 로그인합니다. Claude Code를 설치했다면 이 페이지는 건너뜁니다.</p>
+    <p>Claude Code와 같은 일을 하고, 개인 구글 계정으로 로그인합니다. Claude Code를 설치했다면 이 페이지는 건너뜁니다.</p>
     <ol class="steps">
       <li><a href="../terminal/">PowerShell</a>에 아래 줄을 붙여넣고 Enter를 누릅니다. 관리자 권한은 필요 없습니다.
 <pre><code>irm https://antigravity.google/cli/install.ps1 | iex</code></pre>
@@ -42,14 +42,14 @@
    2. Use a Google Cloud project</div></div>
       </li>
       <li>브라우저가 열리면 <b>개인 구글 계정</b>으로 로그인합니다. 브라우저에 코드가 나오면 복사해 PowerShell에 붙여넣고 Enter를 누릅니다. 이어서 글자 색을 고르고 이용 약관에 동의합니다.</li>
-      <li>폴더를 믿느냐고 물으면 <b>Yes, I trust this folder</b> 에서 Enter를 누릅니다. 글을 넣는 칸이 나오면 준비가 끝난 것입니다. 끝낼 때는 <code>/quit</code> 를 넣습니다.
+      <li>폴더를 믿느냐고 물으면 <b>Yes, I trust this folder</b> 에서 Enter를 누릅니다. 지금은 내 사용자 폴더에서 켰으니 Yes를 골라도 됩니다. 나중에는 내가 만든 폴더나 믿을 수 있는 곳에서 받은 폴더에서만 Yes를 고릅니다. 글을 넣는 칸이 나오면 준비가 끝난 것입니다. 끝낼 때는 <code>/quit</code> 를 넣습니다.
         <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="ttl">Windows PowerShell — agy</span></div><div class="term"> Do you trust the contents of this project?
 
  <span class="sel">❯ Yes, I trust this folder</span>
    No, exit</div></div>
       </li>
     </ol>
-    <div class="tip">이 화면은 Google의 안내 문서를 보고 그렸고, 직접 설치해 보지는 못했습니다. 글자가 조금 다를 수 있습니다. 학교 구글 계정(Workspace)은 관리자 설정으로 막혀 있을 수 있으니 개인 계정을 씁니다.</div>
+    <div class="tip">설치 명령과 설치 폴더는 Google의 설치 스크립트로 확인했습니다. 화면 그림은 안내 문서를 보고 그린 것이라 글자가 조금 다를 수 있습니다. 학교 구글 계정(Workspace)은 관리자 설정으로 막혀 있을 수 있으니 개인 계정을 씁니다.</div>
     <details><summary>"agy 용어가 … 인식되지 않습니다"라고 나옵니다</summary><div>
       <p>창을 새로 열었는지 먼저 봅니다. 그래도 안 되면 설치 폴더 <code>C:\Users\내이름\AppData\Local\agy\bin</code> 이 PATH에 들어갔는지 확인해야 합니다. 화면의 오류 글자를 웹 채팅(Gemini나 claude.ai)에 붙여넣고 물어보세요.</p>
     </div></details>
